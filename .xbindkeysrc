@@ -1,0 +1,132 @@
+# For the benefit of emacs users: -*- shell-script -*-
+###########################
+# xbindkeys configuration #
+###########################
+#
+# Version: 1.8.7
+#
+# If you edit this file, do not forget to uncomment any lines
+# that you change.
+# The pound(#) symbol may be used anywhere for comments.
+#
+# To specify a key, you can use 'xbindkeys --key' or
+# 'xbindkeys --multikey' and put one of the two lines in this file.
+#
+# The format of a command line is:
+#    "command to start"
+#       associated key
+#
+#
+# A list of keys is in /usr/include/X11/keysym.h and in
+# /usr/include/X11/keysymdef.h
+# The XK_ is not needed.
+#
+# List of modifier:
+#   Release, Control, Shift, Mod1 (Alt), Mod2 (NumLock),
+#   Mod3 (CapsLock), Mod4, Mod5 (Scroll).
+#
+
+
+# PROGRAMS #
+
+# xmenu
+"source $HOME/.local/bin/xmenu.sh"
+	Mod1 + Return
+
+# Terminal
+"st"
+	Mod1 + t
+
+# Filemanager
+"st -t ranger -c centered-term -g 150x50 -e ranger"
+	Mod1 + f
+
+# Calculator
+"st -t calculator -c centered-term -g 80x50 -e bc"
+	Mod1 + c
+
+# Scratchpad
+"st -t scratchpad -c centered-term -g 150x50 -e vim $HOME/.local/scratchpad.txt"
+	Mod1 + p
+
+# Web browser
+"firefox"
+	Mod1 + w
+
+# Text editor
+"emacs"
+	Mod1 + e
+
+# Discord
+"discord"
+	Mod1 + d
+
+# Music player
+"spotify"
+	Mod1 + m
+
+# Screenshot to clipboard
+"source $HOME/.local/bin/cutscreen.sh"
+	Mod1 + s
+
+# Screenshot selection to clipboard
+"source $HOME/.local/bin/cutscreensel.sh"
+	Mod1 + Shift + s
+
+
+# SYSTEM #
+
+# Powerctl
+"source $HOME/.local/bin/powerctl.sh"
+	Mod4 + Escape
+
+# Lock screen
+"slock"
+	Mod4 + Shift + Escape
+
+# Suspend system
+"systemctl suspend"
+	Mod4 + Control + Escape
+
+
+# FUNC KEYS #
+
+# Increase volume
+"amixer set Master 2%+ && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+	XF86AudioRaiseVolume
+
+# Decrease volume
+"amixer set Master 2%- && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+	XF86AudioLowerVolume
+
+# Mute volume
+"amixer set Master toggle && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+	XF86AudioMute
+
+# Music toggle playing
+"playerctl play-pause && sleep 0.25 && source $HOME/.local/bin/notifications/onMediaPlayingToggle.sh"
+	XF86AudioPlay
+
+# Music stop
+"playerctl pause && sleep 0.25 && source $HOME/.local/bin/notifications/onMediaPlayingToggle.sh"
+	XF86AudioStop
+
+# Music previous track
+"playerctl previous"
+	XF86AudioPrev
+
+# Music next track
+"playerctl next"
+	XF86AudioNext
+
+# Increase backlight
+"xbacklight -time 0 -inc 5 && source $HOME/.local/bin/notifications/onBrightnessChange.sh"
+	XF86MonBrightnessUp
+
+# Decrease backlight
+"xbacklight -time 0 -dec 5 && source $HOME/.local/bin/notifications/onBrightnessChange.sh"
+	XF86MonBrightnessDown
+
+##################################
+# End of xbindkeys configuration #
+##################################
