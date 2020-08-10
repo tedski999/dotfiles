@@ -18,5 +18,5 @@ sendCPUUsageNotification() {
 case "$1" in
 	1) st -t "vtop system monitor" -c "centered-term" -g "150x50" -e vtop ;;
 	2) sendCPUUsageNotification ;;
-	3) st -t "mpstat cpu monitor" -c "centered-term" -g "150x50" -e mpstat 1 ;;
+	3) st -t "htop process manager" -c "centered-term" -g "150x50" -e htop ;;
 esac
