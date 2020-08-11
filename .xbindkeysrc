@@ -70,7 +70,7 @@
 	Mod1 + s
 
 # Screenshot selection to clipboard
-"source $HOME/.local/bin/cutscreensel.sh"
+"source $HOME/.local/bin/cutscreen.sh sel"
 	Mod1 + Shift + s
 
 
