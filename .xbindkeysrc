@@ -54,7 +54,7 @@
 	Mod1 + w
 
 # Text editor
-"emacs"
+"st -c centered-term -g 150x50 -e nvim"
 	Mod1 + e
 
 # Discord
