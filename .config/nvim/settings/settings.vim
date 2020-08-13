@@ -3,10 +3,12 @@
 set shell=sh                                                        "use (ba)sh instead of user default
 set updatetime=500                                                  "we need much faster refresh time
 set undofile                                                        "persistent undo history
+set noswapfile                                                      "don't keep a swap file, I live on the edge
 set nobackup                                                        "don't save backup files
 set nowritebackup                                                   "don't write backup files
 set autoread                                                        "update buffer if its file changes externally
 set clipboard=unnamedplus                                           "by default, use the system clipboard
+set modelines=0                                                     "thank you Georgi
 
 " Editor UI
 set title                                                           "update the title of the terminal

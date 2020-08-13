@@ -34,6 +34,7 @@ fi
 
 xrandr --output eDP1 --auto --right-of HDMI-0
 xset r rate 250 30
+setxkbmap -option caps:escape
 feh --no-fehbg --no-xinerama --bg-fill '/media/TheAnes/Pictures/Backgrounds/lain-wide.png'
 xautolock -time 30 -locker "systemctl suspend" -detectsleep &
 picom &

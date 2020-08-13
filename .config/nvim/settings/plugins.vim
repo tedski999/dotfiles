@@ -13,13 +13,13 @@ Plug 'Xuyuanp/nerdtree-git-plugin'               "file explorer git status
 Plug 'airblade/vim-gitgutter'                    "column git status
 Plug 'tpope/vim-fugitive'                        "git command wrapper
 Plug 'majutsushi/tagbar'                         "code details panel
-Plug 'neoclide/coc.nvim', {'branch': 'release'}  "code auto-complete
-Plug 'sheerun/vim-polyglot'                      "language support
+Plug 'neoclide/coc.nvim', {'branch': 'release'}  "language server protocol client
+Plug 'sheerun/vim-polyglot'                      "language syntax support
 Plug 'preservim/nerdcommenter'                   "commenting shortcuts
 Plug 'tpope/vim-surround'                        "another Vim selection motion
 Plug 'vim-scripts/a.vim'                         "switching between source and header files
-Plug 'Raimondi/delimitMate'                      "Automatic closing of many delimiters
-Plug 'vim-scripts/HTML-AutoCloseTag'             "Automatic closing of HTML tags
+Plug 'Raimondi/delimitMate'                      "automatic closing of many delimiters
+Plug 'vim-scripts/HTML-AutoCloseTag'             "automatic closing of HTML tags
 
 call plug#end()
 
