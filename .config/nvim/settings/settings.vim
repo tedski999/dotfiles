@@ -18,6 +18,7 @@ set cursorline                                                      "highlight c
 set noshowmode                                                      "redundant with lightline plugin 
 set showcmd                                                         "command history
 set scrolloff=10                                                    "keep 10 lines above/below the cursor when scrolling
+set signcolumn=yes                                                  "the sign column opening and closing gets annoying
 set mouse=a                                                         "mouse support
 set list                                                            "whitespace/hint rendering
 set listchars=tab:›\ ,trail:•,precedes:«,extends:»,nbsp:␣

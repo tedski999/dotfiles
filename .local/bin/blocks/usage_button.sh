@@ -2,7 +2,7 @@
 
 sendCPUUsageNotification() {
 	dunstify -i "computer" -r "142859" -a "removeFromHistory" -t 0 "Querying System Resource Usage..." "Please be patient :)"
-	cpuUsage="$((100 - $(mpstat 1 3 | tail -n 1 | awk '{print int($NF)}')))"
+	cpuUsage="$((100 - $(mpstat 1 1 | tail -n 1 | awk '{print int($NF)}')))"
 	gpuUsage="$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits)"
 
 	ramUsage="$(free -h | sed -n 2p | awk '{print $3}')"
