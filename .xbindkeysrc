@@ -94,10 +94,14 @@
 # Increase volume
 "amixer set Master 2%+ && source $HOME/.local/bin/notifications/onVolumeChange.sh"
 	XF86AudioRaiseVolume
+"amixer set Master 10%+ && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+	Shift + XF86AudioRaiseVolume
 
 # Decrease volume
 "amixer set Master 2%- && source $HOME/.local/bin/notifications/onVolumeChange.sh"
 	XF86AudioLowerVolume
+"amixer set Master 10%- && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+	Shift + XF86AudioLowerVolume
 
 # Mute volume
 "amixer set Master toggle && source $HOME/.local/bin/notifications/onVolumeChange.sh"
@@ -120,12 +124,16 @@
 	XF86AudioNext
 
 # Increase backlight
-"xbacklight -time 0 -inc 5 && source $HOME/.local/bin/notifications/onBrightnessChange.sh"
+"source $HOME/.local/bin/backlight.sh 5 && source $HOME/.local/bin/notifications/onBrightnessChange.sh"
 	XF86MonBrightnessUp
+"source $HOME/.local/bin/backlight.sh 25 && source $HOME/.local/bin/notifications/onBrightnessChange.sh"
+	Shift + XF86MonBrightnessUp
 
 # Decrease backlight
-"xbacklight -time 0 -dec 5 && source $HOME/.local/bin/notifications/onBrightnessChange.sh"
+"source $HOME/.local/bin/backlight.sh -5 && source $HOME/.local/bin/notifications/onBrightnessChange.sh"
 	XF86MonBrightnessDown
+"source $HOME/.local/bin/backlight.sh -25 && source $HOME/.local/bin/notifications/onBrightnessChange.sh"
+	Shift + XF86MonBrightnessDown
 
 ##################################
 # End of xbindkeys configuration #

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 notificationID="142857"
-brightness="$(xbacklight | cut -d. -f1)"
+brightness="$(source $HOME/.local/bin/backlight.sh)"
 title="Brightness: $brightness%"
 
 if [[ $brightness -eq 0 ]]; then
