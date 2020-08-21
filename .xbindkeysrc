@@ -65,6 +65,10 @@
 "spotify"
 	Mod1 + m
 
+# Music visualizer
+"st -c popup-term -g 275x30 -A 0 -e vis"
+	Mod1 + v
+
 # Screenshot to clipboard
 "source $HOME/.local/bin/cutscreen.sh"
 	Mod1 + s

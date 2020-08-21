@@ -70,5 +70,5 @@ visualizer.spectrum.reversed=false
 colors.override.terminal=true
 
 #Specifies the color scheme. The color scheme must be in ~/.config/vis/colors/ directory. The default scheme is "colors".
-colors.scheme=rainbow,whoknows
+colors.scheme=rainbow,lain
 
