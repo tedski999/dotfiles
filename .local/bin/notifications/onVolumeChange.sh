@@ -1,15 +1,13 @@
 #!/bin/bash
 
 notificationID="142857"
-volume="$(amixer -c 0 get Master | tail -1 | awk '{print $4}' | sed 's/[^0-9]*//g')"
-mute="$(amixer -c 0 get Master | tail -1 | awk '{print $6}' | sed 's/[^a-z]*//g')"
-
-if [[ $volume == 0 || "$mute" == "off" ]]; then
+volume="$(pamixer --get-volume)"
+if [[ $volume == 0 || "$(pamixer --get-mute)" == "true" ]]; then
 	title="Volume: muted"
 	message="no music :("
 	icon="audio-volume-muted"
 else
-	title="Volume: $volume%"
+	title="Volume: $(pamixer --get-volume-human)"
 	if [[ $volume -lt 25 ]]; then
 		icon="audio-volume-low"
 	elif [[ $volume -lt 75 ]]; then

@@ -92,19 +92,19 @@
 # FUNC KEYS #
 
 # Increase volume
-"amixer set Master 2%+ && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+"pamixer -i 2 && source $HOME/.local/bin/notifications/onVolumeChange.sh"
 	XF86AudioRaiseVolume
-"amixer set Master 10%+ && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+"pamixer -i 10 && source $HOME/.local/bin/notifications/onVolumeChange.sh"
 	Shift + XF86AudioRaiseVolume
 
 # Decrease volume
-"amixer set Master 2%- && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+"pamixer -d 2 && source $HOME/.local/bin/notifications/onVolumeChange.sh"
 	XF86AudioLowerVolume
-"amixer set Master 10%- && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+"pamixer -d 10 && source $HOME/.local/bin/notifications/onVolumeChange.sh"
 	Shift + XF86AudioLowerVolume
 
 # Mute volume
-"amixer set Master toggle && source $HOME/.local/bin/notifications/onVolumeChange.sh"
+"pamixer -t && source $HOME/.local/bin/notifications/onVolumeChange.sh"
 	XF86AudioMute
 
 # Music toggle playing
