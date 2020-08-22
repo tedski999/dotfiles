@@ -1,0 +1,43 @@
+
+# ignore all by default
+/*
+!/.git
+!/.gitignore
+!/README.md
+
+# dotfiles
+!/.bashrc
+!/.vimrc
+!/.xbindkeysrc
+!/.xinitrc
+!/.xserverrc
+
+# dotfiles of better written programs
+!/.config
+/.config/*
+!/.config/dunst
+!/.config/fish
+!/.config/git
+!/.config/nvim
+!/.config/vis
+!/.config/user-dirs.dirs
+!/.config/user-dirs.locale
+
+# personal scripts
+!/.local
+/.local/*
+!/.local/bin
+/.local/bin/*
+!/.local/bin/backlight.sh
+!/.local/bin/cutscreen.sh
+!/.local/bin/powerctrl.sh
+!/.local/bin/xmenu.sh
+
+# don't keep custom spellings as it's
+# a mess right now and needs upgrading
+/.config/nvim/spell/*
+
+# don't keep the vis log file
+# TODO: patch VisCostants.h to change this
+/.config/vis/vis.log
+
