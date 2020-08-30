@@ -1,7 +1,7 @@
 #!/bin/sh
 
 color="\x0e"
-ping -qc 1 -w 2 tjsj.dev &> /dev/null
+curl -sf https://tjsj.dev > /dev/null
 if [[ "$?" -eq "0" ]]; then
 	color="\x10"
 else

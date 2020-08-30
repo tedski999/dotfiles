@@ -1,7 +1,9 @@
 #!/bin/sh
 
+bars='▁▁▂▃▄▅▆▇█#^'
 capacity=$(cat /sys/class/power_supply/BAT0/capacity)
 status=$(cat /sys/class/power_supply/BAT0/status)
+charge="${bars:$(($capacity / 10)):1} "
 filePath="$HOME/.local/batteryinfo"
 previousCapacity=$(cat "$filePath" 2>/dev/null || echo 100)
 echo "$capacity" > "$filePath"
@@ -9,6 +11,7 @@ echo "$capacity" > "$filePath"
 if [[ "$status" == "Full" ]]; then
 	color="\x10"
 	icon="🔌"
+	charge=""
 elif [[ "$status" == "Charging" ]]; then
 	color="\x0e"
 	icon="🗲"
@@ -18,7 +21,7 @@ elif [[ "$status" == "Discharging" ]]; then
 		icon="🔋"
 	else
 		color="\x11"
-		icon="🗲 !"
+		icon="🔋"
 		if [[ $capacity -le 10 && $previousCapacity -gt 10 ]]; then
 			dunstify -u critical -i "battery-010" "Battery Low!" "10% remaining! Maybe consider looking for the charger?"
 		elif [[ $capacity -le 5 && $previousCapacity -gt 5 ]]; then
@@ -30,8 +33,9 @@ elif [[ "$status" == "Discharging" ]]; then
 	fi
 else
 	color="\x0f"
-	icon="🗲 ?"
+	icon="🔋?"
+	charge=""
 fi
 
-echo -e "$color $icon \x0b"
+echo -e "$color $charge$icon \x0b"
 

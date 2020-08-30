@@ -1,11 +1,13 @@
 #!/bin/sh
 
 sendBatteryNotification() {
-	stats="$(acpi -b | awk -F': ' '{print $2}')"
-	notifTitle="$(awk -F', ' '{print "Battery at "$2}' <<< $stats)"
-	notifMessage="$(awk -F', ' '{print $3}' <<< $stats)"
+	batMax="$(cat /sys/class/power_supply/BAT0/charge_full)"
+	batNow="$(cat /sys/class/power_supply/BAT0/charge_now)"
+	percent="$(echo $batNow / $batMax * 100 | bc -l)"
+	notifTitle="Battery at ${percent::-17}%"
+	notifMessage="$(acpi -b | awk -F', ' '{print $3}')"
 	if [[ -z "$notifMessage" ]]; then
-		notifMessage="$(awk -F', ' '{print $1}' <<< $stats)"
+		notifMessage="$(acpi -b | awk -F': ' '{print $2}')"
 	fi
 	dunstify -a "removeFromHistory" -i "battery-100" -r "142857" "$notifTitle" "$notifMessage"
 }
