@@ -95,6 +95,10 @@
 
 # FUNC KEYS #
 
+# Media information
+"source $HOME/.local/bin/mediainfo.sh"
+	XF86Tools
+
 # Increase volume
 "pamixer -i 2 && source $HOME/.local/bin/notifications/onVolumeChange.sh"
 	XF86AudioRaiseVolume

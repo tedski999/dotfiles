@@ -30,6 +30,7 @@
 /.local/bin/*
 !/.local/bin/backlight.sh
 !/.local/bin/cutscreen.sh
+!/.local/bin/mediainfo.sh
 !/.local/bin/powerctrl.sh
 !/.local/bin/xmenu.sh
 
