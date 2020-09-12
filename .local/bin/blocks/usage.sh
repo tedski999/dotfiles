@@ -1,11 +1,11 @@
 #!/bin/sh
 
-bars='▁▁▂▃▄▅▆▇█#^'
+bars=' ▁▁▂▃▄▅▆▇██'
 
 drawBar() {
 	case $1 in
-		0)     color="\x0f" ;;
-		[1-5]) color="\x0e" ;;
+		[0-1]) color="\x0f" ;;
+		[2-5]) color="\x0e" ;;
 		*)     color="\x11" ;;
 	esac
 	echo "$color${bars:$1:1}\x0e"

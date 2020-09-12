@@ -1,6 +1,6 @@
 #!/bin/sh
 
-bars='▁▁▂▃▄▅▆▇█#^'
+bars='!▁▁▂▃▄▅▆▇██'
 capacity=$(cat /sys/class/power_supply/BAT0/capacity)
 status=$(cat /sys/class/power_supply/BAT0/status)
 charge="${bars:$(($capacity / 10)):1} "

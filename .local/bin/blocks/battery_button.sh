@@ -3,7 +3,7 @@
 sendBatteryNotification() {
 	batMax="$(cat /sys/class/power_supply/BAT0/charge_full)"
 	batNow="$(cat /sys/class/power_supply/BAT0/charge_now)"
-	percent="$(echo $batNow / $batMax * 100 | bc -l)"
+	percent="$(echo "$batNow / $batMax * 100" | bc -l)"
 	notifTitle="Battery at ${percent::-17}%"
 	notifMessage="$(acpi -b | awk -F', ' '{print $3}')"
 	if [[ -z "$notifMessage" ]]; then
