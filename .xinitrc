@@ -35,7 +35,7 @@ fi
 xrandr --output eDP1 --auto --right-of HDMI-0 --primary
 xset r rate 250 30
 setxkbmap -option caps:escape
-feh --no-fehbg --no-xinerama --bg-fill '/media/TheAnes/Pictures/Backgrounds/lain-wide.png'
+feh --no-fehbg --no-xinerama --bg-fill '/media/TheAnes/Pictures/Backgrounds/stars.png'
 xautolock -time 30 -locker "systemctl suspend" -detectsleep &
 picom &
 dwmblocks &
