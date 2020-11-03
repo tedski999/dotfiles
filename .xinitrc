@@ -32,14 +32,28 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
+# environment vars
+export _JAVA_AWT_WM_NONREPARENTING=1
+export R_ENVIRON_USER="$HOME/.config/R/Renviron"
+export LESSHISTSIZE=0
+export WINEPREFIX="$HOME/.local/share/wine/"
+export PYLINTHOME="$HOME/.local/share/pylint/"
+export CARGO_HOME="$HOME/.cache/cargo/"
+export EMACSDIR="$HOME/.config/emacs/"
+export DOOMDIR="$HOME/.config/doom/"
+export DOOMLOCALDIR="$HOME/.config/emacs/.local/"
+export TEXMFVAR="$HOME/.cache/texlive/"
+export TEXMFCONFIG="$HOME/.config/texlive/"
+
+# programs
 xrandr --output eDP1 --auto --right-of HDMI-0 --primary
 xset r rate 250 30
 setxkbmap -option caps:escape
-feh --no-fehbg --no-xinerama --bg-fill '/media/TheAnes/Pictures/Backgrounds/stars.png'
+feh --no-fehbg --no-xinerama --bg-fill '/media/TheAnes/Pictures/Backgrounds/background.png'
 xautolock -time 30 -locker "systemctl suspend" -detectsleep &
 picom &
 dwmblocks &
-xbindkeys
+xbindkeys -f $HOME/.config/xbindkeys/xbindkeysrc
 xclickroot -r $HOME/.local/bin/xmenu.sh &
 exec dwm
 

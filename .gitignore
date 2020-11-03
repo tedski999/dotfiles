@@ -20,6 +20,7 @@
 !/.config/git
 !/.config/nvim
 !/.config/vis
+!/.config/xbindkeysrc
 !/.config/user-dirs.dirs
 !/.config/user-dirs.locale
 

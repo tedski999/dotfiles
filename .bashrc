@@ -6,6 +6,7 @@
 tput smkx
 
 # Customization
+export HISTFILE=${HOME}/.local/share/bash/history
 alias ls='ls --color=auto'
 alias lsa='ls -la'
 alias anes='cd /media/TheAnes/'
