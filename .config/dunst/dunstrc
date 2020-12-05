@@ -1,3 +1,4 @@
+
 [global]
     ### Display ###
     monitor = 0
@@ -17,7 +18,7 @@
     idle_threshold = 60
 
     ### Text ###
-    font = Hack 8
+    font = DinaTTF 9
     line_height = 0
     markup = full
     format = "<b>%s</b>\n%b"
@@ -87,4 +88,3 @@
     appname="removeFromHistory"
     history_ignore = yes
 
-# vim: ft=cfg

@@ -6,9 +6,6 @@ if status is-login
 	end
 end
 
-# Fix the DEL key on st
-tput smkx
-
 # Custom git prompt
 set -g __fish_git_prompt_show_informative_status 1
 set -g __fish_git_prompt_hide_untrackedfiles 1
@@ -30,3 +27,7 @@ set -g __fish_git_prompt_color_stagedstate green
 set -g __fish_git_prompt_color_invalidstate brred
 set -g __fish_git_prompt_color_untrackedfiles brred
 set -g __fish_git_prompt_color_cleanstate brgreen
+
+# spoof commenly supported terminal
+export TERM=xterm-256color
+

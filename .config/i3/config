@@ -1,0 +1,119 @@
+
+set $mod Mod4
+font DinaTTF 10
+default_orientation auto
+floating_modifier $mod
+mouse_warping none
+
+# startup programs
+exec --no-startup-id picom
+exec --no-startup-id dunst
+exec --no-startup-id polybar main
+exec --no-startup-id feh --no-fehbg --bg-fill ~/.config/wallpaper_left.png --bg-fill ~/.config/wallpaper_right.png
+exec --no-startup-id xautolock -detectsleep -time "10" -locker "slock" -killtime "20" -killer "systemctl suspend" -notify "5" -notifier "dunstify -a xautolock -t 3000 -i lock \\"Idle Warning\\" \\"Locking screen in 5 seconds...\\"" -corners "----" -cornersize "5"
+
+# window control keybindings
+bindsym $mod+Shift+m move scratchpad
+bindsym $mod+Shift+s sticky toggle
+bindsym $mod+Shift+f floating toggle
+bindsym $mod+Shift+q kill
+
+# window movement keybindings
+bindsym $mod+f focus mode_toggle
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+bindsym $mod+Shift+h move left 25 px
+bindsym $mod+Shift+j move down 25 px
+bindsym $mod+Shift+k move up 25 px
+bindsym $mod+Shift+l move right 25 px
+bindsym $mod+Control+h resize shrink width 25 px
+bindsym $mod+Control+j resize grow height 25 px
+bindsym $mod+Control+k resize shrink height 25 px
+bindsym $mod+Control+l resize grow width 25 px
+bindsym $mod+Shift+period move to workspace next
+bindsym $mod+Shift+comma  move to workspace prev
+
+# layout keybindings
+bindsym $mod+Control+f fullscreen toggle
+bindsym $mod+Control+t layout default
+bindsym $mod+Control+m layout tabbed
+
+# functional keys keybindings
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# system keybindings
+bindsym $mod+Shift+Escape exec --no-startup-id slock
+bindsym $mod+Control+Escape exec --no-startup-id systemctl suspend
+bindsym $mod+Control+Shift+Escape restart
+bindsym $mod+Escape exec --no-startup-id powercontrol
+
+# app shortcuts
+bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Tab exec rofi -show window -show-icons
+bindsym $mod+m exec --no-startup-id scratchpadselect
+bindsym --release $mod+s exec --no-startup-id screenshot
+bindsym $mod+space mode "Launch App"
+mode "Launch App" {
+	bindsym space exec rofi -show run; mode "default"
+	bindsym Return exec i3-sensible-terminal; mode "default"
+	bindsym e exec --no-startup-id editselect; mode "default"
+	bindsym r exec --no-startup-id remoteconnect; mode "default" 
+	bindsym s exec --no-startup-id screenmanager; mode "default" 
+	bindsym w exec firefox; mode "default"
+	bindsym d exec discord; mode "default"
+	bindsym m exec spotify; mode "default"
+	bindsym c exec termite -e bc; mode "default"
+	bindsym Escape mode "default"
+}
+
+# windows
+default_border pixel 1 
+gaps inner 10
+gaps outer 10
+gaps top 5
+client.focused          #585858 #585858 #d8d8d8 #585858 #585858
+client.focused_inactive #181818 #181818 #585858 #181818 #181818
+client.unfocused        #181818 #181818 #585858 #181818 #181818
+client.urgent           #ab4642 #ab4642 #d8d8d8 #ab4642 #ab4642
+client.placeholder      #000000 #000000 #000000 #000000 #000000
+client.background       #000000
+
+# workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+bindsym $mod+period workspace next
+bindsym $mod+comma  workspace prev
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+

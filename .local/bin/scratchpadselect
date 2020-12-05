@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+
+import os, i3ipc
+
+# populates rofi with windows currently in the scratchpad workspace
+i3 = i3ipc.Connection()
+windows = ["{} - {}^(id {})".format(leaf.window_class, leaf.window_title, leaf.id) for leaf in i3.get_tree().scratchpad().leaves()]
+response = os.popen("echo \"{}\" | column -s \^ -t | rofi -dmenu -no-custom -p \"Scratchpad\"".format("\n".join(windows))).read()[:-1]
+
+# focuses the selected window using its unique iq
+i3.command("[con_id=\"{}\"] focus".format(response.split(" ")[-1][:-1]))
+

@@ -4,42 +4,30 @@
 !/.git
 !/.gitignore
 !/README.md
+!/screenshot.png
 
 # dotfiles
 !/.bashrc
-!/.vimrc
-!/.xbindkeysrc
 !/.xinitrc
-!/.xserverrc
 
-# dotfiles of better written programs
+# config files
 !/.config
 /.config/*
+!/.config/autorandr
 !/.config/dunst
 !/.config/fish
 !/.config/git
+!/.config/i3
 !/.config/nvim
-!/.config/vis
-!/.config/xbindkeysrc
+!/.config/picom
+!/.config/polybar
+!/.config/rofi
+!/.config/termite
 !/.config/user-dirs.dirs
 !/.config/user-dirs.locale
 
-# personal scripts
+# scripts
 !/.local
 /.local/*
 !/.local/bin
-/.local/bin/*
-!/.local/bin/backlight.sh
-!/.local/bin/cutscreen.sh
-!/.local/bin/mediainfo.sh
-!/.local/bin/powerctrl.sh
-!/.local/bin/xmenu.sh
-
-# don't keep custom spellings as it's
-# a mess right now and needs upgrading
-/.config/nvim/spell/*
-
-# don't keep the vis log file
-# TODO: patch VisCostants.h to change this
-/.config/vis/vis.log
 

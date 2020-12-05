@@ -1,0 +1,24 @@
+#!/bin/bash
+
+options=( "projects" "scratchpad" "xinitrc" "nvim config" "fish config" "i3 config" "picom config" "polybar config" "termite config" "rofi config" "dunst config" "ssh config" ".local/bin" "fstab" "motd" "issue" "usr/local/bin" )
+
+response=$(printf "%s\n" "${options[@]}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Edit")
+case $response in
+	${options[0]})  $TERM -e "$SHELL -C \"cd /media/TheAnes/Projects\" -c \"$EDITOR . && $SHELL\"" ;;
+	${options[1]})  $TERM -e "$EDITOR $HOME/.local/share/scratchpad" ;;
+	${options[2]})  $TERM -e "$EDITOR $HOME/.xinitrc" ;;
+	${options[3]})  $TERM -e "$EDITOR $HOME/.config/nvim/settings/" ;;
+	${options[4]})  $TERM -e "$EDITOR $HOME/.config/fish/" ;;
+	${options[5]})  $TERM -e "$EDITOR $HOME/.config/i3/config" ;;
+	${options[6]})  $TERM -e "$EDITOR $HOME/.config/picom/picom.conf" ;;
+	${options[7]})  $TERM -e "$EDITOR $HOME/.config/polybar/config" ;;
+	${options[8]})  $TERM -e "$EDITOR $HOME/.config/termite/config" ;;
+	${options[9]})  $TERM -e "$EDITOR $HOME/.config/rofi/config.rasi" ;;
+	${options[10]}) $TERM -e "$EDITOR $HOME/.config/dunst/dunstrc" ;;
+	${options[11]}) $TERM -e "$EDITOR $HOME/.ssh/config" ;;
+	${options[12]}) $TERM -e "sudo $EDITOR /etc/fstab" ;;
+	${options[13]}) $TERM -e "sudo $EDITOR /etc/motd" ;;
+	${options[14]}) $TERM -e "sudo $EDITOR /etc/issue" ;;
+	${options[15]}) $TERM -e "sudo $EDITOR /usr/local/bin/" ;;
+esac
+

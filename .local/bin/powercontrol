@@ -1,0 +1,14 @@
+#!/bin/bash
+
+options=( "lock" "suspend" "restart i3" "logout" "reboot" "shutdown" )
+
+response=$(printf "%s\n" "${options[@]}" | rofi -lines 6 -width 20 -hide-scrollbar -dmenu -no-custom -u 3,4,5 -p "System")
+case $response in
+	${options[0]}) slock ;;
+	${options[1]}) systemctl suspend ;;
+	${options[2]}) i3-msg restart ;;
+	${options[3]}) i3-msg exit ;;
+	${options[4]}) systemctl reboot ;;
+	${options[5]}) systemctl poweroff ;;
+esac
+
