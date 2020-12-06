@@ -1,0 +1,15 @@
+#!/bin/bash
+
+ordinal() {
+	case "$1" in
+		*1[0-9] | *[04-9]) echo "$1"th ;;
+		*1) echo "$1"st ;;
+		*2) echo "$1"nd ;;
+		*3) echo "$1"rd ;;
+	esac
+}
+
+percentComplete=$(bc <<< "scale=2; $(date "+%j")/3.65") # doesnt account for leap years!
+title=$(date "+%T %Z - %A the $(ordinal $(date "+%-d")) of %B, %Y")
+body=$(date "+Day %j, Week %W, $percentComplete%% complete")
+dunstify -i "clock" "$title" "$body"

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dunstify -i "network-wired" -r "3753725" -t 0 "Performing Internet Speed Test..." "Please be patient :)"
+dunstify -i "network-wired" -r "3753725" -t 0 "Internet Speed Test Results" "$(speedtest-cli --simple)"
+
