@@ -47,6 +47,10 @@ index-sort = true
 pin-workspaces = true
 wrapping-scroll = true
 
+label-mode-foreground = #000000
+label-mode-background = ${colors.foreground}
+label-mode-padding = 1
+
 label-focused = %index%
 label-focused-foreground = ${colors.fg_highlight}
 label-focused-background = ${colors.bg_highlight}
