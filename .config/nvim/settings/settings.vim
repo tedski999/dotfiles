@@ -56,3 +56,6 @@ au BufReadPost *
 		\ execute("normal `\"") |
 	\ endif
 
+" Move the netrw file
+let g:netrw_home="~/.local/share/nvim/"
+
