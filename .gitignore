@@ -26,6 +26,12 @@
 !/.config/user-dirs.dirs
 !/.config/user-dirs.locale
 
+# ssh public keys
+!/.ssh
+/.ssh/*
+!/.ssh/config
+!/.ssh/*.pub
+
 # scripts
 !/.local
 /.local/*
