@@ -11,7 +11,9 @@ fg_urgent = #d80000
 screenchange-reload = true
 
 [bar/main]
-monitor = ${env:MONITOR:eDP1}
+monitor = ${env:MONITOR:}
+monitor-strict = true
+pin-workspaces = true
 padding-right = 2
 module-margin = 1
 width = 100%
@@ -35,10 +37,7 @@ scroll-down = i3wm-wsprev
 
 [bar/alt]
 inherit = bar/main
-monitor = ${env:MONITOR:HDMI-1-0}
-modules-left = i3 xwindow
-modules-center =
-modules-right =
+modules-right = datetime
 
 
 [module/i3]

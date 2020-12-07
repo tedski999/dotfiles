@@ -1,0 +1,7 @@
+#!/bin/bash
+
+dunstify -i "computer" "Updated Display Output" "Switched to $AUTORANDR_CURRENT_PROFILE profile"
+
+# stop all polybar instances, as a monitor may have been disconnected
+killall polybar
+

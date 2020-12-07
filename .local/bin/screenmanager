@@ -5,8 +5,8 @@ response=$(printf "%s\n" "${options[@]}" | rofi -lines 4 -width 20 -dmenu -hide-
 
 case $response in
 	${options[0]}) autorandr --change ;;
-	${options[1]}) xrandr --listactivemonitors | grep "HDMI-1-0" >/dev/null && xrandr --output HDMI-1-0 --off || xrandr --output HDMI-1-0 --auto ;;
-	${options[2]}) xrandr --listactivemonitors | grep "eDP1" >/dev/null && xrandr --output eDP1 --off || xrandr --output eDP1 --auto ;;
+	${options[1]}) xrandr --listactivemonitors | grep "HDMI-1-0" >/dev/null && xrandr --output HDMI-1-0 --off || xrandr --output HDMI-1-0 --auto; autorandr --change ;;
+	${options[2]}) xrandr --listactivemonitors | grep "eDP1" >/dev/null && xrandr --output eDP1 --off || xrandr --output eDP1 --auto; autorandr --change ;;
 	${options[3]}) autorandr --load mobile ;;
 esac
 

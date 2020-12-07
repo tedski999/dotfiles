@@ -1,6 +1,6 @@
 #!/bin/bash
 
-options=( "projects" "scratchpad" "xinitrc" "nvim config" "fish config" "i3 config" "picom config" "polybar config" "termite config" "rofi config" "dunst config" "ssh config" ".local/bin" "fstab" "motd" "issue" "usr/local/bin" )
+options=( "projects" "scratchpad" "xinitrc" "nvim config" "fish config" "i3 config" "picom config" "polybar config" "termite config" "rofi config" "dunst config" "ssh config" "~/.local/bin" "fstab" "motd" "issue" "/usr/local/bin" )
 
 response=$(printf "%s\n" "${options[@]}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Edit")
 case $response in
@@ -16,9 +16,10 @@ case $response in
 	${options[9]})  $TERM -e "$EDITOR $HOME/.config/rofi/config.rasi" ;;
 	${options[10]}) $TERM -e "$EDITOR $HOME/.config/dunst/dunstrc" ;;
 	${options[11]}) $TERM -e "$EDITOR $HOME/.ssh/config" ;;
-	${options[12]}) $TERM -e "sudo $EDITOR /etc/fstab" ;;
-	${options[13]}) $TERM -e "sudo $EDITOR /etc/motd" ;;
-	${options[14]}) $TERM -e "sudo $EDITOR /etc/issue" ;;
-	${options[15]}) $TERM -e "sudo $EDITOR /usr/local/bin/" ;;
+	${options[12]}) $TERM -e "$EDITOR $HOME/.local/bin/" ;;
+	${options[13]}) $TERM -e "sudo $EDITOR /etc/fstab" ;;
+	${options[14]}) $TERM -e "sudo $EDITOR /etc/motd" ;;
+	${options[15]}) $TERM -e "sudo $EDITOR /etc/issue" ;;
+	${options[16]}) $TERM -e "sudo $EDITOR /usr/local/bin/" ;;
 esac
 
