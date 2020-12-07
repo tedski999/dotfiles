@@ -41,10 +41,21 @@ bindsym $mod+Control+t layout default
 bindsym $mod+Control+m layout tabbed
 
 # functional keys keybindings
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86AudioRaiseVolume        exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+bindsym XF86AudioLowerVolume        exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+bindsym Shift+XF86AudioRaiseVolume  exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +25%
+bindsym Shift+XF86AudioLowerVolume  exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -25%
+bindsym XF86AudioMute               exec --no-startup-id pactl set-sink-mute   @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute            exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym XF86AudioPrev               exec --no-startup-id playerctl -p spotify previous
+bindsym XF86AudioNext               exec --no-startup-id playerctl -p spotify next
+bindsym XF86AudioPlay               exec --no-startup-id playerctl -p spotify play-pause
+bindsym XF86MonBrightnessDown       exec --no-startup-id xbacklight -dec 5 -time 0
+bindsym XF86MonBrightnessUp         exec --no-startup-id xbacklight -inc 5 -time 0
+bindsym Shift+XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 25 -time 0
+bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id xbacklight -inc 25 -time 0
+bindsym XF86Search                  exec --no-startup-id rofi -show run
+bindsym Shift+XF86Search            exec --no-startup-id firefox
 
 # system keybindings
 bindsym $mod+Shift+Escape exec --no-startup-id slock

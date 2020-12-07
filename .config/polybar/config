@@ -182,9 +182,9 @@ ramp-volume-2 = 
 type = internal/battery
 full-at = 98
 
-format-charging = %{A5:xbacklight -dec 10 -time 0:}%{A4:xbacklight -inc 10 -time 0:}<label-charging> <animation-charging>%{A}%{A}
-format-discharging = %{A5:xbacklight -dec 10 -time 0:}%{A4:xbacklight -inc 10 -time 0:}<label-discharging> <ramp-capacity>${A}%{A}
-format-full = %{A5:xbacklight -dec 10 -time 0:}%{A4:xbacklight -inc 10 -time 0:}<label-full> <ramp-capacity>%{A}%{A}
+format-charging = %{A1:batteryinfonotification:}%{A4:xbacklight -dec 10 -time 0:}%{A5:xbacklight -inc 10 -time 0:}<label-charging> <animation-charging>%{A}%{A}%{A}
+format-discharging = %{A1:batteryinfonotification:}%{A4:xbacklight -dec 10 -time 0:}%{A5:xbacklight -inc 10 -time 0:}<label-discharging> <ramp-capacity>%{A}%{A}%{A}
+format-full = %{A1:batteryinfonotification:}%{A5:xbacklight -dec 10 -time 0:}%{A4:xbacklight -inc 10 -time 0:}<label-full> <ramp-capacity>%{A}%{A}%{A}
 
 ramp-capacity-0 = 
 ramp-capacity-0-foreground = ${colors.fg_urgent}
