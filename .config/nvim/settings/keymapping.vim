@@ -1,7 +1,7 @@
 
 let g:mapleader = '`'
 
-"remap E
+cabbrev W w
 cabbrev E Explore
 
 "automatically close braces
