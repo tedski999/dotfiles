@@ -28,6 +28,7 @@ let g:ctrlp_show_hidden = 1
 let g:deoplete#enable_at_startup = 1
 let g:echodoc#enable_at_startup = 1
 set completeopt-=preview
+let g:ale_java_javac_classpath = ".:/usr/share/java/hamcrest-core.jar:/usr/share/java/junit.jar"
 
 "markdown
 let g:mkdp_auto_close = 0

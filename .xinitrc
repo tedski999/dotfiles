@@ -13,7 +13,6 @@ export TEXMFCONFIG="$HOME/.config/texlive/"
 export WINEPREFIX="$HOME/.local/share/wine/"
 export R_ENVIRON_USER="$HOME/.config/R/Renviron"
 export PYTHONSTARTUP="$HOME/.cache/python/startup"
-export _JAVA_OPTIONS="-Djava.util.prefs.userRoot='.config/java' -Dorg.basex.path='.local/share/basex'"
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # start xinitrc.d programs

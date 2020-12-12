@@ -70,20 +70,20 @@ bindsym $mod+Escape exec --no-startup-id powercontrol
 
 # app shortcuts
 bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Tab exec rofi -show window -show-icons
+bindsym $mod+Tab exec --no-startup-id rofi -show window -show-icons
 bindsym $mod+m exec --no-startup-id scratchpadselect
 bindsym --release $mod+s exec --no-startup-id screenshot
 bindsym $mod+space mode "Launch App"
 mode "Launch App" {
-	bindsym space exec rofi -show run; mode "default"
+	bindsym space exec --no-startup-id rofi -show run; mode "default"
 	bindsym Return exec i3-sensible-terminal; mode "default"
 	bindsym e exec --no-startup-id editselect; mode "default"
 	bindsym r exec --no-startup-id remoteconnect; mode "default" 
 	bindsym s exec --no-startup-id screenmanager; mode "default" 
-	bindsym w exec firefox; mode "default"
-	bindsym d exec discord; mode "default"
-	bindsym m exec spotify; mode "default"
-	bindsym c exec termite -e bc; mode "default"
+	bindsym w exec --no-startup-id firefox; mode "default"
+	bindsym d exec --no-startup-id discord; mode "default"
+	bindsym m exec --no-startup-id spotify; mode "default"
+	bindsym c exec --no-startup-id termite -e "bc -l"; mode "default"
 	bindsym Escape mode "default"
 }
 

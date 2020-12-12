@@ -18,7 +18,7 @@ else
 		icon="audio-volume-medium"
 	fi
 
-	message="$(printf %-5s $color $volume%)"
+	message="$(printf %-5s $volume%)"
 	for i in {0..99..4}; do [ $volume -gt $i ] && message=$message"▆"; done
 	[ $volume -ge 99 ] && message="<span foreground='#C06060'>$message</span>"
 fi
