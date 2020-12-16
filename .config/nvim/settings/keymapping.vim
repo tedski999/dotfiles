@@ -4,9 +4,6 @@ let g:mapleader = '`'
 cabbrev W w
 cabbrev E Explore
 
-"automatically close braces
-inoremap { {}<ESC>i
-
 nnoremap gd :ALEGoToDefinitionInTab<CR>
 nnoremap gr :ALEFindReferences<CR>
 nnoremap K :ALEHover<CR>

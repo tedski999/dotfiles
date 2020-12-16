@@ -24,6 +24,8 @@
 !/.config/rofi
 !/.config/termite
 !/.config/wallpapers
+!/.config/zathura
+!/.config/mimeapps.list
 !/.config/user-dirs.dirs
 !/.config/user-dirs.locale
 
