@@ -7,13 +7,16 @@ export EDITOR="nvim"
 export BROWSER="firefox"
 export GTK_THEME="Materia:dark"
 export GTK2_RC_FILES="/usr/share/themes/Materia-dark/gtk-2.0/gtkrc"
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# part of the never-ending quest for a clean home directory
 export LESSHISTFILE="-"
 export TEXMFVAR="$HOME/.cache/texlive/"
 export TEXMFCONFIG="$HOME/.config/texlive/"
 export WINEPREFIX="$HOME/.local/share/wine/"
 export R_ENVIRON_USER="$HOME/.config/R/Renviron"
-export PYTHONSTARTUP="$HOME/.cache/python/startup"
-export _JAVA_AWT_WM_NONREPARENTING=1
+export PYTHONSTARTUP="$HOME/.config/python/startup"
+export GRADLE_USER_HOME="$HOME/.local/share/gradle/"
 
 # start xinitrc.d programs
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then

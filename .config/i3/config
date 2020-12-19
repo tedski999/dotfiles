@@ -63,8 +63,8 @@ bindsym XF86Search                  exec --no-startup-id rofi -show run
 bindsym Shift+XF86Search            exec --no-startup-id firefox
 
 # system keybindings
-bindsym $mod+Shift+Escape exec --no-startup-id slock
-bindsym $mod+Control+Escape exec --no-startup-id systemctl suspend
+bindsym --release $mod+Shift+Escape exec --no-startup-id slock
+bindsym --release $mod+Control+Escape exec --no-startup-id systemctl suspend
 bindsym $mod+Control+Shift+Escape restart
 bindsym $mod+Escape exec --no-startup-id powercontrol
 

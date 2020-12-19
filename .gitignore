@@ -21,6 +21,7 @@
 !/.config/nvim
 !/.config/picom
 !/.config/polybar
+!/.config/python
 !/.config/rofi
 !/.config/termite
 !/.config/wallpapers
