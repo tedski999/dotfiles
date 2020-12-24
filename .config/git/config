@@ -1,3 +1,7 @@
 [user]
 	email = tedjohnsonjs@gmail.com
 	name = tedski999
+[core]
+	pager = diff-so-fancy | less --tabs=4 -RFX
+[diff-so-fancy]
+	markEmptyLines = false
