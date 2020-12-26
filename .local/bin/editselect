@@ -2,9 +2,19 @@
 
 options=( "projects" "scratchpad" "xinitrc" "nvim config" "fish config" "i3 config" "picom config" "polybar config" "termite config" "rofi config" "dunst config" "ssh config" "~/.local/bin" "fstab" "motd" "issue" "/usr/local/bin" )
 
+function projectselect {
+	shopt -s nullglob
+	cd "/media/TheAnes/Projects"
+	options=(*)
+	response=$(printf "%s\n" "${options[@]}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Project")
+	if [ -n "$response" ]; then
+		$TERM -e "$SHELL -C \"cd $response\" -c \"$EDITOR . && $SHELL\""
+	fi
+}
+
 response=$(printf "%s\n" "${options[@]}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Edit")
 case $response in
-	${options[0]})  $TERM -e "$SHELL -C \"cd /media/TheAnes/Projects\" -c \"$EDITOR . && $SHELL\"" ;;
+	${options[0]})  projectselect ;;
 	${options[1]})  $TERM -e "$EDITOR $HOME/.local/share/scratchpad" ;;
 	${options[2]})  $TERM -e "$EDITOR $HOME/.xinitrc" ;;
 	${options[3]})  $TERM -e "$EDITOR $HOME/.config/nvim/settings/" ;;
