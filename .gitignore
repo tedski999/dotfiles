@@ -14,10 +14,12 @@
 !/.config
 /.config/*
 !/.config/autorandr
+!/.config/cava
 !/.config/dunst
 !/.config/fish
 !/.config/git
 !/.config/i3
+!/.config/irssi
 !/.config/nvim
 !/.config/picom
 !/.config/polybar
