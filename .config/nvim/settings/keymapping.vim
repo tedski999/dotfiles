@@ -12,10 +12,8 @@ inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <silent> <expr> <CR>    pumvisible() ? "\<CR>"  : "\<CR>"
 
-nnoremap <leader>o :E<CR>
+nnoremap <C-e> :Explore<CR>
 nnoremap <leader>t :TagbarToggle<CR>
 
 noremap <leader>m :MarkdownPreview<CR>
-
-"TODO: make/compile shortcuts
 

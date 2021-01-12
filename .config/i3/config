@@ -9,7 +9,7 @@ mouse_warping none
 exec --no-startup-id picom
 exec --no-startup-id dunst
 exec --no-startup-id "$HOME/.config/autorandr/postswitch"
-exec --no-startup-id xautolock -detectsleep -time "10" -locker "slock" -killtime "20" -killer "systemctl suspend" -notify "5" -notifier "dunstify -a xautolock -t 3000 -i lock \\"Idle Warning\\" \\"Locking screen in 5 seconds...\\"" -corners "----" -cornersize "5"
+exec --no-startup-id xautolock -detectsleep -time "10" -locker "slock" -killtime "20" -killer "systemctl suspend" -notify "10" -notifier "dunstify -a xautolock -t 7000 -i lock \\"Idle Warning\\" \\"Locking screen in 10 seconds...\\"" -corners "----" -cornersize "5"
 
 # mouse control
 bindsym --whole-window $mod+Shift+button1 move scratchpad
