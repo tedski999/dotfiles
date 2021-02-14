@@ -1,0 +1,26 @@
+#!/bin/bash
+
+POLLING_DELAY="5"
+LOW_WARNING_PERCENT="20"
+CRITICAL_WARNING_PERCENT="10"
+SUSPEND_PERCENT="5"
+
+pre_battery_remaining="0"
+while true
+do
+	cur_battery_remaining="$(cat /sys/class/power_supply/BAT0/capacity)"
+
+	if [[ $cur_battery_remaining -le $SUSPEND_PERCENT && $pre_battery_remaining -gt $SUSPEND_PERCENT ]]; then
+		dunstify -u critical -t 0 -i "battery-000" "Battery empty!" "Suspending..."
+		sleep 1
+		systemctl suspend
+	elif [[ $cur_battery_remaining -le $CRITICAL_WARNING_PERCENT && $pre_battery_remaining -gt $CRITICAL_WARNING_PERCENT ]]; then
+		dunstify -u critical -t 0 -i "battery-010" "Battery critical!" "Emergency suspension imminent!"
+	elif [[ $cur_battery_remaining -le $LOW_WARNING_PERCENT && $pre_battery_remaining -gt $LOW_WARNING_PERCENT ]]; then
+		dunstify -i "battery-020" "Battery low!" "Consider finding a charger?"
+	fi
+
+	pre_battery_remaining=$cur_battery_remaining
+	sleep $POLLING_DELAY
+done
+
