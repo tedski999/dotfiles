@@ -29,5 +29,8 @@ set -g __fish_git_prompt_color_untrackedfiles brred
 set -g __fish_git_prompt_color_cleanstate brgreen
 
 # spoof commenly supported terminal
-export TERM=xterm-256color
+set -x TERM "xterm-256color"
+
+# bat as manpager
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
