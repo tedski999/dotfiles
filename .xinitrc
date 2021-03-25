@@ -1,13 +1,15 @@
 #!/bin/sh
 
 # environment vars
-export PATH=$PATH:"/home/tedski999/.local/bin/"
 export TERM="xterm-256color"
 export EDITOR="nvim"
 export BROWSER="firefox"
 export GTK_THEME="Materia:dark"
 export GTK2_RC_FILES="/usr/share/themes/Materia-dark/gtk-2.0/gtkrc"
 export _JAVA_AWT_WM_NONREPARENTING=1
+export GOPATH="$HOME/.local/share/go"
+export DOOMDIR="$HOME/.config/doom"
+export PATH=$PATH:"$HOME/.local/bin":"$HOME/.emacs.d/bin"
 
 # part of the never-ending quest for a clean home directory
 export LESSHISTFILE="-"
