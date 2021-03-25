@@ -1,13 +1,9 @@
 
-let g:mapleader = '`'
-
 " Netrw
-cabbrev W w
-cabbrev Explore Lex
-cabbrev Vexplore Lex
-cabbrev Sexplore Lex
-cabbrev Lexplore Lex
-nnoremap <C-e> :Lex<CR>
+cabbrev E Explore
+cabbrev Vexplore Lexplore
+cabbrev Sexplore Lexplore
+nnoremap <C-e> :Lexplore<CR>
 
 " ALE
 nnoremap gd :ALEGoToDefinitionInTab<CR>
@@ -23,4 +19,7 @@ nnoremap tt :TagbarToggle<CR>
 
 " Markdown
 noremap mm :MarkdownPreview<CR>
+
+" I'm a fat-fingered save scummer
+cabbrev W w
 
