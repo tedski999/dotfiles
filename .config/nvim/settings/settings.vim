@@ -8,6 +8,7 @@ set nobackup                         "don't save backup files
 set nowritebackup                    "don't write backup files
 set autoread                         "update buffer if its file changes externally
 set clipboard=unnamedplus            "by default, use the system clipboard
+set autochdir                        "keep the current directory where I'm editing
 set modelines=0                      "stay safe kiddos
 
 " Editor UI
@@ -58,5 +59,8 @@ au BufReadPost *
 
 " Netrw
 let g:netrw_home="~/.local/share/nvim/"
-let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_winsize = 25
+let g:netrw_preview = 1
+let g:netrw_altv = 1
 

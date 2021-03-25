@@ -1,9 +1,15 @@
 
 let g:mapleader = '`'
 
+" Netrw
 cabbrev W w
-cabbrev E Explore
+cabbrev Explore Lex
+cabbrev Vexplore Lex
+cabbrev Sexplore Lex
+cabbrev Lexplore Lex
+nnoremap <C-e> :Lex<CR>
 
+" ALE
 nnoremap gd :ALEGoToDefinitionInTab<CR>
 nnoremap gr :ALEFindReferences<CR>
 nnoremap K :ALEHover<CR>
@@ -12,8 +18,9 @@ inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <silent> <expr> <CR>    pumvisible() ? "\<CR>"  : "\<CR>"
 
-nnoremap <C-e> :Explore<CR>
-nnoremap <leader>t :TagbarToggle<CR>
+" Tagbar
+nnoremap tt :TagbarToggle<CR>
 
-noremap <leader>m :MarkdownPreview<CR>
+" Markdown
+noremap mm :MarkdownPreview<CR>
 
