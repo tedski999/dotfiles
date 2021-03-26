@@ -1,0 +1,24 @@
+{
+	"changeLogs": {
+		"BDFDB": "1.5.0",
+		"CharCounter": "1.5.0",
+		"CreationDate": "1.4.1",
+		"FriendNotifications": "1.6.5",
+		"ImageUtilities": "4.3.4",
+		"JoinedAtDate": "1.2.6",
+		"LastMessageDate": "1.2.1"
+	},
+	"choices": {
+		"toastPosition": "right"
+	},
+	"general": {
+		"showToasts": true,
+		"showSupportBadges": true,
+		"useChromium": false
+	},
+	"settings": {
+		"showSupportBadges": true,
+		"showToasts": true,
+		"useChromium": false
+	}
+}

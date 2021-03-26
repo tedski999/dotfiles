@@ -1,0 +1,31 @@
+{
+	"amounts": {
+		"maxDaysAgo": 0
+	},
+	"choices": {
+		"creationDateLang": "en-GB"
+	},
+	"dates": {
+		"creationDate": {}
+	},
+	"formats": {
+		"ownFormat": "$hour: $minute: $second, $day.$month.$year"
+	},
+	"general": {
+		"displayText": true
+	},
+	"places": {
+		"userPopout": true,
+		"userProfile": true
+	},
+	"settings": {
+		"addInUserPopout": false,
+		"addInUserProfil": true,
+		"cutSeconds": false,
+		"displayDate": true,
+		"displayText": true,
+		"displayTime": false,
+		"forceZeros": false,
+		"otherOrder": false
+	}
+}

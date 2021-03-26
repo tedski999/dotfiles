@@ -1,0 +1,40 @@
+{
+	"amounts": {
+		"hoverDelay": 0
+	},
+	"engines": {
+		"Baidu": false,
+		"Bing": true,
+		"Google": true,
+		"IQDB": false,
+		"Reddit": true,
+		"SauceNAO": false,
+		"Sogou": false,
+		"TinEye": false,
+		"WhatAnime": false,
+		"Yandex": false,
+		"_all": true
+	},
+	"inputs": {
+		"downloadLocation": "/media/TheAnes/Downloads"
+	},
+	"settings": {
+		"addDetails": true,
+		"addEmojiEntry": true,
+		"addGroupIconEntry": true,
+		"addGuildIconEntry": true,
+		"addUserAvatarEntry": true,
+		"enableCopyImg": true,
+		"enableGallery": false,
+		"enableSaveImg": true,
+		"enableZoom": true,
+		"pixelZoom": false,
+		"resizeImage": true,
+		"showAsHeader": false,
+		"showOnHover": true
+	},
+	"zoomSettings": {
+		"lensesize": 1172,
+		"zoomlevel": 3.5
+	}
+}
