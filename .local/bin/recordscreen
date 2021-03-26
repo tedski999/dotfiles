@@ -5,10 +5,10 @@ if [ -z "$out" ]; then
 	exit
 fi
 
-read -r size pos <<< $(slop -f "%wx%h %x,%y")
-if [ -z $size ]; then
+read -r size pos <<< "$(slop -f "%wx%h %x,%y")"
+if [ -z "$size" ]; then
 	exit
 fi
 
-ffmpeg -video_size $size -framerate 30 -f x11grab -i :0.0+$pos "$out"
+ffmpeg -video_size "$size" -framerate 30 -f x11grab -i :0.0+"$pos" "$out"
 

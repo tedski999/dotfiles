@@ -12,15 +12,15 @@ if [ "$(pulsemixer --get-mute)" -eq 1 ]; then
 else
 	volume="$(pulsemixer --get-volume | awk '{print $1 }' )"
 	icon="audio-volume-low"
-	if [ $volume -gt 66 ]; then
+	if [ "$volume" -gt 66 ]; then
 		icon="audio-volume-high"
-	elif [ $volume -gt 33 ]; then
+	elif [ "$volume" -gt 33 ]; then
 		icon="audio-volume-medium"
 	fi
 
-	message="$(printf %-5s $volume%)"
-	for i in {0..99..4}; do [ $volume -gt $i ] && message=$message"▆"; done
-	[ $volume -ge 99 ] && message="<span foreground='#C06060'>$message</span>"
+	message="$(printf %-5s "$volume"%)"
+	for i in {0..99..4}; do [ "$volume" -gt "$i" ] && message=$message"▆"; done
+	[ "$volume" -ge 99 ] && message="<span foreground='#C06060'>$message</span>"
 fi
 
 dunstify -u "low" -i "$icon" -r "919231" "Volume" "$message"

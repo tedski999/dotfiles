@@ -1,13 +1,13 @@
 #!/bin/bash
 
-xbacklight -time 0 $1 $2
+xbacklight -time 0 "$1" "$2"
 
 backlight="/sys/class/backlight/intel_backlight"
 cur_brightness="$(cat $backlight/brightness)"
 max_brightness="$(cat $backlight/max_brightness)"
 brightness="$(bc <<< "$cur_brightness * 100 / $max_brightness")"
 
-message="$(printf %-5s $brightness%)"
-for i in {0..99..4}; do [ $brightness -gt $i ] && message=$message"▆"; done
+message="$(printf %-5s "$brightness"%)"
+for i in {0..99..4}; do [ "$brightness" -gt "$i" ] && message=$message"▆"; done
 dunstify -u "low" -i "flashlight-on" -r "919231" "Brightness" "$message"
 

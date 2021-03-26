@@ -10,6 +10,6 @@ ordinal() {
 }
 
 percentComplete=$(bc <<< "scale=2; $(date "+%j")/3.65") # doesnt account for leap years!
-title=$(date "+%T %Z - %A the $(ordinal $(date "+%-d")) of %B, %Y")
+title=$(date "+%T %Z - %A the $(ordinal "$(date "+%-d")") of %B, %Y")
 body=$(date "+Day %j, Week %W, $percentComplete%% complete")
 dunstify -i "clock" "$title" "$body"

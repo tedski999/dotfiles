@@ -2,5 +2,5 @@
 
 options=("tedski999@tjsj.dev" "git@tjsj.dev" "edjohnso@macneill.scss.tcd.ie")
 response=$(printf "%s\n" "${options[@]}" | rofi -lines 10 -width 20 -hide-scrollbar -dmenu -no-custom -p "SSH")
-[ ! -z "$response" ] && $TERM -e "ssh $response"
+[ -n "$response" ] && $TERM -e "ssh $response"
 
