@@ -86,6 +86,7 @@ mode "Launch App" {
 	bindsym d exec --no-startup-id discord; mode "default"
 	bindsym m exec --no-startup-id spotify; mode "default"
 	bindsym c exec --no-startup-id termite -e "bc -l"; mode "default"
+	bindsym b exec --no-startup-id termite -e "bluetoothctl"; mode "default"
 	bindsym Escape mode "default"
 }
 
