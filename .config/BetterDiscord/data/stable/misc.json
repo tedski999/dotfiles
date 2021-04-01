@@ -1,0 +1,16 @@
+{
+    "version": "1.0.0",
+    "drawerStates": {
+        "settings": {
+            "addons": true,
+            "customcss": false,
+            "developer": true,
+            "window": true
+        }
+    },
+    "addonlistControls": {
+        "plugin": {
+            "view": "list"
+        }
+    }
+}

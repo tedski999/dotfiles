@@ -6,7 +6,9 @@
 		"creationDateLang": "en-GB"
 	},
 	"dates": {
-		"creationDate": {}
+		"creationDate": {
+			"dateString": "$d/$m/$yy"
+		}
 	},
 	"formats": {
 		"ownFormat": "$hour: $minute: $second, $day.$month.$year"
@@ -15,7 +17,7 @@
 		"displayText": true
 	},
 	"places": {
-		"userPopout": true,
+		"userPopout": false,
 		"userProfile": true
 	},
 	"settings": {

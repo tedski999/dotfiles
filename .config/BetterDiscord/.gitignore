@@ -1,4 +1,8 @@
-plugins/MLV2_IMAGE_CACHE
-plugins/MessageLoggerV2.config.json
-plugins/MessageLoggerV2Data.config.json
-plugins/FriendNotifications.config.json
+# Only keep preferences
+/*
+!/data
+/data/*
+!/data/stable
+!/plugins
+/plugins/*
+!/plugins/*.json

@@ -6,7 +6,9 @@
 		"lastMessageDateLang": "en-GB"
 	},
 	"dates": {
-		"lastMessageDate": {}
+		"lastMessageDate": {
+			"dateString": "$d/$m/$yy"
+		}
 	},
 	"formats": {
 		"ownFormat": "$hour: $minute: $second, $day.$month.$year"

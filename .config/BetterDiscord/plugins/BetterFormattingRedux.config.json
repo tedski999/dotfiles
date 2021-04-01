@@ -26,8 +26,8 @@
             "fullwidth": true,
             "upsidedown": true,
             "varied": true,
-            "leet": false,
-            "thicc": false
+            "leet": true,
+            "thicc": true
         },
         "wrappers": {
             "superscript": "^^",
