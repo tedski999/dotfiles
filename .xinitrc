@@ -3,7 +3,7 @@
 # environment vars
 export TERM="xterm-256color"
 export EDITOR="nvim"
-export BROWSER="firefox"
+export BROWSER="brave"
 export GTK_THEME="Materia:dark"
 export GTK2_RC_FILES="/usr/share/themes/Materia-dark/gtk-2.0/gtkrc"
 export _JAVA_AWT_WM_NONREPARENTING=1

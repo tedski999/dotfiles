@@ -62,7 +62,7 @@ bindsym XF86MonBrightnessUp         exec --no-startup-id changebrightness -inc 5
 bindsym Shift+XF86MonBrightnessDown exec --no-startup-id changebrightness -dec 25
 bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id changebrightness -inc 25
 bindsym XF86Search                  exec --no-startup-id rofi -show run
-bindsym Shift+XF86Search            exec --no-startup-id firefox
+bindsym Shift+XF86Search            exec --no-startup-id brave
 
 # system keybindings
 bindsym --release $mod+Shift+Escape exec --no-startup-id slock
@@ -82,7 +82,7 @@ mode "Launch App" {
 	bindsym e exec --no-startup-id editselect; mode "default"
 	bindsym r exec --no-startup-id remoteconnect; mode "default" 
 	bindsym s exec --no-startup-id screenmanager; mode "default" 
-	bindsym w exec --no-startup-id firefox; mode "default"
+	bindsym w exec --no-startup-id brave; mode "default"
 	bindsym d exec --no-startup-id discord; mode "default"
 	bindsym m exec --no-startup-id spotify; mode "default"
 	bindsym c exec --no-startup-id termite -e "bc -l"; mode "default"
