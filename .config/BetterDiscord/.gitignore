@@ -6,3 +6,4 @@
 !/plugins
 /plugins/*
 !/plugins/*.json
+/plugins/MessageLoggerV2Data.config.json
