@@ -5,5 +5,5 @@ MONITOR="eDP1"     polybar main &
 MONITOR="HDMI-1-0" polybar alt &
 
 # update backgrounds
-feh --no-fehbg --bg-fill ~/.config/wallpapers/wallpaper0.png ~/.config/wallpapers/wallpaper1.png
+feh --no-fehbg --bg-fill "$HOME/.config/wallpapers/wallpaper0.png" "$HOME/.config/wallpapers/wallpaper1.png"
 
