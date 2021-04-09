@@ -87,6 +87,7 @@ mode "Launch App" {
 	bindsym m exec spotify; mode "default"
 	bindsym c exec termite -e "bc -l"; mode "default"
 	bindsym b exec termite -e "bluetoothctl"; mode "default"
+	bindsym n exec termite -e "newsboat"; mode "default"
 	bindsym Escape mode "default"
 }
 
