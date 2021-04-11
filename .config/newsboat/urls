@@ -1,54 +1,107 @@
-
----News---
-https://news.ycombinator.com/rss
-http://rss.slashdot.org/Slashdot/slashdotMain
-
----GameDev---
-https://www.youtube.com/feeds/videos.xml?channel_id=UCqJ-Xo29CKyLTjn6z2XwYAw gamedev # Game Maker's Toolkit
+https://news.ycombinator.com/rss news
+http://rss.slashdot.org/Slashdot/slashdotMain news
 https://www.youtube.com/feeds/videos.xml?channel_id=UCaoqVlqPTH78_xjTjTOMcmQ gamedev # Miziziziz
 https://www.youtube.com/feeds/videos.xml?channel_id=UCrv269YwJzuZL3dH5PCgxUw gamedev # CodeParade
 https://www.youtube.com/feeds/videos.xml?channel_id=UCa5yts90Ol6QOHXxpEUkggQ gamedev # ThoughtQuake
-https://www.youtube.com/feeds/videos.xml?channel_id=UCov_51F0betb6hJ6Gumxg3Q gamedev # AI and Games
-https://www.youtube.com/feeds/videos.xml?channel_id=UCY3A_5R_m3PXCn5XDhvBBsg gamedev "~The Architect of Games"
-
----Computers---
-https://www.youtube.com/feeds/videos.xml?channel_id=UCd0dc7kQA1FUpJ76o1EjLqQ programming         # LeiosOS
-https://www.youtube.com/feeds/videos.xml?channel_id=UCS0N5baNlQWJCUrhCEo8WlA programming         # Ben Eater
-https://www.youtube.com/feeds/videos.xml?channel_id=UClcE-kVhqyiHCcjYwcpfj9w programming         # LiveOverflow
-https://www.youtube.com/feeds/videos.xml?channel_id=UC9-y-6csu5WGm29I7JiwpnA programming         # Computerphile
-https://www.youtube.com/feeds/videos.xml?channel_id=UC-yuWVUplUJZvieEligKBkA gamedev programming # javidx9
-https://www.youtube.com/feeds/videos.xml?channel_id=UC7YOGHUfC1Tb6E4pudI9STA linux               # Mental Outlaw
-https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg linux               # DistoTube
-https://www.youtube.com/feeds/videos.xml?channel_id=UCld68syR8Wi-GY_n4CaoJGA linux               # Brodie Robertson
-
----Edutainment---
-https://www.youtube.com/feeds/videos.xml?channel_id=UCsXVk37bltHxD1rDPwtNM8Q edutainment # Kuzgesagt - In a Nutshell
-https://www.youtube.com/feeds/videos.xml?channel_id=UCILl8ozWuxnFYXIe2svjHhg edutainment # BPS.space
-https://www.youtube.com/feeds/videos.xml?channel_id=UC2C_jShtL725hvbm1arSV9w edutainment # CGP Grey
-https://www.youtube.com/feeds/videos.xml?channel_id=UCBa659QWEk1AI4Tg--mrJ2A edutainment # Tom Scott
-https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw edutainment # 3Blue1Brown
-https://www.youtube.com/feeds/videos.xml?channel_id=UCKzJFdi57J53Vr_BkTfN3uQ edutainment # Primer
-https://www.youtube.com/feeds/videos.xml?channel_id=UCj1VqrHhDte54oLgPG4xpuQ edutainment # Stuff Made Here
-https://www.youtube.com/feeds/videos.xml?channel_id=UC6nSFpj9HTCZ5t-N3Rm3-HA edutainment # Vsauce
-https://www.youtube.com/feeds/videos.xml?channel_id=UCEIwxahdLz7bap-VDs9h35A edutainment # Steve Mould
-https://www.youtube.com/feeds/videos.xml?channel_id=UCZFipeZtQM5CKUjx6grh54g edutainment # Isaac Arthur
-
----Entertainment---
-https://www.youtube.com/feeds/videos.xml?channel_id=UCR1D15p_vdP3HkrH8wgjQRw entertainment # Internet Historian
-https://www.youtube.com/feeds/videos.xml?channel_id=UC8Q7XEy86Q7T-3kNpNjYgwA entertainment # Internet Historian: Incognito Mode
-https://www.youtube.com/feeds/videos.xml?channel_id=UC0a8nteER_pU4Aj6hmEyJAQ entertainment # kliksphilip
-https://www.youtube.com/feeds/videos.xml?channel_id=UCEKJKJ3FO-9SFv5x5BzyxhQ entertainment # 2kliksphilip
-https://www.youtube.com/feeds/videos.xml?channel_id=UCu6mSoMNzHQiBIOCkHUa2Aw entertainment # Cody'sLab
+https://www.youtube.com/feeds/videos.xml?channel_id=UCZuNN5_Qnv1rFyN5wqQtXmQ gamedev # Dave Frampton
+https://www.youtube.com/feeds/videos.xml?channel_id=UCeQhZOvNKSBRU0Mdg7V44wA gamedev # Hopson
+https://www.youtube.com/feeds/videos.xml?channel_id=UCUmLRMERmJrmUtgnbFfknAg gamedev # Randy
+https://www.youtube.com/feeds/videos.xml?channel_id=UCUkRj4qoT1bsWpE_C8lZYoQ gamedev # ThinMatrix
+https://www.youtube.com/feeds/videos.xml?channel_id=UCS1TedAX9-5yRl9Tx5E2qmg gamedev # voxelbee
+https://www.youtube.com/feeds/videos.xml?channel_id=UCqJ-Xo29CKyLTjn6z2XwYAw gamedev educational # Game Maker's Toolkit
+https://www.youtube.com/feeds/videos.xml?channel_id=UCov_51F0betb6hJ6Gumxg3Q gamedev educational # AI and Games
+https://www.youtube.com/feeds/videos.xml?channel_id=UCY3A_5R_m3PXCn5XDhvBBsg gamedev educational "~The Architect of Games"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCE1jXbVAGJQEORz9nZqb5bQ gamedev educational # Ahoy
+https://www.youtube.com/feeds/videos.xml?channel_id=UCjksxmAxJUlGuXUO1ndt5GA gamedev educational # Average pixel
+https://www.youtube.com/feeds/videos.xml?channel_id=UCRpDbrcXS-giiD0PkZLC5Kw gamedev educational # Chariot Rider
+https://www.youtube.com/feeds/videos.xml?channel_id=UCLDRuN9duu-IV4BWj05rh0w gamedev educational # Codex
+https://www.youtube.com/feeds/videos.xml?channel_id=UCCuoqzrsHlwv1YyPKLuMDUQ gamedev educational # Jonathan Blow
+https://www.youtube.com/feeds/videos.xml?channel_id=UC0fDG3byEcMtbOqPMymDNbw gamedev educational # Noclip
+https://www.youtube.com/feeds/videos.xml?channel_id=UCZB6V9fUov0Mx_us3MWWILg gamedev educational # People Make Games
+https://www.youtube.com/feeds/videos.xml?channel_id=UCQ-twzO6v-PBgckhkrXVaDQ gamedev educational # Tom Francis
+https://www.youtube.com/feeds/videos.xml?channel_id=UCF3dBnTZXvLpMpyFxK2YyPQ gamedev programming # John Jackson
+https://www.youtube.com/feeds/videos.xml?channel_id=UC-yuWVUplUJZvieEligKBkA gamedev programming educational # javidx9
+https://www.youtube.com/feeds/videos.xml?channel_id=UCKTehwyGCKF-b2wo0RKwrcg gamedev programming educational # Bisqwit
+https://www.youtube.com/feeds/videos.xml?channel_id=UCG7yIWtVwcENg_ZS-nahg5g gamedev programming educational # CNLohr
+https://www.youtube.com/feeds/videos.xml?channel_id=UCmtyQOKKmrMVaKuRXz02jbQ gamedev programming educational # Sebastian Lague
+https://www.youtube.com/feeds/videos.xml?channel_id=UCd0dc7kQA1FUpJ76o1EjLqQ programming educational # LeiosOS
+https://www.youtube.com/feeds/videos.xml?channel_id=UCS0N5baNlQWJCUrhCEo8WlA programming educational # Ben Eater
+https://www.youtube.com/feeds/videos.xml?channel_id=UCq7dxy_qYNEBcHqQVCbc20w programming educational # Creel
+https://www.youtube.com/feeds/videos.xml?channel_id=UCK8XIGR5kRidIw2fWqwyHRA programming educational # Reducible
+https://www.youtube.com/feeds/videos.xml?channel_id=UCcf4LQogGFtYzPhq05uHE4g programming educational # udiprod
+https://www.youtube.com/feeds/videos.xml?channel_id=UClcE-kVhqyiHCcjYwcpfj9w programming educational # LiveOverflow
+https://www.youtube.com/feeds/videos.xml?channel_id=UC9-y-6csu5WGm29I7JiwpnA programming educational # Computerphile
+https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg linux # DistoTube
+https://www.youtube.com/feeds/videos.xml?channel_id=UCld68syR8Wi-GY_n4CaoJGA linux # Brodie Robertson
+https://www.youtube.com/feeds/videos.xml?channel_id=UC7YOGHUfC1Tb6E4pudI9STA linux news # Mental Outlaw
 https://www.youtube.com/feeds/videos.xml?channel_id=UCwSbtZ8H_Gx2GDme56CO7QQ entertainment # Simian Jimmy
-https://www.youtube.com/feeds/videos.xml?channel_id=UCIWD1MzoJTPt41tYce18I1w entertainment # TheBurgerkrieg
 https://www.youtube.com/feeds/videos.xml?channel_id=UC3_kehZbfRz-KrjXIqeIiPw entertainment # Leadhead
-https://www.youtube.com/feeds/videos.xml?channel_id=UCj74rJ9Lgl3WTngq675wxKg entertainment # Noodle
-https://www.youtube.com/feeds/videos.xml?channel_id=UC4nJnJ-HO5vVbGlJ14rf5yg entertainment # DeSinc
-https://www.youtube.com/feeds/videos.xml?channel_id=UCcnci5vbpLJ-rh_V9yXwawg entertainment # martincitopants
-https://www.youtube.com/feeds/videos.xml?channel_id=UCDc2kFO8PE5V5DM7QctoiJg entertainment # davo_
-https://www.youtube.com/feeds/videos.xml?channel_id=UCVIFCOJwv3emlVmBbPCZrvw entertainment # Joel Haver
-https://www.youtube.com/feeds/videos.xml?channel_id=UCsnVnnNneaz0E7aQPD_o0BQ entertainment # Value Select
-https://www.youtube.com/feeds/videos.xml?channel_id=UCifJdXqzDh7sLgq33eSyiDw entertainment # Bridge Stuart
-https://www.youtube.com/feeds/videos.xml?channel_id=UCZs2ZKbNKGtHwm4Lwy94EYA entertainment # TripleBeppo
-https://www.youtube.com/feeds/videos.xml?channel_id=UCp_ldU-Ahd1mocYjFb2_RvQ entertainment # slouch
+https://www.youtube.com/feeds/videos.xml?channel_id=UCeV6iT4UbZMq_dZVXiYy_OA entertainment # ABACA
+https://www.youtube.com/feeds/videos.xml?channel_id=UCr3cBLTYmIK9kY0F_OdFWFQ entertainment # Casually Explained
+https://www.youtube.com/feeds/videos.xml?channel_id=UCi8UNRmZpgCAYXUtyWQnhag entertainment # Drue Langlois
+https://www.youtube.com/feeds/videos.xml?channel_id=UCIGRhqYssT6IGPYOnZBFYKw entertainment # Mattias Pilhede
+https://www.youtube.com/feeds/videos.xml?channel_id=UC1DTYW241WD64ah5BFWn4JA entertainment # Sam O'Nella Academy
+https://www.youtube.com/feeds/videos.xml?channel_id=UC0a8nteER_pU4Aj6hmEyJAQ entertainment # kliksphilip
+https://www.youtube.com/feeds/videos.xml?channel_id=UCj1VqrHhDte54oLgPG4xpuQ entertainment diy # Stuff Made Here
+https://www.youtube.com/feeds/videos.xml?channel_id=UCHk0IYEDJxQGQ-nbd3yP_KA entertainment diy # Joel Creates
+https://www.youtube.com/feeds/videos.xml?channel_id=UCfMJ2MchTSW2kWaT0kK94Yw entertainment diy # William Osman
+https://www.youtube.com/feeds/videos.xml?channel_id=UCILl8ozWuxnFYXIe2svjHhg entertainment diy # BPS.space
+https://www.youtube.com/feeds/videos.xml?channel_id=UCu6mSoMNzHQiBIOCkHUa2Aw entertainment diy # Cody'sLab
+https://www.youtube.com/feeds/videos.xml?channel_id=UC9z7EZAbkphEMg0SP7rw44A entertainment educational # carykh
+https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw entertainment educational # 3Blue1Brown
+https://www.youtube.com/feeds/videos.xml?channel_id=UCKzJFdi57J53Vr_BkTfN3uQ entertainment educational # Primer
+https://www.youtube.com/feeds/videos.xml?channel_id=UCtAIs1VCQrymlAnw3mGonhw entertainment educational # Flammable Maths
+https://www.youtube.com/feeds/videos.xml?channel_id=UC2C_jShtL725hvbm1arSV9w entertainment educational # CGP Grey
+https://www.youtube.com/feeds/videos.xml?channel_id=UCBa659QWEk1AI4Tg--mrJ2A entertainment educational # Tom Scott
+https://www.youtube.com/feeds/videos.xml?channel_id=UC6nSFpj9HTCZ5t-N3Rm3-HA entertainment educational # Vsauce
+https://www.youtube.com/feeds/videos.xml?channel_id=UCR1IuLEqb6UEA_zQ81kwXfg entertainment educational # Real Engineering
+https://www.youtube.com/feeds/videos.xml?channel_id=UCSju5G2aFaWMqn-_0YBtq5A entertainment educational # Stand-up Maths
+https://www.youtube.com/feeds/videos.xml?channel_id=UCEIwxahdLz7bap-VDs9h35A entertainment educational # Steve Mould
+https://www.youtube.com/feeds/videos.xml?channel_id=UCOGeU-1Fig3rrDjhm9Zs_wg entertainment educational # Vihart
+https://www.youtube.com/feeds/videos.xml?channel_id=UCEOXxzW2vU0P-0THehuIIeg entertainment educational # Captain Disillusion
+https://www.youtube.com/feeds/videos.xml?channel_id=UCimiUgDLbi6P17BdaCZpVbg entertainment educational # exurb1a
+https://www.youtube.com/feeds/videos.xml?channel_id=UCr_Q-bPpcw5fJ-Oow1BW1NQ entertainment educational politics # Kraut
+https://www.youtube.com/feeds/videos.xml?channel_id=UCljE1ODdSF7LS9xx9eWq0GQ entertainment educational politics # potholer54
+https://www.youtube.com/feeds/videos.xml?channel_id=UCIWD1MzoJTPt41tYce18I1w entertainment educational future politics # TheBurgerkrieg
+https://www.youtube.com/feeds/videos.xml?channel_id=UCsXVk37bltHxD1rDPwtNM8Q entertainment educational future # Kuzgesagt - In a Nutshell
+https://www.youtube.com/feeds/videos.xml?channel_id=UCZFipeZtQM5CKUjx6grh54g entertainment educational future # Isaac Arthur
+https://www.youtube.com/feeds/videos.xml?channel_id=UClt01z1wHHT7c5lKcU8pxRQ entertainment politics # hbomberguy
+https://www.youtube.com/feeds/videos.xml?channel_id=UCbWcXB0PoqOsAvAdfzWMf0w entertainment internet # Fredrik Knudsen
+https://www.youtube.com/feeds/videos.xml?channel_id=UCR1D15p_vdP3HkrH8wgjQRw entertainment internet # Internet Historian
+https://www.youtube.com/feeds/videos.xml?channel_id=UC8Q7XEy86Q7T-3kNpNjYgwA entertainment internet # Internet Historian: Incognito Mode
+https://www.youtube.com/feeds/videos.xml?channel_id=UC7Ucs42FZy3uYzjrqzOIHsw entertainment internet # EmpLemon
+https://www.youtube.com/feeds/videos.xml?channel_id=UCdHIPSWf3kkwNg9y_puaChA entertainment internet # CHM Tech
+https://www.youtube.com/feeds/videos.xml?channel_id=UC-7nELDbJEPF3muAzSeT74g entertainment internet # Disrupt
+https://www.youtube.com/feeds/videos.xml?channel_id=UClYN4jR4ndGOnTePBWWV6oA entertainment music # NateIsLame
+https://www.youtube.com/feeds/videos.xml?channel_id=UC4YNwIa0KQ455Ji2jYVLKFQ entertainment sketch # Dumbest of All Worlds
+https://www.youtube.com/feeds/videos.xml?channel_id=UCVIFCOJwv3emlVmBbPCZrvw entertainment sketch # Joel Haver
+https://www.youtube.com/feeds/videos.xml?channel_id=UCsnVnnNneaz0E7aQPD_o0BQ entertainment sketch # Value Select
+https://www.youtube.com/feeds/videos.xml?channel_id=UCifJdXqzDh7sLgq33eSyiDw entertainment sketch # Bridge Stuart
+https://www.youtube.com/feeds/videos.xml?channel_id=UCakAg8hC_RFJm4RI3DlD7SA entertainment sketch # brian david gilbert
+https://www.youtube.com/feeds/videos.xml?channel_id=UC3tMH8u6yG3mSxi-qpfmpkA entertainment sketch # DarkSquidge
+https://www.youtube.com/feeds/videos.xml?channel_id=UCDrJor35jYVnuC3JgRzheIw entertainment sketch # Neil Cicierega
+https://www.youtube.com/feeds/videos.xml?channel_id=UC-to_wlckb-bFDtQfUZL3Kw entertainment sketch games # Door Monster
+https://www.youtube.com/feeds/videos.xml?channel_id=UCgBVkKoOAr3ajSdFFLp13_A entertainment sketch internet # KRAZAM
+https://www.youtube.com/feeds/videos.xml?channel_id=UCGSGPehp0RWfca-kENgBJ9Q entertainment sketch politics # JrEg
+https://www.youtube.com/feeds/videos.xml?channel_id=UCEKJKJ3FO-9SFv5x5BzyxhQ entertainment games # 2kliksphilip
+https://www.youtube.com/feeds/videos.xml?channel_id=UCQD3awTLw9i8Xzh85FKsuJA entertainment games # SovietWomble
+https://www.youtube.com/feeds/videos.xml?channel_id=UCzj25NxFjI5jJM8StIBOvPA entertainment games # jschlatt
+https://www.youtube.com/feeds/videos.xml?channel_id=UCj74rJ9Lgl3WTngq675wxKg entertainment games # Noodle
+https://www.youtube.com/feeds/videos.xml?channel_id=UC4nJnJ-HO5vVbGlJ14rf5yg entertainment games # DeSinc
+https://www.youtube.com/feeds/videos.xml?channel_id=UCcnci5vbpLJ-rh_V9yXwawg entertainment games # martincitopants
+https://www.youtube.com/feeds/videos.xml?channel_id=UCDc2kFO8PE5V5DM7QctoiJg entertainment games # davo_
+https://www.youtube.com/feeds/videos.xml?channel_id=UCD6VugMZKRhSyzWEWA9W2fg entertainment games # SsethTzeentach
+https://www.youtube.com/feeds/videos.xml?channel_id=UCZs2ZKbNKGtHwm4Lwy94EYA entertainment music # TripleBeppo
+https://www.youtube.com/feeds/videos.xml?channel_id=UC5tnqjmvOpVZ4AgjBCQ8dmA entertainment animation # Super Science Friends
+https://www.youtube.com/feeds/videos.xml?channel_id=UC6c6mMQNEY6i6_Z2NBY0C1w entertainment animation # Tipsy Duck
+https://www.youtube.com/feeds/videos.xml?channel_id=UCd0zIZlbgvEifm_hd3FwlBQ entertainment animation # vewn
+https://www.youtube.com/feeds/videos.xml?channel_id=UCxXu9tCU63mF1ntk89XPkzA entertainment animation # Worthikids
+https://www.youtube.com/feeds/videos.xml?channel_id=UCC-slLJZ4p4HOznMUcFn_2g entertainment animation # Zalinki
+https://www.youtube.com/feeds/videos.xml?channel_id=UC9Ntx-EF3LzKY1nQ5rTUP2g entertainment animation # cyriak
+https://www.youtube.com/feeds/videos.xml?channel_id=UC6ZIKcLUAdxTUOB9yIo3baw entertainment animation # sadworld
+https://www.youtube.com/feeds/videos.xml?channel_id=UCO7fujFV_MuxTM0TuZrnE6Q entertainment animation # Felix Colgrave
+https://www.youtube.com/feeds/videos.xml?channel_id=UCp_ldU-Ahd1mocYjFb2_RvQ entertainment animation # slouch
+https://www.youtube.com/feeds/videos.xml?channel_id=UCt-GOpCw4dOBlIyqL9A1ztA entertainment animation # Sr Pelo
+https://www.youtube.com/feeds/videos.xml?channel_id=UCpinhX-Pn417msL6XRqGtbQ entertainment animation music # scotch
+https://www.youtube.com/feeds/videos.xml?channel_id=UCm2s5Gs9YyzQ7NMY1l4wfsg entertainment animation music # CybeR
 

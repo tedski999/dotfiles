@@ -2,10 +2,10 @@ include /usr/share/doc/newsboat/contrib/colorschemes/nord
 
 show-keymap-hint false
 swap-title-and-hints true
-pager internal
-reload-time 360 # 6 hours
+browser "xdg-open '%u'"
 notify-always yes
 notify-program notify-send
+feed-sort-order lastupdated
 
 feedlist-title-format "%u unread feeds - %N %V"
 articlelist-title-format "%T - %u unread articles"
@@ -20,7 +20,6 @@ notify-format "%d new articles (%n unread articles, %f unread feeds)"
 feedlist-format "%t"
 articlelist-format "%D  %?T?|%-17T| ?%t"
 
-highlight feedlist "---.*---"                           color74  default  bold
 highlight article  "(^Feed:.*|^Title:.*|^Author:.*)"    color75  default
 highlight article  "(^Link:.*|^Date:.*)"                color75  default
 highlight article  "^Podcast Download URL:.*"           color71  default
@@ -38,4 +37,5 @@ bind-key l open
 bind-key h quit
 bind-key J next-feed
 bind-key K prev-feed
+macro v set browser "notify-send -i 'camera-video' 'Opening video...' '%u' && setsid -f mpv --no-terminal --ytdl-format='bestvideo[height<=?1080]+bestaudio/best' '%u'" ; open-in-browser ; set browser "xdg-open '%u'"
 
