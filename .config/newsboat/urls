@@ -1,5 +1,19 @@
+https://github.com/security-advisories github news "~GitHub Security Notices"
+https://github.com/tedski999.private.atom?token=AICTJGLKQBYYWTP5PCDVEJV6P4PZM github programming "~GitHub Activity"
+
 https://news.ycombinator.com/rss news
 http://rss.slashdot.org/Slashdot/slashdotMain news
+
+https://www.reddit.com/r/ireland/hot.rss reddit news "~r/ireland"
+https://www.reddit.com/r/Dublin/hot.rss reddit news "~r/Dublin"
+https://www.reddit.com/r/gamedev/hot.rss reddit gamedev "~r/gamedev"
+https://www.reddit.com/r/gamedesign/hot.rss reddit gamedev "~r/gamedesign"
+https://www.reddit.com/r/raspberry_pi/hot.rss reddit programming "~r/raspberry_pi"
+https://www.reddit.com/r/programming/hot.rss reddit programming "~r/programming"
+https://www.reddit.com/r/cybersecurity/hot.rss reddit programming "~r/cybersecurity"
+https://www.reddit.com/r/archlinux/hot.rss reddit linux "~r/archlinux"
+https://www.reddit.com/r/linux/hot.rss reddit linux "~r/linux"
+
 https://www.youtube.com/feeds/videos.xml?channel_id=UCaoqVlqPTH78_xjTjTOMcmQ gamedev # Miziziziz
 https://www.youtube.com/feeds/videos.xml?channel_id=UCrv269YwJzuZL3dH5PCgxUw gamedev # CodeParade
 https://www.youtube.com/feeds/videos.xml?channel_id=UCa5yts90Ol6QOHXxpEUkggQ gamedev # ThoughtQuake
