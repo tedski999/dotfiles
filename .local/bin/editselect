@@ -1,35 +1,34 @@
 #!/bin/bash
 
-options=( "projects" "scratchpad" "xinitrc" "nvim config" "fish config" "i3 config" "picom config" "polybar config" "termite config" "rofi config" "dunst config" "ssh config" "$HOME/local/bin" "fstab" "motd" "issue" "/usr/local/bin" )
+options=( "projects" "scratchpad" "xinitrc" "nvim config" "fish config" "i3 config" "picom config" "polybar config" "termite config" "rofi config" "dunst config" "ssh config" "local bin" "fstab" "motd" "issue" "usr local bin" )
 
 function projectselect {
 	shopt -s nullglob
-	cd "/media/TheAnes/Projects" || exit
-	options=(*)
-	response=$(printf "%s\n" "${options[@]}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Project")
+	projects=(/media/TheAnes/Projects/*)
+	response=$(printf "%s\n" "${projects[@]##*/}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Project")
 	if [ -n "$response" ]; then
-		$TERM -e "$SHELL -C \"cd $response\" -c \"$EDITOR . && $SHELL\""
+		neovide "/media/TheAnes/Projects/$response"
 	fi
 }
 
 response=$(printf "%s\n" "${options[@]}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Edit")
 case $response in
 	"${options[0]}")  projectselect ;;
-	"${options[1]}")  $TERM -e "$EDITOR $HOME/.local/share/scratchpad" ;;
-	"${options[2]}")  $TERM -e "$EDITOR $HOME/.xinitrc" ;;
-	"${options[3]}")  $TERM -e "$EDITOR $HOME/.config/nvim/settings/" ;;
-	"${options[4]}")  $TERM -e "$EDITOR $HOME/.config/fish/" ;;
-	"${options[5]}")  $TERM -e "$EDITOR $HOME/.config/i3/config" ;;
-	"${options[6]}")  $TERM -e "$EDITOR $HOME/.config/picom/picom.conf" ;;
-	"${options[7]}")  $TERM -e "$EDITOR $HOME/.config/polybar/config" ;;
-	"${options[8]}")  $TERM -e "$EDITOR $HOME/.config/termite/config" ;;
-	"${options[9]}")  $TERM -e "$EDITOR $HOME/.config/rofi/config.rasi" ;;
-	"${options[10]}") $TERM -e "$EDITOR $HOME/.config/dunst/dunstrc" ;;
-	"${options[11]}") $TERM -e "$EDITOR $HOME/.ssh/config" ;;
-	"${options[12]}") $TERM -e "$EDITOR $HOME/.local/bin/" ;;
-	"${options[13]}") $TERM -e "sudo $EDITOR /etc/fstab" ;;
-	"${options[14]}") $TERM -e "sudo $EDITOR /etc/motd" ;;
-	"${options[15]}") $TERM -e "sudo $EDITOR /etc/issue" ;;
-	"${options[16]}") $TERM -e "sudo $EDITOR /usr/local/bin/" ;;
+	"${options[1]}")  neovide "$HOME/.local/share/scratchpad" ;;
+	"${options[2]}")  neovide "$HOME/.xinitrc" ;;
+	"${options[3]}")  neovide "$HOME/.config/nvim/init.vim" ;;
+	"${options[4]}")  neovide "$HOME/.config/fish/" ;;
+	"${options[5]}")  neovide "$HOME/.config/i3/config" ;;
+	"${options[6]}")  neovide "$HOME/.config/picom/picom.conf" ;;
+	"${options[7]}")  neovide "$HOME/.config/polybar/config" ;;
+	"${options[8]}")  neovide "$HOME/.config/termite/config" ;;
+	"${options[9]}")  neovide "$HOME/.config/rofi/config.rasi" ;;
+	"${options[10]}") neovide "$HOME/.config/dunst/dunstrc" ;;
+	"${options[11]}") neovide "$HOME/.ssh/config" ;;
+	"${options[12]}") neovide "$HOME/.local/bin/" ;;
+	"${options[13]}") sudo neovide "/etc/fstab" ;;
+	"${options[14]}") sudo neovide "/etc/motd" ;;
+	"${options[15]}") sudo neovide "/etc/issue" ;;
+	"${options[16]}") sudo neovide "/usr/local/bin/" ;;
 esac
 
