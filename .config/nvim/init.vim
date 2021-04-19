@@ -54,6 +54,8 @@ nnoremap <silent> <C-g>b :Git blame<CR>
 nnoremap <silent> <C-g>d :Git diffsplit<CR>
 nnoremap <silent> <C-g>a :Git add %:p<CR>
 nnoremap <silent> <C-g>c :Git commit<CR>
+nnoremap <silent> <C-g>p :Git pull<CR>
+nnoremap <silent> <C-g>P :Git push<CR>
 nnoremap <C-g>b :Git branch<SPACE>
 nnoremap <C-g>o :Git checkout<SPACE>
 function! GitGutterStatus()
@@ -74,8 +76,8 @@ nnoremap <silent> gd :ALEGoToDefinition<CR>
 nnoremap <silent> gD :ALEGoToTypeDefinition<CR>
 nnoremap <silent> gr :ALEFindReferences<CR>
 nnoremap <silent> <C-h> :ALEHover<CR>
-inoremap <silent><expr> <TAB> pumvisible() ? '\<C-n>' : '\<TAB>'
-inoremap <silent><expr> <S-TAB> pumvisible() ? '\<C-p>' : '\<S-TAB>'
+inoremap <silent><expr> <TAB> pumvisible() ? '\<C-n>' : '<TAB>'
+inoremap <silent><expr> <S-TAB> pumvisible() ? '\<C-p>' : '<S-TAB>'
 function! ALEErrorStatus()
   let l:status = ''
   let l:counts = ale#statusline#Count(bufnr(''))
@@ -88,7 +90,6 @@ endfunction
 
 " Markdown Preview
 let g:mkdp_auto_close = 0
-let g:mkdp_command_for_global = 1
 let g:mkdp_page_title = '${name}'
 nmap <C-S-m> <Plug>MarkdownPreviewToggle
 
