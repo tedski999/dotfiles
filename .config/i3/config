@@ -83,7 +83,6 @@ mode "Launch App" {
 	bindsym r exec remoteconnect; mode "default" 
 	bindsym s exec screenmanager; mode "default" 
 	bindsym w exec brave; mode "default"
-	bindsym n exec --no-startup-id neovide; mode "default"
 	bindsym d exec --no-startup-id discord; mode "default"
 	bindsym m exec --no-startup-id spotify; mode "default"
 	bindsym c exec termite -e "bc -l"; mode "default"

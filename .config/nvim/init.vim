@@ -12,6 +12,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'sheerun/vim-polyglot'
 Plug 'dense-analysis/ale'
+Plug 'machakann/vim-highlightedyank'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 call plug#end()
 
@@ -88,6 +89,10 @@ function! ALEErrorStatus()
   return trim(l:status)
 endfunction
 
+" Highlight yank
+let g:highlightedyank_highlight_duration = 150
+highlight link HighlightedyankRegion Visual
+
 " Markdown Preview
 let g:mkdp_auto_close = 0
 let g:mkdp_page_title = '${name}'
@@ -105,6 +110,7 @@ let g:neovide_cursor_vfx_mode = 'wireframe'
 
 "Misc key mappings
 map Q <nop>
+map Y y$
 nnoremap <silent> <C-l> :nohlsearch<CR>
 cabbrev W w
 
