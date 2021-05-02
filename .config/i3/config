@@ -54,9 +54,9 @@ bindsym XF86AudioLowerVolume        exec --no-startup-id changevolume -2%
 bindsym Shift+XF86AudioRaiseVolume  exec --no-startup-id changevolume +25%
 bindsym Shift+XF86AudioLowerVolume  exec --no-startup-id changevolume -25%
 bindsym XF86AudioMute               exec --no-startup-id changevolume toggle
-bindsym XF86AudioPrev               exec --no-startup-id playerctl -p spotify previous
-bindsym XF86AudioNext               exec --no-startup-id playerctl -p spotify next
-bindsym XF86AudioPlay               exec --no-startup-id playerctl -p spotify play-pause
+bindsym XF86AudioPrev               exec --no-startup-id playerctl -p cmus previous
+bindsym XF86AudioNext               exec --no-startup-id playerctl -p cmus next
+bindsym XF86AudioPlay               exec --no-startup-id playerctl -p cmus play-pause
 bindsym XF86MonBrightnessDown       exec --no-startup-id changebrightness -dec 5
 bindsym XF86MonBrightnessUp         exec --no-startup-id changebrightness -inc 5
 bindsym Shift+XF86MonBrightnessDown exec --no-startup-id changebrightness -dec 25
@@ -84,7 +84,7 @@ mode "Launch App" {
 	bindsym s exec screenmanager; mode "default" 
 	bindsym w exec brave; mode "default"
 	bindsym d exec --no-startup-id discord; mode "default"
-	bindsym m exec --no-startup-id spotify; mode "default"
+	bindsym m exec termite -e "cmus"; mode "default"
 	bindsym c exec termite -e "bc -l"; mode "default"
 	bindsym b exec termite -e "bluetoothctl"; mode "default"
 	bindsym n exec termite -e "newsboat"; mode "default"
