@@ -1,9 +1,14 @@
 [user]
 	email = tedjohnsonjs@gmail.com
 	name = tedski999
+	signingkey = tedjohnsonjs@gmail.com
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [diff-so-fancy]
 	markEmptyLines = false
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
 [pull]
 	rebase = false
