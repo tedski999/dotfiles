@@ -25,7 +25,7 @@ configuration {
 	show-icons: false;
 	sidebar-mode: false;
 	
-	font: "DinaTTF 10";
+	font: "Dina 10";
 	color-normal: "#181818, #d8d8d8, #181818, #282828, #d8d8d8";
 	color-urgent: "#381818, #d8d8d8, #381818, #582828, #d8d8d8";
 	color-active: "#181828, #d8d8d8, #181828, #282838, #d8d8d8";

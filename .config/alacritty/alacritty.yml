@@ -70,7 +70,7 @@ colors:
 bell:
   animation: Linear
   duration: 500
-  color: '#303030'
+  color: '#000000'
 
 hints: # TODO
   alphabet: "jfkdls;ahgurieowpq"

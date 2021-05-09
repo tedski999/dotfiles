@@ -78,11 +78,11 @@ bindsym --release $mod+s exec --no-startup-id "import png:- | xclip -i -selectio
 
 bindsym $mod+space mode "Launch App"
 mode "Launch App" {
-	bindsym space exec rofi -show run; mode "default"
+	bindsym space exec --no-startup-id rofi -show run; mode "default"
 	bindsym Return exec i3-sensible-terminal; mode "default"
 	bindsym e exec editselect; mode "default"
-	bindsym r exec remoteconnect; mode "default" 
-	bindsym s exec screenmanager; mode "default" 
+	bindsym r exec remoteconnect; mode "default"
+	bindsym s exec screenmanager; mode "default"
 	bindsym w exec brave; mode "default"
 	bindsym d exec --no-startup-id discord; mode "default"
 	bindsym m exec i3-sensible-terminal -e "cmus"; mode "default"
