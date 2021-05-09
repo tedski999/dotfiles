@@ -2,6 +2,7 @@
 
 # environment vars
 export TERM="xterm-256color"
+export TERMINAL="alacritty"
 export EDITOR="nvim"
 export BROWSER="brave"
 export GTK_THEME="Materia:dark"

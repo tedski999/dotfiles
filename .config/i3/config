@@ -84,10 +84,10 @@ mode "Launch App" {
 	bindsym s exec screenmanager; mode "default" 
 	bindsym w exec brave; mode "default"
 	bindsym d exec --no-startup-id discord; mode "default"
-	bindsym m exec termite -e "cmus"; mode "default"
-	bindsym c exec termite -e "bc -l"; mode "default"
-	bindsym b exec termite -e "bluetoothctl"; mode "default"
-	bindsym n exec termite -e "newsboat"; mode "default"
+	bindsym m exec i3-sensible-terminal -e "cmus"; mode "default"
+	bindsym c exec i3-sensible-terminal -e "bc"; mode "default"
+	bindsym b exec i3-sensible-terminal -e "bluetoothctl"; mode "default"
+	bindsym n exec i3-sensible-terminal -e "newsboat"; mode "default"
 	bindsym Escape mode "default"
 }
 
