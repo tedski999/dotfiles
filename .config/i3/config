@@ -74,7 +74,8 @@ bindsym $mod+Escape exec powercontrol
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Tab exec rofi -show window -show-icons
 bindsym $mod+m exec --no-startup-id scratchpadselect
-bindsym --release $mod+s exec --no-startup-id screenshot
+bindsym --release $mod+s exec --no-startup-id "import png:- | xclip -i -selection c -t image/png"
+
 bindsym $mod+space mode "Launch App"
 mode "Launch App" {
 	bindsym space exec rofi -show run; mode "default"

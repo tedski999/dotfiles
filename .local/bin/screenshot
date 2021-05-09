@@ -1,4 +1,0 @@
-#!/bin/bash
-
-import png:- | xclip -i -selection c -t image/png
-
