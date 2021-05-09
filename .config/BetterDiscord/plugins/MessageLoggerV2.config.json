@@ -25,7 +25,8 @@
             "560517819918319617",
             "760505501112074250",
             "618869768887468063",
-            "762611112859926568"
+            "762611112859926568",
+            "828700308771307521"
         ],
         "blacklist": [],
         "notificationBlacklist": [],
@@ -70,7 +71,7 @@
             "showNotifications": false,
             "showContextMenu": false
         },
-        "imageCacheDir": "/home/tedski999/.cache/BetterDiscord/MLV2_IMAGE_CACHE",
+        "imageCacheDir": "/home/tedski999/.config/BetterDiscord/plugins/MLV2_IMAGE_CACHE",
         "flags": 2,
         "autoUpdate": true,
         "versionInfo": "1.7.71"

@@ -48,6 +48,7 @@
 		"FolderStore": {"props": ["getGuildFolderById", "getFlattenedGuilds"]},
 		"FolderUtils": {"props": ["isFolderExpanded", "getExpandedFolders"]},
 		"GuildBoostUtils": {"props": ["getTierName", "getUserLevel"]},
+		"GuildChannelKeys": {"props": ["GUILD_SELECTABLE_CHANNELS_KEY", "GUILD_VOCAL_CHANNELS_KEY"]},
 		"GuildChannelStore": {"props": ["getChannels", "getDefaultChannel"]},
 		"GuildEmojiStore": {"props": ["getGuildEmoji", "getDisambiguatedEmojiContext"]},
 		"GuildNotificationsUtils": {"props": ["updateChannelOverrideSettings", "updateGuildNotificationSettings"]},
@@ -110,6 +111,8 @@
 		"SpellCheckUtils": {"props": ["learnWord", "toggleSpellcheck"]},
 		"SpotifyTrackUtils": {"props": ["hasConnectedAccount", "getLastPlayedTrackId"]},
 		"SpotifyUtils": {"props": ["setActiveDevice", "pause"]},
+		"StageChannelLiveStore": {"props": ["getAllLiveStageChannels", "useAllLiveStageChannels"]},
+		"StageChannelStore": {"props": ["getStageInstanceByChannel", "getAllStageInstances"]},
 		"StateStoreUtils": {"props": ["useStateFromStores", "useStateFromStoresArray"]},
 		"StatusMetaUtils": {"props": ["getApplicationActivity", "getStatus"]},
 		"StoreChangeUtils": {"props": ["get", "set", "clear", "remove"]},
@@ -403,6 +406,9 @@
 			},
 			"icon": "<svg width='%%width' height='%%height' viewBox='0 0 16 16'><g fill='none'><path d='M-4-4h24v24H-4z'/><path class='%%foreground' fill='%%color' d='M14.994 1.006C13.858-.257 11.904-.3 10.72.89L8.637 2.975l-.696-.697-1.387 1.388 5.557 5.557 1.387-1.388-.697-.697 1.964-1.964c1.13-1.13 1.3-2.985.23-4.168zm-13.25 10.25c-.225.224-.408.48-.55.764L.02 14.37l1.39 1.39 2.35-1.174c.283-.14.54-.33.765-.55l4.808-4.808-2.776-2.776-4.813 4.803z'/></g></svg>"
 		},
+		"EYE": {
+			"icon": "<svg name='Eye' width='%%width' height='%%height' viewBox='0 0 24 24'><path fill='%%color' d='m 12,4.8468858 c -4.5854555,0 -8.7437859,2.5087448 -11.8122114,6.5836142 -0.2503836,0.333845 -0.2503836,0.800246 0,1.13409 C 3.2562141,16.644369 7.4145445,19.153114 12,19.153114 c 4.585455,0 8.743786,-2.508745 11.812211,-6.583614 0.250384,-0.333845 0.250384,-0.800246 0,-1.13409 C 20.743786,7.3556306 16.585455,4.8468858 12,4.8468858 Z M 12.328935,17.037128 C 9.2850571,17.228597 6.7714025,14.719852 6.9628723,11.671065 7.1199757,9.1574101 9.1574101,7.1199755 11.671065,6.9628721 c 3.043878,-0.1914698 5.557532,2.317275 5.366063,5.3660629 -0.162013,2.508745 -2.199448,4.54618 -4.708193,4.708193 z m -0.152194,-2.327094 c -1.639766,0.103099 -2.9947829,-1.247009 -2.8867749,-2.886775 0.08346,-1.355017 1.1831849,-2.4498317 2.5382019,-2.5382024 1.639767,-0.1030991 2.994784,1.2470084 2.886775,2.8867754 -0.08837,1.359926 -1.188094,2.45474 -2.538202,2.538202 z'/></svg>"
+		},
 		"FOLDER": {
 			"icon": "<svg name='Folder' width='%%width' height='%%height' viewBox='0 0 24 24'><path fill='%%color' d='M20 7H12L10.553 5.106C10.214 4.428 9.521 4 8.764 4H3C2.447 4 2 4.447 2 5V19C2 20.104 2.895 21 4 21H20C21.104 21 22 20.104 22 19V9C22 7.896 21.104 7 20 7Z'/></svg>"
 		},
@@ -415,6 +421,13 @@
 				"height": 36
 			},
 			"icon": "<svg name='Gradient' width='%%width' height='%%height' viewBox='0 0 36 36'><path fill='%%color' d='M 5,0 C 0,0 0,5 0,5 V 31 c 0,5 5,5 5,5 h 26 c 5,0 5,-5 5,-5 V 5 C 36,0 31,0 31,0 Z M 4,4 h 8 v 4 h 4 v -4 h 4 v 4 h 4 V 12 h -4 v 4 h 4 v 4 h -4 v 4 h 4 v 4 h -4 v 4 h -4 v -4 h -4 v 4 H 4 Z M 16,28 h 4 v -4 h -4 z m 0,-4 v -4 h -4 v 4 z m 0,-4 h 4 v -4 h -4 z m 0,-4 v -4 h -4 v 4 z m 0,-4 h 4 V 8 h -4 z'/></svg>"
+		},
+		"HEART": {
+			"defaultProps": {
+				"width": 16,
+				"height": 16
+			},
+			"icon": "<svg name='Heart' width='%%width' height='%%height' viewBox='0 0 16 16'><path fill='%%color' fill-rule='evenodd' d='M4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.565 20.565 0 008 13.393a20.561 20.561 0 003.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.75.75 0 01-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5zM8 14.25l-.345.666-.002-.001-.006-.003-.018-.01a7.643 7.643 0 01-.31-.17 22.075 22.075 0 01-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.08 22.08 0 01-3.744 2.584l-.018.01-.006.003h-.002L8 14.25zm0 0l.345.666a.752.752 0 01-.69 0L8 14.25z'/></svg>"
 		},
 		"INFO": {
 			"icon": "<svg name='Info' width='%%width' height='%%height' viewBox='0 0 24 24'><path fill='%%color' d='M 12,0 C 5.376,0 0,5.376 0,12 0,18.624 5.376,24 12,24 18.624,24 24,18.624 24,12 24,5.376 18.624,0 12,0 Z m 1.2,18 h -2.4 v -7.2 h 2.4 z m 0,-9.6 h -2.4 v -2.4 h 2.4 z'/></svg>"
@@ -469,6 +482,9 @@
 				"height": 16
 			},
 			"icon": "<svg name='Pin' width='%%width' height='%%height' viewBox='0 0 24 24'><path fill='%%color' d='M19 3H5V5H7V12H5V14H11V22H13V14H19V12H17V5H19V3Z'/></svg>"
+		},
+		"PODIUM": {
+			"icon": "<svg name='Podium' width='%%width' height='%%height' viewBox='0 0 24 24'><path fill='%%color' fill-rule='evenodd' clip-rule='evenodd' d='M14 13C14 14.1 13.1 15 12 15C10.9 15 10 14.1 10 13C10 11.9 10.9 11 12 11C13.1 11 14 11.9 14 13ZM8.5 20V19.5C8.5 17.8 9.94 16.5 12 16.5C14.06 16.5 15.5 17.8 15.5 19.5V20H8.5ZM7 13C7 10.24 9.24 8 12 8C14.76 8 17 10.24 17 13C17 13.91 16.74 14.75 16.31 15.49L17.62 16.25C18.17 15.29 18.5 14.19 18.5 13C18.5 9.42 15.58 6.5 12 6.5C8.42 6.5 5.5 9.42 5.5 13C5.5 14.18 5.82 15.29 6.38 16.25L7.69 15.49C7.26 14.75 7 13.91 7 13ZM2.5 13C2.5 7.75 6.75 3.5 12 3.5C17.25 3.5 21.5 7.75 21.5 13C21.5 14.73 21.03 16.35 20.22 17.75L21.51 18.5C22.45 16.88 23 15 23 13C23 6.93 18.07 2 12 2C5.93 2 1 6.93 1 13C1 15 1.55 16.88 2.48 18.49L3.77 17.74C2.97 16.35 2.5 14.73 2.5 13Z'/></svg>"
 		},
 		"QUESTIONMARK": {
 			"icon": "<svg name='QuestionMark' width='%%width' height='%%height' viewBox='0 0 24 24'><path fill='%%color' d='M12 2C6.486 2 2 6.487 2 12C2 17.515 6.486 22 12 22C17.514 22 22 17.515 22 12C22 6.487 17.514 2 12 2ZM12 18.25C11.31 18.25 10.75 17.691 10.75 17C10.75 16.31 11.31 15.75 12 15.75C12.69 15.75 13.25 16.31 13.25 17C13.25 17.691 12.69 18.25 12 18.25ZM13 13.875V15H11V12H12C13.104 12 14 11.103 14 10C14 8.896 13.104 8 12 8C10.896 8 10 8.896 10 10H8C8 7.795 9.795 6 12 6C14.205 6 16 7.795 16 10C16 11.861 14.723 13.429 13 13.875Z'/></svg>"
@@ -565,6 +581,28 @@
 			"dateInputPreviewSuffix": "dateInputPreviewSuffix-f4Sr32",
 			"dateInputWrapper": "dateInputWrapper-6tQOYp",
 			"dev": "dev-A7f2Rx",
+			"discoveryCard": "card-x5zW6z",
+			"discoveryCardAuthor": "author-d2JIcl",
+			"discoveryCardButton": "button-coQXfM",
+			"discoveryCardControls": "controls-T0w-Wc",
+			"discoveryCardCover": "cover-qyY86I",
+			"discoveryCardCoverBadge": "coverBadge-I41ZIY",
+			"discoveryCardCoverWrapper": "coverWrapper-J-mDGJ",
+			"discoveryCardDescription": "description-zXiu5E",
+			"discoveryCardFooter": "footer-C1KpS6",
+			"discoveryCardHeader": "header-4hHJgv",
+			"discoveryCardIcon": "icon-0jmVrJ",
+			"discoveryCardIconWrapper": "iconWrapper-eK7GO6",
+			"discoveryCardInfo": "info-xw-o76",
+			"discoveryCardName": "name-OSUjF9",
+			"discoveryCards": "list-QuW8QR",
+			"discoveryCardStat": "stat-eRknnn",
+			"discoveryCardStatIcon": "statIcon-o40EX1",
+			"discoveryCardStats": "stats-Pc5tYW",
+			"discoveryCardTag": "tag-PbPfwP",
+			"discoveryCardTags": "tags-9KJ-1X",
+			"discoveryCardTitle": "title-SSzExd",
+			"discoveryCardTitleButton": "button-SxdSzE",
 			"favButtonContainer": "favbutton-8Fzu45",
 			"guild": "guild-r3yAE_",
 			"guildLowerLeftBadge": "lowerLeftBadge-zr4T_9",
@@ -940,6 +978,7 @@
 		"NotFound": {
 			"_": "",
 			"badgeWrapper": "wrapper-232cHJ",
+			"appOuter": "app-1q1i1E",
 			"channelPanelTitle": "title-eS5yk3",
 			"emoji": "emoji",
 			"highlight": "highlight",
@@ -1024,7 +1063,7 @@
 		"AppInner": {"props": ["app", "layers"]},
 		"AppMount": {"props": ["appMount"]},
 		"ApplicationStore": {"props": ["applicationStore", "navigation"]},
-		"AppOuter": {"props": ["app"], "length": 1},
+		"AppOuter": {"props": ["app", "mobileApp"]},
 		"Attachment": {"props": ["wrapper", "video", "metadataDownload"]},
 		"AuditLog": {"props": ["auditLog"]},
 		"AuditLogPopout": {"props": ["guildSettingsAuditLogsUserFilterPopout"]},
@@ -1462,7 +1501,7 @@
 		"animationcontainerrender": ["AnimationContainer", "didRender"],
 		"animationcontainerscale": ["AnimationContainer", "scale"],
 		"animationcontainertranslate": ["AnimationContainer", "translate"],
-		"app": ["AppOuter", "app"],
+		"app": ["NotFound", "appOuter"],
 		"appcontainer": ["AppBase", "container"],
 		"appinner": ["AppInner", "app"],
 		"appmount": ["AppMount", "appMount"],
@@ -1886,6 +1925,28 @@
 		"expressionpickernavbuttonactive": ["ExpressionPicker", "navButtonActive"],
 		"expressionpickernavitem": ["ExpressionPicker", "navItem"],
 		"expressionpickernavlist": ["ExpressionPicker", "navList"],
+		"discoverycard": ["BDFDB", "discoveryCard"],
+		"discoverycardauthor": ["BDFDB", "discoveryCardAuthor"],
+		"discoverycardbutton": ["BDFDB", "discoveryCardButton"],
+		"discoverycardcontrols": ["BDFDB", "discoveryCardControls"],
+		"discoverycardcover": ["BDFDB", "discoveryCardCover"],
+		"discoverycardcoverbadge": ["BDFDB", "discoveryCardCoverBadge"],
+		"discoverycardcoverwrapper": ["BDFDB", "discoveryCardCoverWrapper"],
+		"discoverycarddescription": ["BDFDB", "discoveryCardDescription"],
+		"discoverycardfooter": ["BDFDB", "discoveryCardFooter"],
+		"discoverycardheader": ["BDFDB", "discoveryCardHeader"],
+		"discoverycardicon": ["BDFDB", "discoveryCardIcon"],
+		"discoverycardiconwrapper": ["BDFDB", "discoveryCardIconWrapper"],
+		"discoverycardinfo": ["BDFDB", "discoveryCardInfo"],
+		"discoverycardname": ["BDFDB", "discoveryCardName"],
+		"discoverycards": ["BDFDB", "discoveryCards"],
+		"discoverycardstat": ["BDFDB", "discoveryCardStat"],
+		"discoverycardstaticon": ["BDFDB", "discoveryCardStatIcon"],
+		"discoverycardstats": ["BDFDB", "discoveryCardStats"],
+		"discoverycardtag": ["BDFDB", "discoveryCardTag"],
+		"discoverycardtags": ["BDFDB", "discoveryCardTags"],
+		"discoverycardtitle": ["BDFDB", "discoveryCardTitle"],
+		"discoverycardtitlebutton": ["BDFDB", "discoveryCardTitleButton"],
 		"favbuttoncontainer": ["BDFDB", "favButtonContainer"],
 		"fileattachment": ["File", "attachment"],
 		"fileattachmentinner": ["File", "attachmentInner"],
@@ -2400,6 +2461,7 @@
 		"messagetimestampasiancompact": ["MessageBody", "asianCompactTimeStamp"],
 		"messagetimestamp": ["MessageBody", "timestamp"],
 		"messagetimestampalt": ["MessageBody", "alt"],
+		"messagetimestampinline": ["MessageBody", "timestampInline"],
 		"messagetimestamplatin12compact": ["MessageBody", "latin12CompactTimeStamp"],
 		"messagetimestamplatin24compact": ["MessageBody", "latin24CompactTimeStamp"],
 		"messagetimestampseparator": ["MessageBody", "separator"],
@@ -3040,6 +3102,7 @@
 		"eo":			{"name":"Esperanto",					"id":"eo",		"ownlang":"Esperanto"},
 		"et":			{"name":"Estonian",						"id":"et",		"ownlang":"Eesti"},
 		"fil":			{"name":"Filipino",						"id":"fil",		"ownlang":"Wikang Filipino"},
+		"tl":			{"name":"Filipino (Tagalog)",			"id":"tl",		"ownlang":"Wikang Tagalog"},
 		"fi":			{"name":"Finnish",						"id":"fi",		"ownlang":"Suomi",						"discord":true},
 		"fr":			{"name":"French",						"id":"fr",		"ownlang":"Français",					"discord":true},
 		"fr-CA":		{"name":"French (Canadian)",			"id":"fr-CA",	"ownlang":"Français Canadien"},
@@ -3117,7 +3180,6 @@
 		"su":			{"name":"Sundanese",					"id":"su",		"ownlang":"Basa Sunda"},
 		"sw":			{"name":"Swahili",						"id":"sw",		"ownlang":"Kiswahili"},
 		"sv":			{"name":"Swedish",						"id":"sv",		"ownlang":"Svenska",					"discord":true},
-		"tl":			{"name":"Tagalog",						"id":"tl",		"ownlang":"Wikang Tagalog"},
 		"tg":			{"name":"Tajik",						"id":"tg",		"ownlang":"тоҷикӣ"},
 		"ta":			{"name":"Tamil",						"id":"ta",		"ownlang":"தமிழ்"},
 		"tt":			{"name":"Tatar",						"id":"tt",		"ownlang":"татарча"},
@@ -4679,17 +4741,19 @@
 		}
 	},
 	"BDFDB_Patrons": {
-		"89482511343702016": {"active": true,		"t3": false,	"custom": false,	"id": "AzukiPuddles"},
-		"341383936984875020": {"active": true,		"t3": true,		"custom": false,	"id": "dannycoch (DaCo)"},
-		"811756093730586635": {"active": false,		"t3": true,		"custom": false,	"id": "Namii (RiDeLo)"},
-		"121188168002174976": {"active": true,		"t3": false,	"custom": false,	"id": "Aven (Syn)"},
-		"630634411259330570": {"active": true,		"t3": false,	"custom": false,	"id": "Zardex (KhaPo)"},
-		"159762323907543040": {"active": true,		"t3": false,	"custom": false,	"id": "STRIX (A1C)"},
-		"363785301195358221": {"active": true,		"t3": false,	"custom": false,	"id": "TRENT (KABEL)"},
-		"106938698938978304": {"active": false,		"t3": false,	"custom": false,	"id": "GABRIEL"},
-		"174868361040232448": {"active": true,		"t3": false,	"custom": false,	"id": "GIBBU (Ian)"},
-		"443943393660239872": {"active": true,		"t3": true,		"custom": false,	"id": "SARGE (PaSh)"},
-		"620397524494057513": {"active": true,		"t3": true,		"custom": false,	"id": "FUSL"},
-		"562008872467038230": {"active": false,		"t3": true,		"custom": true,		"id": "BEAUDEN"}
+		"838434341197316126": 	{"active": true,		"t3": true,		"custom": true,		"text": "Allmächtig",		"id": "EXITIUM / K E R"},
+		"596006086511689748": 	{"active": true,		"t3": false,	"custom": false,	"text": "",					"id": "Marshtomp"},
+		"89482511343702016": 	{"active": true,		"t3": false,	"custom": false,	"text": "",					"id": "AzukiPuddles"},
+		"341383936984875020": 	{"active": true,		"t3": true,		"custom": false,	"text": "",					"id": "dannycoch (DaCo)"},
+		"811756093730586635": 	{"active": false,		"t3": true,		"custom": false,	"text": "",					"id": "Namii (RiDeLo)"},
+		"121188168002174976": 	{"active": true,		"t3": false,	"custom": false,	"text": "",					"id": "Aven (Syn)"},
+		"787736473683230721": 	{"active": true,		"t3": false,	"custom": false,	"text": "",					"id": "Zardex (KhaPo)"},
+		"264486632525135883": 	{"active": true,		"t3": false,	"custom": false,	"text": "",					"id": "strix (A1C)"},
+		"363785301195358221": 	{"active": true,		"t3": false,	"custom": false,	"text": "",					"id": "TRENT (KABEL)"},
+		"106938698938978304": 	{"active": false,		"t3": false,	"custom": false,	"text": "",					"id": "GABRIEL"},
+		"174868361040232448": 	{"active": true,		"t3": false,	"custom": false,	"text": "",					"id": "GIBBU (Ian)"},
+		"443943393660239872": 	{"active": true,		"t3": true,		"custom": false,	"text": "",					"id": "SARGE (PaSh)"},
+		"620397524494057513": 	{"active": true,		"t3": true,		"custom": false,	"text": "",					"id": "FUSL"},
+		"562008872467038230": 	{"active": false,		"t3": true,		"custom": true,		"text": "",					"id": "BEAUDEN"}
 	}
 }
