@@ -18,7 +18,7 @@
     idle_threshold = 60
 
     ### Text ###
-    font = DinaTTF 9
+    font = Dina 9
     line_height = 0
     markup = full
     format = "<b>%s</b>\n%b"
