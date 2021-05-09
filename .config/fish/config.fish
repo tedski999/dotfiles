@@ -37,6 +37,10 @@ set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 # Override command not found handler
 function __fish_command_not_found_handler --on-event fish_command_not_found
 	functions --erase __fish_command_not_found_setup
-    echo "fish: Unknown command '$argv'"
+	echo "fish: Unknown command '$argv'"
 end
+
+# Override GPG_TTY to use this terminal
+set GPG_TTY (tty)
+export GPG_TTY
 
