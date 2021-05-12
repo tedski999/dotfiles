@@ -103,7 +103,7 @@ let g:netrw_home='~/.local/share/nvim/'
 let g:netrw_banner = 0
 
 " Neovide
-set guifont=SourceCodePro:h13
+set guifont=SourceCodePro:h14
 let g:neovide_cursor_animation_length=0.1
 let g:neovide_cursor_trail_length=0
 let g:neovide_cursor_vfx_mode = 'wireframe'

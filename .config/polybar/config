@@ -21,7 +21,7 @@ height = 25
 
 background = ${colors.background}
 foreground = ${colors.foreground}
-font-0 = Dina:pixelsize=12;2
+font-0 = Terminus:pixelsize=14;2
 font-1 = Siji:pixelsize=10;2
 font-2 = unifont:pixelsize=10;2
 
@@ -80,7 +80,7 @@ label = %{A2:i3-msg kill:}%title:0:120:...%%{A}
 type = internal/cpu
 interval = 0.2
 
-format = %{A1:termite -e htop &:}<ramp-coreload> <label>%{A}
+format = %{A1:$TERMINAL -e bashtop &:}<ramp-coreload> <label>%{A}
 label = 
 
 ramp-coreload-spacing = 0
@@ -106,7 +106,7 @@ ramp-coreload-7-foreground = #ff5555
 type = internal/memory
 interval = 1
 
-format = %{A1:termite -e htop &:}<bar-used> <label>%{A}
+format = %{A1:$TERMINAL -e bashtop &:}<bar-used> <label>%{A}
 label = 
 
 bar-used-width = 7
@@ -132,9 +132,9 @@ type = internal/network
 interface = wlo1
 interval = 2
 
-format-connected = %{A1:termite -e nmtui &:}<label-connected> <ramp-signal>%{A}
+format-connected = %{A1:$TERMINAL -e nmtui &:}<label-connected> <ramp-signal>%{A}
 label-connected = %essid%
-format-disconnected = %{A1:termite -e nmtui &:}<label-disconnected>%{A}
+format-disconnected = %{A1:$TERMINAL -e nmtui &:}<label-disconnected>%{A}
 label-disconnected = 
 label-disconnected-foreground = ${colors.fg_urgent}
 
@@ -150,7 +150,7 @@ type = internal/network
 interface = enp2s0
 interval = 2
 
-format-connected = %{A1:termite -e nmtui &:}<label-connected>%{A}
+format-connected = %{A1:$TERMINAL -e nmtui &:}<label-connected>%{A}
 label-connected = %essid% %linkspeed%
 
 
@@ -165,10 +165,10 @@ date-alt = %d/%m
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume = %{A3:termite -e pulsemixer &:}<label-volume> <ramp-volume>%{A}
+format-volume = %{A3:$TERMINAL -e pulsemixer &:}<label-volume> <ramp-volume>%{A}
 label-volume = %percentage:3:3%%
 
-format-muted = %{A3:termite -e pulsemixer &:}mute <label-muted>%{A}
+format-muted = %{A3:$TERMINAL -e pulsemixer &:}mute <label-muted>%{A}
 label-muted-foreground = ${colors.fg_urgent}
 label-muted = 
 
