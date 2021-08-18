@@ -1,53 +1,52 @@
-
 [colors]
-background = #00000000
-foreground = #d8d8d8
-bg_highlight = #181818
+bg = #000000
+fg = #d8d8d8
+bg_highlight = #222222
 fg_highlight = #ffffff
 bg_urgent = #bd2c40
 fg_urgent = #d80000
 
+
 [settings]
 screenchange-reload = true
 
-[bar/main]
+
+[bar/core]
 monitor = ${env:MONITOR:}
 monitor-strict = true
-pin-workspaces = true
-padding-right = 2
+override-redirect = true
+enable-ipc = true
+padding = 1
 module-margin = 1
-width = 100%
-height = 25
-
-background = ${colors.background}
-foreground = ${colors.foreground}
+offset-y = 10
+height = 30
+line-size = 1
+background = #00
 font-0 = Terminus:pixelsize=14;2
 font-1 = Siji:pixelsize=10;2
 font-2 = unifont:pixelsize=10;2
 
-separator = |
+
+[bar/hud]
+inherit = bar/core
 modules-left = i3 xwindow
-modules-center =
-modules-right = eth wifi netspeed memory cpu pulseaudio battery datetime
-tray-position = none
-
-scroll-up = i3wm-wsnext
-scroll-down = i3wm-wsprev
-
-
-[bar/alt]
-inherit = bar/main
 modules-right = datetime
+
+
+[bar/stats]
+inherit = bar/core
+modules-right = wifi netspeed memory cpu pulseaudio battery
+offset-x = -90
 
 
 [module/i3]
 type = internal/i3
 index-sort = true
-pin-workspaces = true
-wrapping-scroll = true
 
-label-mode-foreground = #000000
-label-mode-background = ${colors.foreground}
+format = <label-state><label-mode>
+
+label-mode-foreground = ${colors.bg}
+label-mode-background = ${colors.fg}
 label-mode-padding = 1
 
 label-focused = %index%
@@ -56,32 +55,49 @@ label-focused-background = ${colors.bg_highlight}
 label-focused-padding = 1
 
 label-urgent = %index%
-label-urgent-background = ${colors.bg_urgent}
 label-urgent-foreground = ${colors.fg_urgent}
+label-urgent-background = ${colors.bg_urgent}
 label-urgent-padding = 1
 
 label-unfocused = %index%
-label-unfocused-foreground = ${colors.foreground}
-label-unfocused-background = ${colors.background}
+label-unfocused-foreground = ${colors.fg}
+label-unfocused-background = ${colors.bg}
 label-unfocused-padding = 1
 
 label-visible = %index%
-label-visible-foreground = ${colors.foreground}
-label-visible-background = ${colors.background}
+label-visible-foreground = ${colors.fg}
+label-visible-background = ${colors.bg}
 label-visible-padding = 1
 
 
 [module/xwindow]
 type = internal/xwindow
+
 label = %{A2:i3-msg kill:}%title:0:120:...%%{A}
+label-foreground = ${colors.fg}
+label-background = ${colors.bg}
+label-padding = 1
+
+
+[module/datetime]
+type = internal/date
+interval = 5
+time = %H:%M
+date-alt = %d/%m
+
+label = %{A3:datetimenotification:}%time%%date% %{A}
+label-foreground = ${colors.fg}
+label-background = ${colors.bg}
+label-padding = 1
 
 
 [module/cpu]
 type = internal/cpu
 interval = 0.2
 
-format = %{A1:$TERMINAL -e bashtop &:}<ramp-coreload> <label>%{A}
-label = 
+format = <ramp-coreload>
+format-background = ${colors.bg}
+format-padding = 1
 
 ramp-coreload-spacing = 0
 ramp-coreload-0 = ▁
@@ -106,8 +122,9 @@ ramp-coreload-7-foreground = #ff5555
 type = internal/memory
 interval = 1
 
-format = %{A1:$TERMINAL -e bashtop &:}<bar-used> <label>%{A}
-label = 
+format = <bar-used>
+format-background = ${colors.bg}
+format-padding = 1
 
 bar-used-width = 7
 bar-used-indicator = I
@@ -124,7 +141,10 @@ type = internal/network
 interface = wlo1
 interval = 0.5
 accumulate-stats = true
-label-connected = %{A1:netspeedtest &:}%upspeed:8:12:% %downspeed:8:12:%%{A}
+
+label-connected = %{A1:netspeedtest &:}%upspeed:8:% %downspeed:8:%%{A}
+label-connected-padding = 1
+label-connected-background = ${colors.bg}
 
 
 [module/wifi]
@@ -132,12 +152,20 @@ type = internal/network
 interface = wlo1
 interval = 2
 
-format-connected = %{A1:$TERMINAL -e nmtui &:}<label-connected> <ramp-signal>%{A}
-label-connected = %essid%
+format-connected = %{A1:$TERMINAL -e nmtui &:}<label-connected><ramp-signal>%{A}
 format-disconnected = %{A1:$TERMINAL -e nmtui &:}<label-disconnected>%{A}
+
+label-connected = %essid%
+label-connected-background = ${colors.bg}
+label-connected-padding = 1
+
 label-disconnected = 
 label-disconnected-foreground = ${colors.fg_urgent}
+label-disconnected-background = ${colors.bg}
+label-disconnected-padding = 1
 
+ramp-signal-background = ${colors.bg}
+ramp-signal-padding = 1
 ramp-signal-0 = 
 ramp-signal-0-foreground = ${colors.fg_urgent}
 ramp-signal-1 = 
@@ -145,33 +173,27 @@ ramp-signal-2 = 
 ramp-signal-3 = 
 
 
-[module/eth]
-type = internal/network
-interface = enp2s0
-interval = 2
-
-format-connected = %{A1:$TERMINAL -e nmtui &:}<label-connected>%{A}
-label-connected = %essid% %linkspeed%
-
-
-[module/datetime]
-type = internal/date
-interval = 5
-label = %{A3:datetimenotification:}%time%%date% %{A}
-time = %H:%M
-date-alt = %d/%m
-
-
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume = %{A3:$TERMINAL -e pulsemixer &:}<label-volume> <ramp-volume>%{A}
-label-volume = %percentage:3:3%%
+format-volume = <label-volume><ramp-volume>
+format-volume-background = ${colors.bg}
+format-volume-padding = 0
 
-format-muted = %{A3:$TERMINAL -e pulsemixer &:}mute <label-muted>%{A}
-label-muted-foreground = ${colors.fg_urgent}
+format-muted = mute <label-muted>
+format-muted-background = ${colors.bg}
+format-muted-padding = 1
+
+label-volume = %percentage:4:4%%
+
 label-muted = 
+label-muted-foreground = ${colors.fg_urgent}
 
+ramp-muted-background = ${colors.bg}
+ramp-muted-padding = 1
+
+ramp-volume-background = ${colors.bg}
+ramp-volume-padding = 1
 ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-2 = 
@@ -182,8 +204,16 @@ type = internal/battery
 full-at = 98
 
 format-charging = %{A1:batteryinfonotification:}%{A4:xbacklight -dec 10 -time 0:}%{A5:xbacklight -inc 10 -time 0:}<label-charging> <animation-charging>%{A}%{A}%{A}
+format-charging-background = ${colors.bg}
+format-charging-padding = 1
+
 format-discharging = %{A1:batteryinfonotification:}%{A4:xbacklight -dec 10 -time 0:}%{A5:xbacklight -inc 10 -time 0:}<label-discharging> <ramp-capacity>%{A}%{A}%{A}
+format-discharging-background = ${colors.bg}
+format-discharging-padding = 1
+
 format-full = %{A1:batteryinfonotification:}%{A5:xbacklight -dec 10 -time 0:}%{A4:xbacklight -inc 10 -time 0:}<label-full> <ramp-capacity>%{A}%{A}%{A}
+format-full-background = ${colors.bg}
+format-full-padding = 1
 
 ramp-capacity-0 = 
 ramp-capacity-0-foreground = ${colors.fg_urgent}
@@ -199,9 +229,8 @@ ramp-capacity-7 = 
 ramp-capacity-8 = 
 ramp-capacity-9 = 
 
+animation-charging-framerate = 750
 animation-charging-0 = 
 animation-charging-1 = 
 animation-charging-2 = 
 animation-charging-3 = 
-animation-charging-framerate = 750
-
