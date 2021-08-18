@@ -19,7 +19,7 @@ else
 	fi
 
 	message="$(printf %-5s "$volume"%)"
-	for i in {0..99..4}; do [ "$volume" -gt "$i" ] && message=$message"▆"; done
+	for i in {0..99..5}; do [ "$volume" -gt "$i" ] && message=$message"▆"; done
 	[ "$volume" -ge 99 ] && message="<span foreground='#C06060'>$message</span>"
 fi
 

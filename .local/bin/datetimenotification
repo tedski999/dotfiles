@@ -9,7 +9,9 @@ ordinal() {
 	esac
 }
 
-percentComplete=$(bc <<< "scale=2; $(date "+%j")/3.65") # doesnt account for leap years!
+currentDay=$(date "+%j")
+daysInYear=$(date -d "Dec 31" "+%j")
+percentComplete=$(bc <<< "scale=2; 100 * $currentDay / $daysInYear")
 title=$(date "+%T %Z - %A the $(ordinal "$(date "+%-d")") of %B, %Y")
 body=$(date "+Day %j, Week %W, $percentComplete%% complete")
 dunstify -i "clock" "$title" "$body"

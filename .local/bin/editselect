@@ -1,34 +1,39 @@
 #!/bin/bash
 
-options=( "projects" "scratchpad" "xinitrc" "nvim config" "fish config" "i3 config" "picom config" "polybar config" "termite config" "rofi config" "dunst config" "ssh config" "local bin" "fstab" "motd" "issue" "usr local bin" )
-
-function projectselect {
-	shopt -s nullglob
-	projects=(/media/TheAnes/Projects/*)
-	response=$(printf "%s\n" "${projects[@]##*/}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Project")
-	if [ -n "$response" ]; then
-		neovide "/media/TheAnes/Projects/$response"
-	fi
-}
+options=(
+	"projects" "scratchpad" "xinitrc"
+	"nvim config" "fish config" "i3 config"
+	"picom config" "polybar config" "termite config"
+	"rofi config" "dunst config" "ssh config"
+	"local bin" "fstab" "motd"
+	"issue" "usr local bin"
+)
 
 response=$(printf "%s\n" "${options[@]}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Edit")
 case $response in
-	"${options[0]}")  projectselect ;;
-	"${options[1]}")  neovide "$HOME/.local/share/scratchpad" ;;
-	"${options[2]}")  neovide "$HOME/.xinitrc" ;;
-	"${options[3]}")  neovide "$HOME/.config/nvim/init.vim" ;;
-	"${options[4]}")  neovide "$HOME/.config/fish/" ;;
-	"${options[5]}")  neovide "$HOME/.config/i3/config" ;;
-	"${options[6]}")  neovide "$HOME/.config/picom/picom.conf" ;;
-	"${options[7]}")  neovide "$HOME/.config/polybar/config" ;;
-	"${options[8]}")  neovide "$HOME/.config/termite/config" ;;
-	"${options[9]}")  neovide "$HOME/.config/rofi/config.rasi" ;;
-	"${options[10]}") neovide "$HOME/.config/dunst/dunstrc" ;;
-	"${options[11]}") neovide "$HOME/.ssh/config" ;;
-	"${options[12]}") neovide "$HOME/.local/bin/" ;;
-	"${options[13]}") sudo neovide "/etc/fstab" ;;
-	"${options[14]}") sudo neovide "/etc/motd" ;;
-	"${options[15]}") sudo neovide "/etc/issue" ;;
-	"${options[16]}") sudo neovide "/usr/local/bin/" ;;
+	"${options[0]}")
+		shopt -s nullglob
+		projects=(/media/TheAnes/Projects/*)
+		response=$(printf "%s\n" "${projects[@]##*/}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Project")
+		if [ -n "$response" ]; then
+			$TERMINAL -e fish -C "cd /media/TheAnes/Projects/$response && nvim ."
+		fi
+		;;
+	"${options[1]}")  $TERMINAL -e nvim $HOME/.local/share/scratchpad ;;
+	"${options[2]}")  $TERMINAL -e nvim $HOME/.xinitrc ;;
+	"${options[3]}")  $TERMINAL -e nvim $HOME/.config/nvim/init.vim ;;
+	"${options[4]}")  $TERMINAL -e nvim $HOME/.config/fish/ ;;
+	"${options[5]}")  $TERMINAL -e nvim $HOME/.config/i3/config ;;
+	"${options[6]}")  $TERMINAL -e nvim $HOME/.config/picom/picom.conf ;;
+	"${options[7]}")  $TERMINAL -e nvim $HOME/.config/polybar/config ;;
+	"${options[8]}")  $TERMINAL -e nvim $HOME/.config/termite/config ;;
+	"${options[9]}")  $TERMINAL -e nvim $HOME/.config/rofi/config.rasi ;;
+	"${options[10]}") $TERMINAL -e nvim $HOME/.config/dunst/dunstrc ;;
+	"${options[11]}") $TERMINAL -e nvim $HOME/.ssh/config ;;
+	"${options[12]}") $TERMINAL -e nvim $HOME/.local/bin/ ;;
+	"${options[13]}") $TERMINAL -e nvim /etc/fstab ;;
+	"${options[14]}") $TERMINAL -e nvim /etc/motd ;;
+	"${options[15]}") $TERMINAL -e nvim /etc/issue ;;
+	"${options[16]}") $TERMINAL -e nvim /usr/local/bin/ ;;
 esac
 
