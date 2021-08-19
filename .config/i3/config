@@ -12,6 +12,7 @@ exec --no-startup-id xautolock -detectsleep -time "10" -locker "slock" -killtime
 exec --no-startup-id batterychargemanager
 exec --no-startup-id feh --no-fehbg --bg-fill "$HOME/.config/wallpapers/wallpaper0.png" "$HOME/.config/wallpapers/wallpaper1.png"
 exec --no-startup-id autorandr --force --change
+exec_always --no-startup-id flashfocus
 
 # mouse control
 bindsym --whole-window $mod+Shift+button1 move scratchpad
@@ -93,10 +94,10 @@ mode "Launch App" {
 }
 
 # windows
-default_border pixel 1
-gaps inner 10
-gaps outer 10
-gaps top 5
+default_border pixel 0
+gaps inner 0
+gaps outer 0
+gaps top 0
 client.focused          #585858 #585858 #d8d8d8 #585858 #585858
 client.focused_inactive #181818 #181818 #585858 #181818 #181818
 client.unfocused        #181818 #181818 #585858 #181818 #181818
