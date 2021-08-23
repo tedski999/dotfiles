@@ -4,7 +4,7 @@
     "XenoLib": true,
     "AutoStartRichPresence": true,
     "BetterFormattingRedux": true,
-    "BlurNSFW": true,
+    "BlurNSFW": false,
     "CharCounter": true,
     "CreationDate": true,
     "FriendNotifications": true,

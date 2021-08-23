@@ -6,7 +6,7 @@
 		"dictionaryLanguage": "en",
 		"secondaryLanguage": "-"
 	},
-	"settings": {
+	"general": {
 		"downloadDictionary": false
 	}
 }

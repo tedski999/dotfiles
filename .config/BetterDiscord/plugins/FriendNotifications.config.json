@@ -411,9 +411,19 @@
 					"offline": 1,
 					"mobile": 1,
 					"custom": 1
-				}
-			},
-			"strangers": {
+				},
+				"202601565649895425": {
+					"disabled": false,
+					"online": 1,
+					"idle": 1,
+					"dnd": 1,
+					"playing": 1,
+					"listening": 1,
+					"streaming": 1,
+					"offline": 1,
+					"mobile": 1,
+					"custom": 1
+				},
 				"277903003523219456": {
 					"disabled": false,
 					"dnd": 1,
@@ -425,6 +435,44 @@
 					"playing": 0,
 					"streaming": 1
 				},
+				"801060558018707516": {
+					"disabled": false,
+					"online": 1,
+					"idle": 1,
+					"dnd": 1,
+					"playing": 1,
+					"listening": 1,
+					"streaming": 1,
+					"offline": 1,
+					"mobile": 1,
+					"custom": 1
+				},
+				"318468991175884801": {
+					"disabled": false,
+					"online": 1,
+					"idle": 1,
+					"dnd": 1,
+					"playing": 1,
+					"listening": 1,
+					"streaming": 1,
+					"offline": 1,
+					"mobile": 1,
+					"custom": 1
+				},
+				"489107179106861056": {
+					"disabled": false,
+					"online": 1,
+					"idle": 1,
+					"dnd": 1,
+					"playing": 1,
+					"listening": 1,
+					"streaming": 1,
+					"offline": 1,
+					"mobile": 1,
+					"custom": 1
+				}
+			},
+			"strangers": {
 				"470919350807691266": {
 					"disabled": true,
 					"dnd": 1,
