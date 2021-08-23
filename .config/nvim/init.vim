@@ -16,9 +16,11 @@ Plug 'mattn/emmet-vim'
 Plug 'alvan/vim-closetag'
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'machakann/vim-highlightedyank'
-Plug 'luochen1990/rainbow'
+Plug 'norcalli/nvim-colorizer.lua'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+Plug 'lambdalisue/suda.vim'
 call plug#end()
 
 " Vim Gotham
@@ -32,23 +34,32 @@ let g:lightline = {
 \   'colorscheme': 'gotham',
 \   'active': {
 \     'right': [ [ 'lineinfo' ],
-\                [ 'percent' ],
-\                [ 'fileformat', 'fileencoding', 'filetype' ] ],
+\                [ 'filetype', 'percent' ] ],
 \     'left': [ [ 'mode', 'paste' ],
 \               [ 'readonly', 'filename', 'gitchanges', 'modified' ],
-\               [ 'ctags' ] ]
+\               [ 'ctags', 'treesitter' ] ]
 \   },
 \   'component_function': {
 \     'gitchanges': 'GitGutterStatus',
-\     'ctags': 'gutentags#statusline'
+\     'ctags': 'gutentags#statusline',
+\     'treesitter': 'TreeSitterStatus'
+\   },
+\   'mode_map': {
+\     'n': 'N', 'i': 'I', 'R': 'R',
+\     'v': 'V', 'V': 'VL', "\<C-v>": 'VB',
+\     's': 'S', 'S': 'SL', "\<C-s>": 'SB',
+\     'c': 'C', 't': 'T'
 \   },
 \ }
 
 " Telescope.nvim
 autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+cabbrev <silent> E lua require('telescope.builtin').file_browser({disable_devicons=true,hidden=true,cwd='%:p:h'})
 nnoremap <C-p> <cmd>lua require('telescope.builtin').find_files({hidden=true,follow=true})<cr>
-nnoremap <C-s> <cmd>lua require('telescope.builtin').live_grep({})<cr>
-nnoremap <C-t> <cmd>lua require('telescope.builtin').tags({ctags_file='/tmp/tags'})<cr>
+nnoremap <C-e>f <cmd>lua require('telescope.builtin').find_files({hidden=true,follow=true})<cr>
+nnoremap <C-e>e <cmd>lua require('telescope.builtin').file_browser({disable_devicons=true,hidden=true,cwd='%:p:h'})<cr>
+nnoremap <C-e>s <cmd>lua require('telescope.builtin').live_grep({})<cr>
+nnoremap <C-e>t <cmd>lua require('telescope.builtin').tags({ctags_file='/tmp/tags'})<cr>
 nnoremap <C-g>g <cmd>Telescope git_status<cr>
 nnoremap <C-g>c <cmd>Telescope git_commits<cr>
 nnoremap <C-g>s <cmd>Telescope git_stash<cr>
@@ -56,8 +67,6 @@ nnoremap <C-g>b <cmd>Telescope git_branches<cr>
 nnoremap <C-h>h <cmd>Telescope help_tags<cr>
 nnoremap <C-h>m <cmd>Telescope man_pages<cr>
 nnoremap <C-h>s <cmd>Telescope spell_suggest<cr>
-nnoremap <C-e> <cmd>lua require('telescope.builtin').file_browser({disable_devicons=true,hidden=true,cwd='%:p:h'})<cr>
-cabbrev <silent> E lua require('telescope.builtin').file_browser({disable_devicons=true,hidden=true,cwd='%:p:h'})
 lua << EOF
 require('telescope').setup {
   defaults = {
@@ -101,6 +110,22 @@ call deoplete#custom#option('min_pattern_length', 1)
 inoremap <silent><expr> <TAB> pumvisible() ? '<C-n>' : '<TAB>'
 inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
 
+"treesitter
+lua <<EOF
+require('nvim-treesitter.configs').setup {
+  highlight = { enable = true }
+}
+EOF
+function! TreeSitterStatus()
+  if winwidth(0) > 120
+    let l:status = nvim_treesitter#statusline(70)
+    if l:status != 'null'
+      return l:status
+    endif
+  endif
+  return ''
+endfunction
+
 " Gutentags
 let g:gutentags_ctags_tagfile = '/tmp/tags'
 let g:gutentags_generate_on_new = 1
@@ -117,13 +142,12 @@ let g:gutentags_ctags_exclude = [
 " Emmet.vim
 let g:user_emmet_leader_key='<C-,>'
 
+"nvim-colorizer
+lua require 'colorizer'.setup(nil, {css=true})
+
 " Highlight yank
 let g:highlightedyank_highlight_duration = 150
 highlight link HighlightedyankRegion Visual
-
-" Rainbow Parentheses Improved
-let g:rainbow_active = 0
-nnoremap g<C-r> <cmd>RainbowToggle<cr>
 
 " Markdown Preview
 let g:mkdp_auto_close = 0
@@ -153,11 +177,15 @@ function! TrimWhitespace()
   call winrestview(l:save)
 endfun<CR><CR>
 
+" In case Neovim misses the terminals SIGWINCH when starting up
+autocmd VimEnter * :silent exec "!kill -s WINCH $PPID"
+
 " Misc key mappings
 map Q <nop>
 map Y y$
 nnoremap <silent> <C-l> <cmd>nohlsearch<cr>
 cabbrev W w
+map q: <nop>
 
 " System
 set shell=sh                  "use sh instead of $SHELL
