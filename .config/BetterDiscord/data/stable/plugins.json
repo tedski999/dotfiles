@@ -1,16 +1,14 @@
 {
     "BDFDB": true,
-    "ZeresPluginLibrary": true,
-    "XenoLib": true,
-    "AutoStartRichPresence": true,
-    "BetterFormattingRedux": true,
-    "BlurNSFW": false,
     "CharCounter": true,
     "CreationDate": true,
-    "FriendNotifications": true,
-    "ImageUtilities": true,
     "JoinedAtDate": true,
     "LastMessageDate": true,
+    "SpellCheck": false,
+    "FriendNotifications": true,
+    "ImageUtilities": true,
+    "BetterFormattingRedux": true,
     "MessageLoggerV2": true,
-    "SpellCheck": true
+    "ZeresPluginLibrary": true,
+    "XenoLib": true
 }

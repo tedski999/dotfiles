@@ -1,9 +1,2 @@
-# Only keep preferences
-/*
-!/data
-/data/*
-!/data/stable
-!/plugins
-/plugins/*
-!/plugins/*.json
-/plugins/MessageLoggerV2Data.config.json
+/plugins/downloads
+/plugins/MLV2_IMAGE_CACHE
