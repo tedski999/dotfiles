@@ -2,24 +2,14 @@
 call plug#begin(stdpath('data') . '/plugged')
 Plug 'whatyouhide/vim-gotham'
 Plug 'itchyny/lightline.vim'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'vim-scripts/a.vim'
 Plug 'farmergreg/vim-lastplace'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'mattn/emmet-vim'
-Plug 'alvan/vim-closetag'
 Plug 'sheerun/vim-polyglot'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'machakann/vim-highlightedyank'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'lambdalisue/suda.vim'
 call plug#end()
 
@@ -36,13 +26,10 @@ let g:lightline = {
 \     'right': [ [ 'lineinfo' ],
 \                [ 'filetype', 'percent' ] ],
 \     'left': [ [ 'mode', 'paste' ],
-\               [ 'readonly', 'filename', 'gitchanges', 'modified' ],
-\               [ 'ctags', 'treesitter' ] ]
+\               [ 'readonly', 'filename', 'gitchanges', 'modified' ] ]
 \   },
 \   'component_function': {
-\     'gitchanges': 'GitGutterStatus',
-\     'ctags': 'gutentags#statusline',
-\     'treesitter': 'TreeSitterStatus'
+\     'gitchanges': 'GitGutterStatus'
 \   },
 \   'mode_map': {
 \     'n': 'N', 'i': 'I', 'R': 'R',
@@ -51,48 +38,6 @@ let g:lightline = {
 \     'c': 'C', 't': 'T'
 \   },
 \ }
-
-" Telescope.nvim
-autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-cabbrev <silent> E lua require('telescope.builtin').file_browser({disable_devicons=true,hidden=true,cwd='%:p:h'})
-nnoremap <C-p> <cmd>lua require('telescope.builtin').find_files({hidden=true,follow=true})<cr>
-nnoremap <C-e>f <cmd>lua require('telescope.builtin').find_files({hidden=true,follow=true})<cr>
-nnoremap <C-e>e <cmd>lua require('telescope.builtin').file_browser({disable_devicons=true,hidden=true,cwd='%:p:h'})<cr>
-nnoremap <C-e>s <cmd>lua require('telescope.builtin').live_grep({})<cr>
-nnoremap <C-e>t <cmd>lua require('telescope.builtin').tags({ctags_file='/tmp/tags'})<cr>
-nnoremap <C-g>g <cmd>Telescope git_status<cr>
-nnoremap <C-g>c <cmd>Telescope git_commits<cr>
-nnoremap <C-g>s <cmd>Telescope git_stash<cr>
-nnoremap <C-g>b <cmd>Telescope git_branches<cr>
-nnoremap <C-h>h <cmd>Telescope help_tags<cr>
-nnoremap <C-h>m <cmd>Telescope man_pages<cr>
-nnoremap <C-h>s <cmd>Telescope spell_suggest<cr>
-lua << EOF
-require('telescope').setup {
-  defaults = {
-    borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
-    file_ignore_patterns = { "%.git", "LICENSE" },
-    vimgrep_arguments = {
-      'rg', '--no-heading', '--with-filename', '--line-number',
-      '--column', '--smart-case', '--hidden'
-    },
-  }
-}
-EOF
-
-" If within a project, set cwd to project root
-au VimEnter * call ChangeToProjecyRootDirectory()
-function! ChangeToProjecyRootDirectory()
-  if exists('*gutentags#get_project_root')
-    try
-      let l:path = gutentags#get_project_root(expand('%:p'))
-      exe 'cd' fnameescape(l:path)
-      echo 'Opened project rooted at'l:path
-    catch
-      echo 'No project root found'
-    endtry
-  endif
-endfunction
 
 " Git Gutter
 function! GitGutterStatus()
@@ -104,44 +49,6 @@ function! GitGutterStatus()
   return trim(l:status)
 endfunction
 
-" deoplete.nvim
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('min_pattern_length', 1)
-inoremap <silent><expr> <TAB> pumvisible() ? '<C-n>' : '<TAB>'
-inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
-
-"treesitter
-lua <<EOF
-require('nvim-treesitter.configs').setup {
-  highlight = { enable = true }
-}
-EOF
-function! TreeSitterStatus()
-  if winwidth(0) > 120
-    let l:status = nvim_treesitter#statusline(70)
-    if l:status != 'null'
-      return l:status
-    endif
-  endif
-  return ''
-endfunction
-
-" Gutentags
-let g:gutentags_ctags_tagfile = '/tmp/tags'
-let g:gutentags_generate_on_new = 1
-let g:gutentags_generate_on_missing = 1
-let g:gutentags_generate_on_write = 1
-let g:gutentags_generate_on_empty_buffer = 0
-let g:gutentags_ctags_extra_args = [ '--tag-relative=yes', '--fields=+ailmnS' ]
-let g:gutentags_ctags_exclude = [
-\   '*.git', '*.svg', '*.hg', 'build', 'dist', 'bin', 'node_modules', 'cache',
-\   'compiled', 'docs', 'example', 'bundle', 'vendor', '*.md', '*.class',
-\   '*.sln', '*.tmp', '*.cache', '*.rar', '*.zip', '*.tar', '*.tar.gz',  '*.pdf'
-\ ]
-
-" Emmet.vim
-let g:user_emmet_leader_key='<C-,>'
-
 "nvim-colorizer
 lua require 'colorizer'.setup(nil, {css=true})
 
@@ -149,20 +56,9 @@ lua require 'colorizer'.setup(nil, {css=true})
 let g:highlightedyank_highlight_duration = 150
 highlight link HighlightedyankRegion Visual
 
-" Markdown Preview
-let g:mkdp_auto_close = 0
-let g:mkdp_page_title = '${name}'
-nnoremap g<C-m> <cmd>MarkdownPreviewToggle<cr>
-
 " Netrw
 let g:netrw_home='~/.local/share/nvim/'
 let g:netrw_banner = 0
-
-" Neovide
-set guifont=SourceCodePro:h14
-let g:neovide_cursor_animation_length=0.1
-let g:neovide_cursor_trail_length=0
-let g:neovide_cursor_vfx_mode = 'wireframe'
 
 " Find and replace
 nnoremap <S-f>w *:%s///gcI<left><left><left><left>
