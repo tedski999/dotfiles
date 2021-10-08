@@ -3,7 +3,8 @@
 # environment vars
 export TERM="xterm-256color"
 export TERMINAL="alacritty"
-export EDITOR="nvim"
+export EDITOR="emacsclient -qca emacs -nw"
+export VISUAL="emacsclient -qca emacs"
 export BROWSER="brave"
 export GTK_THEME="Materia:dark"
 export GTK2_RC_FILES="/usr/share/themes/Materia-dark/gtk-2.0/gtkrc"
@@ -23,6 +24,7 @@ export PYTHONSTARTUP="$HOME/.config/python/startup"
 export GRADLE_USER_HOME="$HOME/.local/share/gradle/"
 export CARGO_HOME="$HOME/.local/share/cargo"
 export GOPATH="$HOME/.local/share/go"
+export STACK_ROOT="$HOME/.local/share/stack"
 
 # start xinitrc.d programs
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
@@ -39,5 +41,16 @@ xinput --set-prop "DELL086F:00 06CB:7E92 Touchpad" "libinput Natural Scrolling E
 xinput --set-prop "DELL086F:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
 
 # start i3 & co.
-exec i3
-
+hsetroot -solid black
+picom &
+dunst &
+batterychargemanager &
+flashfocus &
+xautolock \
+	-detectsleep \
+	-time "10" \
+	-locker "slock" \
+	-killtime "20" -killer "systemctl suspend" \
+	-notify "10" -notifier "dunstify -a xautolock -t 7000 -i lock \"Idle Warning\" \"Locking screen in 10 seconds...\"" \
+	-corners "----" -cornersize "5" &
+exec i3 # i3 executes autorandr, which has a posthook to start polybar and apply wallpapers
