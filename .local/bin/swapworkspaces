@@ -1,0 +1,16 @@
+#!/bin/bash
+
+workspaces_data="$(i3-msg -t get_workspaces)"
+visible_workspaces=($(jq -r ".[] | select(.visible).name" <<< $workspaces_data))
+focused_output="$(jq -r ".[] | select(.focused).output" <<< $workspaces_data)"
+
+# Move every visible workspace one output right
+for workspace in "${visible_workspaces[@]}"; do
+	i3-msg -q "[workspace="$workspace"]" -- move workspace to output right
+done
+
+# Replace workspaces and focus previous output
+for workspace in "${visible_workspaces[@]}"; do
+	i3-msg -q -- workspace "$workspace"
+done
+i3-msg -q -- focus output "${focused_output}"

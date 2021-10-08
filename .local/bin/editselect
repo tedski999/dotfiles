@@ -1,39 +1,26 @@
 #!/bin/bash
 
 options=(
-	"projects" "scratchpad" "xinitrc"
-	"nvim config" "fish config" "i3 config"
-	"picom config" "polybar config" "termite config"
-	"rofi config" "dunst config" "ssh config"
-	"local bin" "fstab" "motd"
-	"issue" "usr local bin"
+	"emacs" "nvim" "fish" "i3" "xinitrc"
+	"picom" "polybar" "alacritty"
+	"rofi" "dunst" "ssh"
+	"~/.local/bin" "/usr/local/bin"
 )
 
-response=$(printf "%s\n" "${options[@]}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Edit")
+response=$(printf "%s\n" "${options[@]}" | rofi -l 10 -dmenu -no-custom -p "Edit Config")
 case $response in
-	"${options[0]}")
-		shopt -s nullglob
-		projects=(/media/TheAnes/Projects/*)
-		response=$(printf "%s\n" "${projects[@]##*/}" | rofi -lines 10 -width 20 -dmenu -no-custom -p "Project")
-		if [ -n "$response" ]; then
-			$TERMINAL -e fish -C "cd /media/TheAnes/Projects/$response && nvim ."
-		fi
-		;;
-	"${options[1]}")  $TERMINAL -e nvim $HOME/.local/share/scratchpad ;;
-	"${options[2]}")  $TERMINAL -e nvim $HOME/.xinitrc ;;
-	"${options[3]}")  $TERMINAL -e nvim $HOME/.config/nvim/init.vim ;;
-	"${options[4]}")  $TERMINAL -e nvim $HOME/.config/fish/ ;;
-	"${options[5]}")  $TERMINAL -e nvim $HOME/.config/i3/config ;;
-	"${options[6]}")  $TERMINAL -e nvim $HOME/.config/picom/picom.conf ;;
-	"${options[7]}")  $TERMINAL -e nvim $HOME/.config/polybar/config ;;
-	"${options[8]}")  $TERMINAL -e nvim $HOME/.config/termite/config ;;
-	"${options[9]}")  $TERMINAL -e nvim $HOME/.config/rofi/config.rasi ;;
-	"${options[10]}") $TERMINAL -e nvim $HOME/.config/dunst/dunstrc ;;
-	"${options[11]}") $TERMINAL -e nvim $HOME/.ssh/config ;;
-	"${options[12]}") $TERMINAL -e nvim $HOME/.local/bin/ ;;
-	"${options[13]}") $TERMINAL -e nvim /etc/fstab ;;
-	"${options[14]}") $TERMINAL -e nvim /etc/motd ;;
-	"${options[15]}") $TERMINAL -e nvim /etc/issue ;;
-	"${options[16]}") $TERMINAL -e nvim /usr/local/bin/ ;;
+	"${options[0]}")  $VISUAL $HOME/.config/emacs/init.el ;;
+	"${options[1]}")  $VISUAL $HOME/.config/nvim/init.vim ;;
+	"${options[2]}")  $VISUAL $HOME/.config/fish/ ;;
+	"${options[3]}")  $VISUAL $HOME/.config/i3/config ;;
+	"${options[4]}")  $VISUAL $HOME/.xinitrc ;;
+	"${options[5]}")  $VISUAL $HOME/.config/picom/picom.conf ;;
+	"${options[6]}")  $VISUAL $HOME/.config/polybar/config ;;
+	"${options[7]}")  $VISUAL $HOME/.config/alacritty/alacritty.yml ;;
+	"${options[8]}")  $VISUAL $HOME/.config/rofi/config.rasi ;;
+	"${options[9]}")  $VISUAL $HOME/.config/dunst/dunstrc ;;
+	"${options[10]}") $VISUAL $HOME/.ssh/config ;;
+	"${options[11]}") $VISUAL $HOME/.local/bin/ ;;
+	"${options[12]}") $VISUAL /usr/local/bin/ ;;
 esac
 

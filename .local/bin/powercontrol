@@ -2,7 +2,9 @@
 
 options=( "lock" "suspend" "restart i3" "logout" "reboot" "shutdown" )
 
-response=$(printf "%s\n" "${options[@]}" | rofi -lines 6 -width 20 -hide-scrollbar -dmenu -no-custom -u 3,4,5 -p "System")
+response=$(printf "%s\n" "${options[@]}" | rofi \
+	-theme-str 'window {width:200;} listview {scrollbar:false;} inputbar {children:[prompt];}' \
+	-l 6 -dmenu -no-custom -u 3,4,5 -p "Power Control")
 case $response in
 	"${options[0]}") slock ;;
 	"${options[1]}") systemctl suspend ;;
