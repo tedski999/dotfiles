@@ -1,39 +1,3 @@
-
-configuration {
-	location: 0;
-	width: 50;
-	lines: 15;
-	columns: 1;
-	fixed-num-lines: true;
-
-	bw: 1;
-	eh: 1;
-	padding: 10;
-	line-margin: 0;
-	line-padding: 5;
-
-	hide-scrollbar: false;
-	scrollbar-width: 5;
-	scroll-method: 1;
-
-	matching: "normal";
-	case-sensitive: false;
-	show-match: true;
-	auto-select: false;
-
-	max-history-size: 25;
-	show-icons: false;
-	sidebar-mode: false;
-
-	font: "Dina 10";
-	color-normal: "#181818, #d8d8d8, #181818, #282828, #d8d8d8";
-	color-urgent: "#381818, #d8d8d8, #381818, #582828, #d8d8d8";
-	color-active: "#181828, #d8d8d8, #181828, #282838, #d8d8d8";
-	color-window: "#181818, #585858, #282828";
-
-	click-to-exit: true;
-}
-
 * {
     red:                         rgba ( 220, 50, 47, 100 % );
     selected-active-foreground:  rgba ( 216, 216, 216, 100 % );
@@ -63,6 +27,11 @@ configuration {
     normal-foreground:           var(foreground);
     alternate-urgent-foreground: var(urgent-foreground);
     alternate-active-foreground: var(active-foreground);
+}
+configuration {
+    font: "Dina 10";
+    scroll-method: 1;
+    eh: 1;
 }
 element {
     padding: 5px ;
