@@ -1,14 +1,20 @@
 #!/bin/bash
 
-# start relevant polybar instances
-polybar hud &
-hud_pid="$!"
-sleep 0.1
-polybar stats &
-stats_pid="$!"
-sleep 0.1
-hudmanager "$hud_pid" "$stats_pid" &
+# start polybars
+primary_monitor="$(xrandr --query | grep " primary" | cut -d" " -f1)"
+for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+	if [ "$m" == "$primary_monitor" ]; then
+		MONITOR="$m" polybar main &
+		MONITOR="$m" polybar stats &
+		mainbar_pid="$!"
+	else
+		MONITOR="$m" polybar secondary &
+	fi
+done
 
 # update backgrounds
 feh --no-fehbg --bg-fill "$HOME/.config/wallpapers/wallpaper0.png" "$HOME/.config/wallpapers/wallpaper1.png"
 
+# control polybars with the hudmanager (will be integrated into mman soontm)
+sleep 0.1
+hudmanager "$mainbar_pid" &

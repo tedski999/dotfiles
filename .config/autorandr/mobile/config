@@ -7,7 +7,6 @@ off
 output HDMI-1-0
 off
 output eDP1
-crtc 0
 mode 1920x1080
 pos 0x0
 primary
