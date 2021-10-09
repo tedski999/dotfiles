@@ -1,3 +1,9 @@
+configuration {
+    font: "Dina 10";
+    scroll-method: 1;
+    eh: 1;
+}
+
 * {
     red:                         rgba ( 220, 50, 47, 100 % );
     selected-active-foreground:  rgba ( 216, 216, 216, 100 % );
@@ -27,11 +33,6 @@
     normal-foreground:           var(foreground);
     alternate-urgent-foreground: var(urgent-foreground);
     alternate-active-foreground: var(active-foreground);
-}
-configuration {
-    font: "Dina 10";
-    scroll-method: 1;
-    eh: 1;
 }
 element {
     padding: 5px ;
