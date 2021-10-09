@@ -6,11 +6,6 @@ fg_highlight = #ffffff
 bg_urgent = #bd2c40
 fg_urgent = #d80000
 
-
-[settings]
-screenchange-reload = true
-
-
 [bar/core]
 monitor = ${env:MONITOR:}
 monitor-strict = true
@@ -21,27 +16,35 @@ module-margin = 1
 offset-y = 10
 height = 30
 line-size = 1
-background = #00
+background = #00000000
 font-0 = Terminus:pixelsize=14;2
 font-1 = Siji:pixelsize=10;2
 font-2 = unifont:pixelsize=10;2
 
 
-[bar/hud]
+[bar/main]
 inherit = bar/core
 modules-left = i3 xwindow
-modules-right = datetime
+width = 50%
+
+
+[bar/secondary]
+inherit = bar/core
+modules-left = i3
+width = 50%
 
 
 [bar/stats]
 inherit = bar/core
-modules-right = wifi netspeed memory cpu pulseaudio battery
-offset-x = -90
+modules-right = wifi netspeed memory cpu pulseaudio battery datetime
+width = 50%
+offset-x = 50%
 
 
 [module/i3]
 type = internal/i3
 index-sort = true
+pin-workspaces=true
 
 format = <label-state><label-mode>
 

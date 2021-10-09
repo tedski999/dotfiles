@@ -4,7 +4,7 @@ set $mod Mod4
 floating_modifier $mod
 
 # startup programs
-exec --no-startup-id echo "default" > "$HOME/.cache/i3mode" && i3-msg -t subscribe -m '[ "mode" ]' | jq --unbuffered -r ".change" >> "$HOME/.cache/i3mode"
+exec_always --no-startup-id echo "default" > "$HOME/.cache/i3mode" && i3-msg -t subscribe -m '[ "mode" ]' | jq --unbuffered -r ".change" >> "$HOME/.cache/i3mode"
 exec_always --no-startup-id alternating_layouts.py
 exec_always --no-startup-id autorandr --force --change
 
@@ -27,8 +27,8 @@ bindsym $mod+Control+h resize shrink width 25 px
 bindsym $mod+Control+j resize grow height 25 px
 bindsym $mod+Control+k resize shrink height 25 px
 bindsym $mod+Control+l resize grow width 25 px
-bindsym $mod+Shift+period move to workspace next
-bindsym $mod+Shift+comma  move to workspace prev
+bindsym $mod+Shift+period move to workspace next_on_output
+bindsym $mod+Shift+comma  move to workspace prev_on_output
 bindsym $mod+f focus mode_toggle
 bindsym $mod+Shift+f floating toggle
 bindsym $mod+Shift+m fullscreen toggle
@@ -75,8 +75,16 @@ mode "Launch App" {
 	bindsym n exec --no-startup-id $TERMINAL -e "newsboat"; mode "default"
 	bindsym Escape mode "default"
 }
-bindsym $mod+b mode "Polybar"
+bindsym $mod+b mode "Polybar"; exec --no-startup-id xdotool key "super+super"
 mode "Polybar" {
+	bindsym d exec --no-startup-id polybar-msg action "#datetime.toggle"
+	bindsym t exec --no-startup-id polybar-msg action "#datetime.toggle"
+	bindsym Shift+d exec --no-startup-id datetimenotification; mode "default"
+	bindsym Shift+t exec --no-startup-id datetimenotification; mode "default"
+	bindsym b exec --no-startup-id batteryinfonotification; mode "default"
+	bindsym v exec --no-startup-id polybar-msg action "#pulseaudio.toggle"
+	bindsym n exec --no-startup-id $TERMINAL -e nmtui; mode "default"
+	bindsym Shift+n exec --no-startup-id netspeedtest; mode "default"
 	bindsym Escape mode "default"
 }
 
