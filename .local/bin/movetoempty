@@ -1,0 +1,12 @@
+#!/bin/bash
+
+workspaces="$(i3-msg -t get_workspaces)"
+for num in {1..99}; do
+	if [ -z "$(jq ".[] | select(.num == "$num")" <<< "$workspaces")" ]; then
+		i3-msg -q "move workspace number "$num"; workspace number "$num""
+		exit 0
+	fi
+done
+
+dunstify -i "data-error" "Unable to create new workspace!"
+exit 1

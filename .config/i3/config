@@ -29,6 +29,7 @@ bindsym $mod+Control+k resize shrink height 25 px
 bindsym $mod+Control+l resize grow width 25 px
 bindsym $mod+Shift+period move to workspace next_on_output
 bindsym $mod+Shift+comma  move to workspace prev_on_output
+bindsym $mod+Mod1+space exec --no-startup-id flash_window
 bindsym $mod+f focus mode_toggle
 bindsym $mod+Shift+f floating toggle
 bindsym $mod+Shift+m fullscreen toggle
@@ -58,7 +59,6 @@ bindsym $mod+Escape exec powercontrol
 
 # app shortcuts
 bindsym $mod+Return  exec --no-startup-id $TERMINAL
-bindsym $mod+Tab     exec --no-startup-id rofi -show window -show-icons -monitor "$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output')"
 bindsym $mod+s       exec --no-startup-id "dunstify -i camera-photo -t 500 'Select an area to screenshot!' && sleep 0.75 && import png:- | xclip -i -selection c -t image/png && dunstify -i camera-photo -t 1000 'Screenshot copied!'"
 bindsym $mod+Shift+s exec --no-startup-id "dunstify -i camera-photo -t 500 'Capturing screenshot...' && sleep 0.75 && import -window root png:- | xclip -i -selection c -t image/png && dunstify -i camera-photo -t 1000 'Screenshot copied!'"
 bindsym $mod+space mode "Launch App"
@@ -101,10 +101,11 @@ client.background       #000000
 # workspaces
 bindsym $mod+period workspace next_on_output
 bindsym $mod+comma  workspace prev_on_output
-bindsym $mod+x exec --no-startup-id swapworkspaces
-bindsym $mod+Shift+x move workspace to output right
-bindsym $mod+z exec --no-startup-id createworkspace
-bindsym $mod+Shift+z workspace back_and_forth
+bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+x exec --no-startup-id swapworkspaces # FIXME
+bindsym $mod+Shift+x move workspace to output right # FIXME?
+bindsym $mod+z exec --no-startup-id gotoempty
+bindsym $mod+Shift+z exec --no-startup-id movetoempty
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3
@@ -115,13 +116,13 @@ bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace number 9
 bindsym $mod+0 workspace number 10
-bindsym $mod+Shift+1 move container to workspace number 1
-bindsym $mod+Shift+2 move container to workspace number 2
-bindsym $mod+Shift+3 move container to workspace number 3
-bindsym $mod+Shift+4 move container to workspace number 4
-bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
-bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Shift+1 move container to workspace number 1; workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2; workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3; workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4; workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5; workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6; workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7; workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8; workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9; workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10; workspace number 10
