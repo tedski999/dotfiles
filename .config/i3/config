@@ -102,8 +102,8 @@ client.background       #000000
 bindsym $mod+period workspace next_on_output
 bindsym $mod+comma  workspace prev_on_output
 bindsym $mod+Tab workspace back_and_forth
-bindsym $mod+x exec --no-startup-id swapworkspaces # FIXME
-bindsym $mod+Shift+x move workspace to output right # FIXME?
+bindsym $mod+x move workspace to output right
+bindsym $mod+Shift+x move workspace to output right; focus output left
 bindsym $mod+z exec --no-startup-id gotoempty
 bindsym $mod+Shift+z exec --no-startup-id movetoempty
 bindsym $mod+1 workspace number 1
