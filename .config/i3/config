@@ -36,18 +36,18 @@ bindsym $mod+Shift+m fullscreen toggle
 bindsym $mod+Shift+q kill
 
 # functional keys keybindings
-bindsym XF86AudioRaiseVolume        exec --no-startup-id changevolume +2%
-bindsym XF86AudioLowerVolume        exec --no-startup-id changevolume -2%
-bindsym Shift+XF86AudioRaiseVolume  exec --no-startup-id changevolume +25%
-bindsym Shift+XF86AudioLowerVolume  exec --no-startup-id changevolume -25%
-bindsym XF86AudioMute               exec --no-startup-id changevolume toggle
+bindsym XF86AudioRaiseVolume        exec --no-startup-id mman volume +2%
+bindsym XF86AudioLowerVolume        exec --no-startup-id mman volume -2%
+bindsym Shift+XF86AudioRaiseVolume  exec --no-startup-id mman volume +25%
+bindsym Shift+XF86AudioLowerVolume  exec --no-startup-id mman volume -25%
+bindsym XF86AudioMute               exec --no-startup-id mman volume toggle
 bindsym XF86AudioPrev               exec --no-startup-id playerctl previous
 bindsym XF86AudioNext               exec --no-startup-id playerctl next
 bindsym XF86AudioPlay               exec --no-startup-id playerctl play-pause
-bindsym XF86MonBrightnessDown       exec --no-startup-id changebrightness -dec 5
-bindsym XF86MonBrightnessUp         exec --no-startup-id changebrightness -inc 5
-bindsym Shift+XF86MonBrightnessDown exec --no-startup-id changebrightness -dec 25
-bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id changebrightness -inc 25
+bindsym XF86MonBrightnessDown       exec --no-startup-id mman brightness -dec 5
+bindsym XF86MonBrightnessUp         exec --no-startup-id mman brightness -inc 5
+bindsym Shift+XF86MonBrightnessDown exec --no-startup-id mman brightness -dec 25
+bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id mman brightness -inc 25
 bindsym XF86Search                  exec --no-startup-id rofi -show run -monitor "$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output')"
 bindsym Shift+XF86Search            exec --no-startup-id brave
 
@@ -55,7 +55,7 @@ bindsym Shift+XF86Search            exec --no-startup-id brave
 bindsym --release $mod+Shift+Escape exec --no-startup-id slock
 bindsym --release $mod+Control+Escape exec --no-startup-id systemctl suspend
 bindsym $mod+Control+Shift+Escape restart
-bindsym $mod+Escape exec powercontrol
+bindsym $mod+Escape exec mman power
 
 # app shortcuts
 bindsym $mod+Return  exec --no-startup-id $TERMINAL
@@ -66,7 +66,7 @@ mode "Launch App" {
 	bindsym space exec --no-startup-id rofi -show run -monitor "$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output')"; mode "default"
 	bindsym Return exec --no-startup-id $TERMINAL; mode "default"
 	bindsym e exec editselect; mode "default"
-	bindsym s exec screenmanager; mode "default"
+	bindsym s exec mman screen; mode "default"
 	bindsym w exec brave; mode "default"
 	bindsym d exec --no-startup-id discord; mode "default"
 	bindsym m exec --no-startup-id youtube-music; mode "default"

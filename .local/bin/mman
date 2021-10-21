@@ -1,0 +1,286 @@
+#!/bin/python
+
+# runners:
+#  battery notifications + clearing on plugged-in
+#  hud manager
+#  autorandr
+#  local backups every day of the week (/home /etc /media/TheAnes/Projects /media/TheAnes/Documents /media/TheAnes/Pictures)
+#
+# startup everything, only this should be called in .xinitrc
+#  + emacs server
+
+import sys, subprocess
+
+NOTIF_ID = 213875
+
+def main():
+
+    # A tree of subcommands to their corresponding function e.g ["daemon", "status"] maps to the daemon_status function
+    functree = {
+        "daemon": { "status": daemon_status, "start": daemon_start, "stop": daemon_stop, "restart": daemon_restart },
+        "doc": { "all": doc_all, "features": doc_features, "daemon": doc_daemon, "git": doc_git },
+        "wm": { "swapworkspaces": wm_swapworkspaces, "swapmonitor": wm_swapmonitor, "gotoempty": wm_gotoempty, "movetoempty": wm_movetoempty },
+        "notif": { "battery": notif_battery, "netspeed": notif_netspeed, "datetime": notif_datetime, "calendar": notif_calendar },
+        "emacs": { "status": emacs_status, "start": emacs_start, "stop": emacs_stop, "restart": emacs_restart },
+        "backup": { "last": backup_last, "local": backup_local, "remote": backup_remote },
+        "septs": { "status": septs_status, "ssh": septs_ssh },
+        "screen": screenmenu,
+        "edit": editmenu,
+        "power": powermenu,
+        "brightness": brightness,
+        "volume": volume,
+        "microphone": microphone
+    }
+
+    # Execute the corresponding function mapped to by the subcommands list
+    last_subcommand = "mman"
+    subcommands = sys.argv[1:]
+    try:
+        while subcommands and subcommands[0] not in ["-h", "--help", "-?"]:
+            subcommand = subcommands.pop(0)
+            functree = functree[subcommand]
+            last_subcommand = subcommand
+            if callable(functree):
+                functree(subcommands)
+                return
+    except KeyError:
+        print(f"{last_subcommand} doesn't have a subcommand '{subcommand}'")
+
+    # No complete map to function found, print the usage of whatever part of the functree we reached
+    categories = [i for i in functree.keys() if not callable(functree[i])]
+    commands = [i for i in functree.keys() if callable(functree[i])]
+    if categories:
+        print(f"{last_subcommand} subcategories:")
+        for category in categories:
+            print(f"  {category}")
+    if commands:
+        print(f"{last_subcommand} subcommands:")
+        for command in commands:
+            print(f"  {command}")
+
+# ===== daemon ===== #
+
+def daemon_status(args):
+    pass # TODO
+
+def daemon_start(args):
+    pass # TODO
+
+def daemon_stop(args):
+    pass # TODO
+
+def daemon_restart(args):
+    pass # TODO
+
+# ===== doc ===== #
+
+def doc_all(args):
+    pass # TODO
+
+def doc_features(args):
+    pass # TODO
+
+def doc_daemon(args):
+    pass # TODO
+
+def doc_git(args):
+    pass # TODO
+
+# ===== wm ===== #
+
+def wm_swapworkspaces(args):
+    pass # TODO
+
+def wm_swapmonitor(args):
+    pass # TODO
+
+def wm_gotoempty(args):
+    pass # TODO
+
+def wm_movetoempty(args):
+    pass # TODO
+
+# ===== notif ===== #
+
+def notif_battery(args):
+    acpi = execute_script("acpi -b").strip().split(": ")[1].split(", ")
+    execute_script(f"dunstify -i 'battery' -r '{NOTIF_ID}' 'Battery {acpi[0]}' '{acpi[2] if len(acpi) >= 3 else ''}'")
+
+def notif_netspeed(args):
+    NETSPEED_NOTIF_ID = 2311236
+    import speedtest
+    s = speedtest.Speedtest()
+    execute_script(f"dunstify -i 'network-wired' -r '{NETSPEED_NOTIF_ID}' -t 0 'Performing Internet Speed Test...' 'Recording download speed...'")
+    s.download()
+    execute_script(f"dunstify -i 'network-wired' -r '{NETSPEED_NOTIF_ID}' -t 0 'Performing Internet Speed Test...' 'Recording upload speed...'")
+    s.upload()
+    message = f"{size_to_human(s.results.download)}ps / {size_to_human(s.results.upload)}ps / {s.results.ping}ms"
+    execute_script(f"dunstify -i 'network-wired' -r '{NETSPEED_NOTIF_ID}' -t 0 'Internet Speed Test Results' '{message}'")
+
+def notif_datetime(args):
+    import datetime, calendar
+    now = datetime.datetime.now()
+    suffix = 'th' if 11 <= now.day <= 13 else {1:'st',2:'nd',3:'rd'}.get(now.day % 10, 'th')
+    days_completed = (datetime.date(now.year, now.month, now.day) - datetime.date(now.year, 1, 1)).days
+    percentage = round(days_completed * 100 / (365 + (1 * calendar.isleap(now.year))), 2)
+    title = now.strftime(f"%H:%M:%S - %A the %d{suffix} of %B, %Y")
+    message = now.strftime(f"Day %j, Week %W, {percentage}%% complete")
+    execute_script(f"dunstify -i 'clock' -r '{NOTIF_ID}' '{title}' '{message}'")
+
+def notif_calendar(args):
+    pass # TODO
+
+# ===== emacs ===== #
+
+def emacs_status(args):
+    pass # TODO
+
+def emacs_start(args):
+    pass # TODO
+
+def emacs_stop(args):
+    pass # TODO
+
+def emacs_restart(args):
+    pass # TODO
+
+# ===== backup ===== #
+
+def backup_last(args):
+    pass # TODO
+
+def backup_local(args):
+    pass # TODO
+
+def backup_remote(args):
+    pass # TODO
+
+# ===== septs ===== #
+
+def septs_status(args):
+    pass # TODO
+
+def septs_ssh(args):
+    execute_script("$TERMINAL -e ssh tjsj.dev")
+
+# ===== screenmenu ===== #
+
+def screenmenu(args):
+    options = {
+        "auto-detect": "autorandr --force --change",
+        "force mobile": "autorandr --load mobile",
+        "force docked": "autorandr --load docked",
+        "mirror desktop": "autorandr --load mobile && xrandr --output HDMI-1-0 --auto --same-as eDP1"
+    }
+    monitor = execute_script("i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output'").strip()
+    rofi_command = f"rofi \
+        -monitor '{monitor}' \
+        -theme-str 'window {{width:200;}} listview {{scrollbar:false;}} inputbar {{children:[prompt];}}' \
+        -l 4 -dmenu -no-custom -p 'Screen Options'"
+    response = execute_script(rofi_command, "\n".join(options.keys())).strip()
+    if response:
+        subprocess.run([options[response]])
+
+# ===== editmenu ===== #
+
+def editmenu(args):
+    options = {
+        "emacs": "$VISUAL $HOME/.config/emacs/init.el",
+        "nvim": "$VISUAL $HOME/.config/nvim/init.vim",
+        "fish": "$VISUAL $HOME/.config/fish/",
+        "i3": "$VISUAL $HOME/.config/i3/config",
+        "xinitrc": "$VISUAL $HOME/.xinitrc",
+        "picom": "$VISUAL $HOME/.config/picom/picom.conf",
+        "polybar": "$VISUAL $HOME/.config/polybar/config",
+        "alacritty": "$VISUAL $HOME/.config/alacritty/alacritty.yml",
+        "rofi": "$VISUAL $HOME/.config/rofi/config.rasi",
+        "dunst": "$VISUAL $HOME/.config/dunst/dunstrc",
+        "ssh": "$VISUAL $HOME/.ssh/config",
+        "~/.local/bin": "$VISUAL $HOME/.local/bin/",
+        "/usr/local/bin": "$VISUAL /usr/local/bin/"
+    }
+    monitor = execute_script("i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output'").strip()
+    rofi_command = f"rofi \
+        -monitor '{monitor}' \
+        -l 10 -dmenu -no-custom -p 'Power Control'"
+    response = execute_script(rofi_command, "\n".join(options.keys())).strip()
+    if response:
+        execute_script(options[response])
+
+# ===== powermenu ===== #
+
+def powermenu(args):
+    options = {
+        "lock": "slock", "suspend": "systemctl suspend", "restart i3": "i3-msg restart",
+        "logout": "i3-msg exit", "reboot": "systemctl reboot", "shutdown": "systemctl poweroff"
+    }
+    monitor = execute_script("i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output'").strip()
+    rofi_command = f"rofi \
+        -monitor '{monitor}' \
+        -theme-str 'window {{width:200;}} listview {{scrollbar:false;}} inputbar {{children:[prompt];}}' \
+        -l 6 -dmenu -no-custom -u 3,4,5 -p 'Power Control'"
+    response = execute_script(rofi_command, "\n".join(options.keys())).strip()
+    if response:
+        execute_script(options[response])
+
+# ===== brightness ===== #
+
+def brightness(args):
+    if len(args) >= 1:
+        execute_script(f"xbacklight -time 0 {args[0]}")
+    cur_brightness = int(float(execute_script("xbacklight").strip()))
+    message = str(cur_brightness) + "% " + progress_bar(cur_brightness)
+    execute_script(f"dunstify -u 'low' -i 'flashlight-on' -r '{NOTIF_ID}' 'Brightness' '{message}'")
+
+# ===== volume ===== #
+
+def volume(args):
+    if len(args) >= 1:
+        execute_script(f"pactl set-sink-{'mute' if args[0] == 'toggle' else 'volume'} @DEFAULT_SINK@ {args[0]}")
+    output = execute_script("pulsemixer --get-mute --get-volume").split('\n')
+    is_mute = output[0]
+    volumes = [float(volume) for volume in output[1].split(' ') if volume]
+    volume = sum(volumes) / len(volumes) if volumes else 0
+
+    icon="audio-volume-muted"
+    message = str(int(volume)) + "% " + progress_bar(volume)
+    if is_mute == "1":
+        message = f"<span foreground=\"#222222\">{message}</span>"
+    else:
+        if volume > 66:
+            icon = "audio-volume-high"
+        elif volume > 33:
+            icon = "audio-volume-medium"
+        else:
+            icon = "audio-volume-low"
+
+    execute_script(f"dunstify -u 'low' -i '{icon}' -r '{NOTIF_ID}' 'Volume' '{message}'")
+
+# ===== microphone ===== #
+
+def microphone(args):
+    pass # TODO
+
+# ===== misc ======= #
+
+def progress_bar(progress, max_progress=100, max_chars=25):
+    return "▆" * (min(int(progress), max_progress) * max_chars // max_progress)
+
+def size_to_human(bits):
+    for unit in ["b", "kb", "mb", "gb"]:
+        if abs(bits) < 1024.0:
+            return f"{bits:3.1f}{unit}"
+        bits /= 1024.0
+    return f"{bits:.1f}tb"
+
+def execute_script(script, stdin=None):
+    if stdin != None:
+        p = subprocess.Popen(
+            ["bash", "-c", script], text=True,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return p.communicate(input=stdin)[0]
+    else:
+        return subprocess.run(["bash", "-c", script], capture_output=True, text=True).stdout
+
+if __name__ == "__main__":
+    main()

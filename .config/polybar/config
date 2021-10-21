@@ -103,7 +103,7 @@ date-alt = %d/%m
 format-padding = 0
 format-margin = 0
 
-label = %{A3:datetimenotification &:}%time%%date% %{A}
+label = %{A3:mman notif datetime &:}%time%%date% %{A}
 label-foreground = ${config.fg}
 label-background = ${config.bg}
 label-padding = ${config.padding}
@@ -185,7 +185,7 @@ accumulate-stats = true
 format-connected-padding = 0
 format-connected-margin = 1
 
-label-connected = %{A1:netspeedtest &:}%upspeed:8:% %downspeed:8:%%{A}
+label-connected = %{A1:mman notif netspeed &:}%upspeed:8:% %downspeed:8:%%{A}
 label-connected-padding = ${config.padding}
 label-connected-background = ${config.bg}
 
@@ -247,11 +247,11 @@ ramp-volume-2 = 
 type = internal/battery
 full-at = 98
 
-format-charging = %{A1:powercontrol &:}%{A3:batteryinfonotification &:}%{A4:xbacklight -dec 10 -time 0 &:}%{A5:xbacklight -inc 10 -time 0 &:}<label-charging> <animation-charging>%{A}%{A}%{A}%{A}
+format-charging = %{A1:powercontrol &:}%{A3:mman notif battery &:}%{A4:xbacklight -dec 10 -time 0 &:}%{A5:xbacklight -inc 10 -time 0 &:}<label-charging> <animation-charging>%{A}%{A}%{A}%{A}
 format-charging-margin = 1
-format-discharging = %{A1:powercontrol &:}%{A3:batteryinfonotification &:}%{A4:xbacklight -dec 10 -time 0 &:}%{A5:xbacklight -inc 10 -time 0 &:}<label-discharging> <ramp-capacity>%{A}%{A}%{A}%{A}
+format-discharging = %{A1:powercontrol &:}%{A3:mman notif battery &:}%{A4:xbacklight -dec 10 -time 0 &:}%{A5:xbacklight -inc 10 -time 0 &:}<label-discharging> <ramp-capacity>%{A}%{A}%{A}%{A}
 format-discharging-margin = 1
-format-full = %{A1:powercontrol &:}%{A3:batteryinfonotification &:}%{A5:xbacklight -dec 10 -time 0 &:}%{A4:xbacklight -inc 10 -time 0 &:}<label-full> <ramp-capacity>%{A}%{A}%{A}%{A}
+format-full = %{A1:powercontrol &:}%{A3:mman notif battery &:}%{A5:xbacklight -dec 10 -time 0 &:}%{A4:xbacklight -inc 10 -time 0 &:}<label-full> <ramp-capacity>%{A}%{A}%{A}%{A}
 format-full-margin = 1
 
 ramp-capacity-0 = 
