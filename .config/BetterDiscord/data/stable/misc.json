@@ -4,7 +4,8 @@
     "drawerStates": {
         "settings": {
             "customcss": false,
-            "addons": false
+            "addons": false,
+            "window": true
         }
     }
 }
