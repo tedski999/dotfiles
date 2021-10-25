@@ -103,7 +103,7 @@ date-alt = %d/%m
 format-padding = 0
 format-margin = 0
 
-label = %{A3:mman notif datetime &:}%time%%date% %{A}
+label = %{A3:mman notif calendar &:}%{A2:mman notif datetime &:}%time%%date% %{A}%{A}
 label-foreground = ${config.fg}
 label-background = ${config.bg}
 label-padding = ${config.padding}

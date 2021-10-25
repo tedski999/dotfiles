@@ -1,12 +1,9 @@
 
-# modifier key
 set $mod Mod4
 floating_modifier $mod
 
 # startup programs
-exec_always --no-startup-id echo "default" > "$HOME/.cache/i3mode" && i3-msg -t subscribe -m '[ "mode" ]' | jq --unbuffered -r ".change" >> "$HOME/.cache/i3mode"
 exec_always --no-startup-id alternating_layouts.py
-exec_always --no-startup-id autorandr --force --change
 
 # mouse control
 mouse_warping none
@@ -36,55 +33,60 @@ bindsym $mod+Shift+m fullscreen toggle
 bindsym $mod+Shift+q kill
 
 # functional keys keybindings
-bindsym XF86AudioRaiseVolume        exec --no-startup-id mman volume +2%
-bindsym XF86AudioLowerVolume        exec --no-startup-id mman volume -2%
-bindsym Shift+XF86AudioRaiseVolume  exec --no-startup-id mman volume +25%
-bindsym Shift+XF86AudioLowerVolume  exec --no-startup-id mman volume -25%
-bindsym XF86AudioMute               exec --no-startup-id mman volume toggle
-bindsym XF86AudioPrev               exec --no-startup-id playerctl previous
-bindsym XF86AudioNext               exec --no-startup-id playerctl next
-bindsym XF86AudioPlay               exec --no-startup-id playerctl play-pause
-bindsym XF86MonBrightnessDown       exec --no-startup-id mman brightness -dec 5
-bindsym XF86MonBrightnessUp         exec --no-startup-id mman brightness -inc 5
-bindsym Shift+XF86MonBrightnessDown exec --no-startup-id mman brightness -dec 25
-bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id mman brightness -inc 25
-bindsym XF86Search                  exec --no-startup-id rofi -show run -monitor "$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output')"
+bindsym XF86AudioRaiseVolume        exec --no-startup-id mman volume "+2%"
+bindsym XF86AudioLowerVolume        exec --no-startup-id mman volume "-2%"
+bindsym Shift+XF86AudioRaiseVolume  exec --no-startup-id mman volume "+25%"
+bindsym Shift+XF86AudioLowerVolume  exec --no-startup-id mman volume "-25%"
+bindsym XF86AudioMute               exec --no-startup-id mman volume "toggle"
+bindsym XF86AudioPrev               exec --no-startup-id mman media "previous"
+bindsym XF86AudioNext               exec --no-startup-id mman media "next"
+bindsym XF86AudioPlay               exec --no-startup-id mman media "play-pause"
+bindsym XF86MonBrightnessDown       exec --no-startup-id mman brightness "-5"
+bindsym XF86MonBrightnessUp         exec --no-startup-id mman brightness "+5"
+bindsym Shift+XF86MonBrightnessDown exec --no-startup-id mman brightness "-25"
+bindsym Shift+XF86MonBrightnessUp   exec --no-startup-id mman brightness "+25"
+bindsym XF86Search                  exec --no-startup-id mman launcher
 bindsym Shift+XF86Search            exec --no-startup-id brave
 
 # system keybindings
-bindsym --release $mod+Shift+Escape exec --no-startup-id slock
-bindsym --release $mod+Control+Escape exec --no-startup-id systemctl suspend
-bindsym $mod+Control+Shift+Escape restart
-bindsym $mod+Escape exec mman power
+bindsym --release $mod+Shift+Escape   exec --no-startup-id mman power "lock"
+bindsym --release $mod+Control+Escape exec --no-startup-id mman power "suspend"
+bindsym $mod+Control+Shift+Escape     exec --no-startup-id mman power "restart i3"
+bindsym $mod+Escape                   exec --no-startup-id mman power
+bindsym Mod1+Escape                   exec --no-startup-id mman notif control close
+bindsym Mod1+Shift+Escape             exec --no-startup-id mman notif control close-all
+bindsym Mod1+grave                    exec --no-startup-id mman notif control history-pop
+bindsym Mod1+Shift+grave              exec --no-startup-id mman notif control context
 
 # app shortcuts
-bindsym $mod+Return  exec --no-startup-id $TERMINAL
-bindsym $mod+s       exec --no-startup-id "dunstify -i camera-photo -t 500 'Select an area to screenshot!' && sleep 0.75 && import png:- | xclip -i -selection c -t image/png && dunstify -i camera-photo -t 1000 'Screenshot copied!'"
-bindsym $mod+Shift+s exec --no-startup-id "dunstify -i camera-photo -t 500 'Capturing screenshot...' && sleep 0.75 && import -window root png:- | xclip -i -selection c -t image/png && dunstify -i camera-photo -t 1000 'Screenshot copied!'"
+bindsym $mod+Return  exec --no-startup-id mman terminal
+bindsym $mod+s       exec --no-startup-id mman screenshot select
+bindsym $mod+Shift+s exec --no-startup-id mman screenshot display
 bindsym $mod+space mode "Launch App"
 mode "Launch App" {
-	bindsym space exec --no-startup-id rofi -show run -monitor "$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output')"; mode "default"
-	bindsym Return exec --no-startup-id $TERMINAL; mode "default"
-	bindsym e exec editselect; mode "default"
-	bindsym s exec mman screen; mode "default"
-	bindsym w exec brave; mode "default"
-	bindsym d exec --no-startup-id discord; mode "default"
-	bindsym m exec --no-startup-id youtube-music; mode "default"
-	bindsym c exec --no-startup-id $TERMINAL -e "bc"; mode "default"
-	bindsym b exec --no-startup-id $TERMINAL -e "bluetoothctl"; mode "default"
-	bindsym n exec --no-startup-id $TERMINAL -e "newsboat"; mode "default"
+	bindsym space  exec --no-startup-id mman launcher; mode "default"
+	bindsym Return exec --no-startup-id mman terminal; mode "default"
+	bindsym e      exec --no-startup-id mman edit; mode "default"
+	bindsym s      exec --no-startup-id mman screen; mode "default"
+	bindsym w      exec --no-startup-id brave; mode "default"
+	bindsym d      exec --no-startup-id discord; mode "default"
+	bindsym m      exec --no-startup-id youtube-music; mode "default"
+	bindsym c      exec --no-startup-id mman terminal "bc"; mode "default"
+	bindsym b      exec --no-startup-id mman terminal "bluetoothctl"; mode "default"
+	bindsym n      exec --no-startup-id mman terminal "newsboat"; mode "default"
 	bindsym Escape mode "default"
 }
-bindsym $mod+b mode "Polybar"; exec --no-startup-id xdotool key "super+super"
+bindsym $mod+b mode "Polybar"
 mode "Polybar" {
-	bindsym d exec --no-startup-id polybar-msg action "#datetime.toggle"
 	bindsym t exec --no-startup-id polybar-msg action "#datetime.toggle"
-	bindsym Shift+d exec --no-startup-id datetimenotification; mode "default"
-	bindsym Shift+t exec --no-startup-id datetimenotification; mode "default"
-	bindsym b exec --no-startup-id batteryinfonotification; mode "default"
-	bindsym v exec --no-startup-id polybar-msg action "#pulseaudio.toggle"
-	bindsym n exec --no-startup-id $TERMINAL -e nmtui; mode "default"
-	bindsym Shift+n exec --no-startup-id netspeedtest; mode "default"
+	bindsym d exec --no-startup-id polybar notif datetime; mode "default"
+	bindsym c exec --no-startup-id polybar notif calendar; mode "default"
+	bindsym b exec --no-startup-id polybar notif battery; mode "default"
+	bindsym m exec --no-startup-id polybar-msg action "#pulseaudio.toggle"
+	bindsym n exec --no-startup-id mman terminal "nmtui"; mode "default"
+	bindsym s exec --no-startup-id mman notif netspeed; mode "default"
+	bindsym u exec --no-startup-id mman terminal "paru"; mode "default"
+	bindsym p exec --no-startup-id mman terminal "bashtop"; mode "default"
 	bindsym Escape mode "default"
 }
 
@@ -104,8 +106,8 @@ bindsym $mod+comma  workspace prev_on_output
 bindsym $mod+Tab workspace back_and_forth
 bindsym $mod+x move workspace to output right
 bindsym $mod+Shift+x move workspace to output right; focus output left
-bindsym $mod+z exec --no-startup-id gotoempty
-bindsym $mod+Shift+z exec --no-startup-id movetoempty
+bindsym $mod+z exec --no-startup-id mman wm gotoempty
+bindsym $mod+Shift+z exec --no-startup-id mman wm movetoempty
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3

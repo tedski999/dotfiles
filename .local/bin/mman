@@ -1,35 +1,53 @@
 #!/bin/python
 
-# runners:
-#  battery notifications + clearing on plugged-in
-#  hud manager
-#  autorandr
-#  local backups every day of the week (/home /etc /media/TheAnes/Projects /media/TheAnes/Documents /media/TheAnes/Pictures)
-#
-# startup everything, only this should be called in .xinitrc
-#  + emacs server
+import sys, os, signal
+import subprocess
+import time
 
-import sys, subprocess
+# TODO: most of these should be in a config file
+NOTIFY_REPLACEMENT_ID = 213875
+DISPLAY_PID_FILE = "/tmp/mman_display.pid"
+LOCAL_BACKUP_REPOS = [ "/home/tedski999/.local/backups", "/media/TheAnes/Backups" ]
+REMOTE_BACKUP_REPOS = [ "tedski999@tjsj.dev:/backups" ] # TODO: set this up
+BACKUP_DIRECTORIES = [
+    "/home", "/etc", "/usr/etc", "/usr/local/etc", "/var/spool/mail",
+    "/etc", "/usr/etc", "/usr/local/etc", "/var/spool/mail",
+    "/media/TheAnes/Documents", "/media/TheAnes/Pictures",
+    "/media/TheAnes/Projects", "/media/TheAnes/Videos"
+]
+BACKUP_EXCLUDE_PATTERNS = [
+    "/home/*/.cache",
+    "/home/*/.local/backups",
+    "/home/*/.Xauthority",
+    "/home/*/.config/YouTube Music",
+    "/home/*/.config/BraveSoftware",
+    "/home/*/.config/discord",
+    "/home/*/.config/chromium"
+]
 
-NOTIF_ID = 213875
+# TODO: a command to select and install mman dependencies and then configure on the machine
+# (e.g a base install requires paru or the autosaving feature requires installing borg and setting up repos)
 
 def main():
 
-    # A tree of subcommands to their corresponding function e.g ["daemon", "status"] maps to the daemon_status function
+    # A tree of subcommands to their corresponding function e.g ["display", "status"] maps to the display_status function
     functree = {
-        "daemon": { "status": daemon_status, "start": daemon_start, "stop": daemon_stop, "restart": daemon_restart },
-        "doc": { "all": doc_all, "features": doc_features, "daemon": doc_daemon, "git": doc_git },
+        "display": { "status": display_status, "start": display_start, "stop": display_stop },
+        "doc": { "all": doc_all, "features": doc_features, "display": doc_display, "git": doc_git },
         "wm": { "swapworkspaces": wm_swapworkspaces, "swapmonitor": wm_swapmonitor, "gotoempty": wm_gotoempty, "movetoempty": wm_movetoempty },
-        "notif": { "battery": notif_battery, "netspeed": notif_netspeed, "datetime": notif_datetime, "calendar": notif_calendar },
-        "emacs": { "status": emacs_status, "start": emacs_start, "stop": emacs_stop, "restart": emacs_restart },
-        "backup": { "last": backup_last, "local": backup_local, "remote": backup_remote },
+        "notif": { "control": notif_control, "battery": notif_battery, "netspeed": notif_netspeed, "datetime": notif_datetime, "calendar": notif_calendar },
+        "screenshot": { "select": screenshot_select, "display": screenshot_display },
+        "backup": { "latest": backup_latest, "create": backup_create, "prune": backup_prune },
         "septs": { "status": septs_status, "ssh": septs_ssh },
         "screen": screenmenu,
         "edit": editmenu,
         "power": powermenu,
         "brightness": brightness,
         "volume": volume,
-        "microphone": microphone
+        "media": media,
+        "microphone": microphone,
+        "terminal": terminal,
+        "launcher": launcher
     }
 
     # Execute the corresponding function mapped to by the subcommands list
@@ -44,33 +62,91 @@ def main():
                 functree(subcommands)
                 return
     except KeyError:
-        print(f"{last_subcommand} doesn't have a subcommand '{subcommand}'")
+        notify("Unable to run mman command", f"{last_subcommand} doesn't have a subcommand '{subcommand}'", "error")
 
     # No complete map to function found, print the usage of whatever part of the functree we reached
+    print("\nUsage: mman <subcategories...> <subcommand>\n")
+    print("Append -h to any subcategory to get a list of its subcommands")
     categories = [i for i in functree.keys() if not callable(functree[i])]
-    commands = [i for i in functree.keys() if callable(functree[i])]
     if categories:
-        print(f"{last_subcommand} subcategories:")
+        print(f"\n{last_subcommand} subcategories:")
         for category in categories:
             print(f"  {category}")
+    commands = [i for i in functree.keys() if callable(functree[i])]
     if commands:
-        print(f"{last_subcommand} subcommands:")
+        print(f"\n{last_subcommand} subcommands:")
         for command in commands:
             print(f"  {command}")
+    print("\nLicensed under GPLv3\nTed Johnson 2021")
 
-# ===== daemon ===== #
+# ===== display ===== #
 
-def daemon_status(args):
-    pass # TODO
+def display_status(args):
+    if len(args): invalid_args(args);
+    pid = get_display_pid()
+    child_count = run_script(f"ps --no-headers -opid --ppid {pid}").count("\n");
+    if pid: notify(f"Display instance ({pid})", f"Managing {child_count} children", "monitor")
+    else: notify("Display not running!", "Could not find a running mman display instance.", "error")
 
-def daemon_start(args):
-    pass # TODO
+def display_start(args):
+    if len(args): invalid_args(args);
 
-def daemon_stop(args):
-    pass # TODO
+    if get_display_pid():
+        notify("Cannot start display", "Display is already running!", "error")
+        return
 
-def daemon_restart(args):
-    pass # TODO
+    os.setpgrp()
+    with open(DISPLAY_PID_FILE, "w") as f:
+        f.write(str(os.getpid()))
+
+    # Handle signals for clean exit
+    def sighandler(sig, frame):
+        os.remove(DISPLAY_PID_FILE)
+        os._exit(0)
+    for sig in [ signal.SIGINT, signal.SIGHUP, signal.SIGTERM, signal.SIGQUIT, signal.SIGABRT ]:
+        signal.signal(sig, sighandler)
+
+    # TODO working?
+    run_script(f"""
+        xset r rate 250 30
+        setxkbmap -option caps:escape
+        xinput --set-prop "DELL086F:00 06CB:7E92 Touchpad" "libinput Natural Scrolling Enabled" 1
+        xinput --set-prop "DELL086F:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
+    """)
+
+    # Start i3 & co as subprocesses
+    run_script("hsetroot -solid black")
+    exec_script("picom")
+    exec_script("dunst")
+    exec_script("flashfocus")
+    exec_script("unclutter")
+    exec_script("i3")
+    exec_script("emacs --fg-daemon")
+    exec_script("xautolock \
+        -detectsleep -time 10 -locker 'slock' \
+        -killtime 20 -killer 'systemctl suspend' \
+        -notify 10 -notifier 'dunstify -a xautolock -t 7000 -i lock \"Idle Warning\" \"Locking screen in 10 seconds...\"' \
+        -corners '----' -cornersize 5")
+    time.sleep(0.1)
+    exec_script("autorandr --force --change")
+
+    # Start runners
+    # TODO: autorandr post/pre hooks: killing and respawning polybars, applying feh backgrounds
+    from threading import Thread
+    threads = []
+    for func in [ battery_manager, hud_manager, backup_manager ]:
+        threads += Thread(target=func)
+        threads[-1].start()
+
+    # Wait forever
+    for thread in threads:
+        thread.join()
+
+def display_stop(args):
+    if len(args): invalid_args(args);
+    pid = get_display_pid()
+    if pid: os.kill(pid, signal.SIGTERM)
+    else: notify("Cannot stop display", "Display not running!", "error")
 
 # ===== doc ===== #
 
@@ -78,13 +154,13 @@ def doc_all(args):
     pass # TODO
 
 def doc_features(args):
-    pass # TODO
+    pass # TODO: check whats installed
 
-def doc_daemon(args):
-    pass # TODO
+def doc_display(args):
+    pass # TODO: check status of all threads
 
 def doc_git(args):
-    pass # TODO
+    pass # TODO: check if dotfiles are up-to-date
 
 # ===== wm ===== #
 
@@ -95,29 +171,48 @@ def wm_swapmonitor(args):
     pass # TODO
 
 def wm_gotoempty(args):
-    pass # TODO
+    if len(args): invalid_args(args);
+    import i3ipc
+    i3 = i3ipc.Connection()
+    i = find_empty_workspace_index(i3)
+    if i: i3.command(f"workspace number {i}")
+    else: notify("Unable to find new workspace", icon="error")
 
 def wm_movetoempty(args):
-    pass # TODO
+    if len(args): invalid_args(args);
+    import i3ipc
+    i3 = i3ipc.Connection()
+    i = find_empty_workspace_index(i3)
+    if i: i3.command(f"move container to workspace number {i}; workspace number {i}")
+    else: notify("Unable to find new workspace", icon="error")
 
 # ===== notif ===== #
 
+def notif_control(args):
+    if len(args) != 1: invalid_args(args);
+    exec_script(f"dunstctl {args[0]}")
+
 def notif_battery(args):
-    acpi = execute_script("acpi -b").strip().split(": ")[1].split(", ")
-    execute_script(f"dunstify -i 'battery' -r '{NOTIF_ID}' 'Battery {acpi[0]}' '{acpi[2] if len(acpi) >= 3 else ''}'")
+    if len(args): invalid_args(args);
+    acpi = execute_script("acpi -b", True).strip().split(": ")[1].split(", ")
+    notify("Battery " + acpi[0], acpi[2] if len(acpi) >= 3 else "", "battery")
 
 def notif_netspeed(args):
+    if len(args): invalid_args(args);
     NETSPEED_NOTIF_ID = 2311236
     import speedtest
     s = speedtest.Speedtest()
-    execute_script(f"dunstify -i 'network-wired' -r '{NETSPEED_NOTIF_ID}' -t 0 'Performing Internet Speed Test...' 'Recording download speed...'")
+    notify("Performing Internet Speed Test...", "Recording download speed...", "network-wired", 0, replacement_id=NETSPEED_NOTIF_ID)
     s.download()
-    execute_script(f"dunstify -i 'network-wired' -r '{NETSPEED_NOTIF_ID}' -t 0 'Performing Internet Speed Test...' 'Recording upload speed...'")
+    notify("Performing Internet Speed Test...", "Recording upload speed...", "network-wired", 0, replacement_id=NETSPEED_NOTIF_ID)
     s.upload()
-    message = f"{size_to_human(s.results.download)}ps / {size_to_human(s.results.upload)}ps / {s.results.ping}ms"
-    execute_script(f"dunstify -i 'network-wired' -r '{NETSPEED_NOTIF_ID}' -t 0 'Internet Speed Test Results' '{message}'")
+    downrate = size_to_human(s.results.download, "b")
+    uprate = size_to_human(s.results.upload, "b")
+    message = f"{downrate}ps / {uprate}ps / {s.results.ping}ms"
+    notify("Internet Speed Test Results", message, "network-wired", 0, replacement_id=NETSPEED_NOTIF_ID)
 
 def notif_datetime(args):
+    if len(args): invalid_args(args);
     import datetime, calendar
     now = datetime.datetime.now()
     suffix = 'th' if 11 <= now.day <= 13 else {1:'st',2:'nd',3:'rd'}.get(now.day % 10, 'th')
@@ -125,43 +220,178 @@ def notif_datetime(args):
     percentage = round(days_completed * 100 / (365 + (1 * calendar.isleap(now.year))), 2)
     title = now.strftime(f"%H:%M:%S - %A the %d{suffix} of %B, %Y")
     message = now.strftime(f"Day %j, Week %W, {percentage}%% complete")
-    execute_script(f"dunstify -i 'clock' -r '{NOTIF_ID}' '{title}' '{message}'")
+    notify(title, message, "clock")
 
 def notif_calendar(args):
-    pass # TODO
+    import datetime, calendar
+    now = datetime.datetime.now()
+    calendar = calendar.month(now.year, now.month, w=6, l=2)
+    calendar = calendar.replace(f"{now.day}  ", f"[{now.day}]")
+    calendar = calendar.replace(f" {now.day} ", f"[{now.day}]")
+    calendar = calendar.replace(f" {now.day}\n", f"[{now.day}]\n")
+    notify(calendar, icon="note", timeout=0)
 
-# ===== emacs ===== #
+# ===== screenshot ===== #
 
-def emacs_status(args):
-    pass # TODO
+def screenshot_select(args):
+    if len(args): invalid_args(args);
+    notify("Screenshot select", "Select and area to screenshot!", "camera-photo", 500);
+    time.sleep(0.75)
+    run_script("import png:- | xclip -i -selection c -t image/png")
+    notify("Screenshot select", "Screenshot copied to clipboard!", "camera-photo", 2000);
 
-def emacs_start(args):
-    pass # TODO
-
-def emacs_stop(args):
-    pass # TODO
-
-def emacs_restart(args):
-    pass # TODO
+def screenshot_display(args):
+    if len(args): invalid_args(args);
+    notify("Screenshot select", "Capturing screenshot...", "camera-photo", 500);
+    time.sleep(0.75)
+    run_script("import -window root png:- | xclip -i -selection c -t image/png")
+    notify("Screenshot select", "Screenshot copied to clipboard!", "camera-photo", 2000);
 
 # ===== backup ===== #
 
-def backup_last(args):
-    pass # TODO
+def backup_latest(args):
+    if not len(args): invalid_args(args);
 
-def backup_local(args):
-    pass # TODO
+    # Replace "local" and "remotes" with corresponding lists of repos
+    if "local" in args:
+        args.remove("local")
+        args += LOCAL_BACKUP_REPOS
+    if "remote" in args:
+        args.remove("remote")
+        args += REMOTE_BACKUP_REPOS
 
-def backup_remote(args):
-    pass # TODO
+    import json, datetime
+    for repo in args:
+        try:
+            stats = json.loads(run_script(f"(\
+                export BORG_PASSCOMMAND='termentry Password'; \
+                borg info --last 1 --json {repo} \
+            2>/dev/null)"))
+            name = stats["archives"][0]["name"]
+            time = datetime.datetime.fromisoformat(stats["archives"][0]["start"])
+            duration = stats["archives"][0]["duration"]
+            if time < datetime.datetime.now() - datetime.timedelta(days=7):
+                time = time.strftime("on %d/%m/%y at %H:%M:%S")
+            elif time < datetime.datetime.now() - datetime.timedelta(days=1):
+                time = time.strftime("on %A at %H:%M:%S")
+            else:
+                time = time.strftime("at %H:%M:%S")
+            notify(
+                f"Latest backup in {repo}",
+                f"Titled {name}\nCreated {time}\nTook {duration} seconds",
+                "backup", 0, replacement_id=None)
+        except:
+            notify("Failed to get latest backup stats!", f"Couldn't read from {repo}", "error")
+
+def backup_create(args):
+    if not len(args): invalid_args(args);
+
+    # Enable notifications with "notify"
+    send_notifs = False
+    if "notify" in args:
+        args.remove("notify")
+        send_notifs = True
+
+    # Replace "local" and "remotes" with corresponding lists of repos
+    if "local" in args:
+        args.remove("local")
+        args += LOCAL_BACKUP_REPOS
+    if "remote" in args:
+        args.remove("remote")
+        args += REMOTE_BACKUP_REPOS
+
+    # Format include and exclude lists
+    directories = " ".join(BACKUP_DIRECTORIES)
+    exclude = " ".join(f"-e '{x}'" for x in BACKUP_EXCLUDE_PATTERNS)
+
+    # Create a new archive in each repo
+    import random, json
+    for i, repo in enumerate(args):
+        replacement_id = random.randrange(999999999)
+        if send_notifs:
+            notify(
+                f"Working on archive ({i+1}/{len(args)})...", f"Writing to {repo}",
+                "backup", 0, "low", replacement_id)
+        try:
+            output = run_script(f"(\
+                export BORG_PASSCOMMAND='termentry Password'; \
+                borg create -c '60' -C 'zstd' --json \
+                --exclude-caches {exclude} \
+                {repo}::'{{hostname}}-{{user}}-{{now}}' \
+                {directories} \
+            2>/dev/null)")
+            print(output)
+            if send_notifs:
+                stats = json.loads(output)
+                name = stats["archive"]["name"]
+                duration = stats["archive"]["duration"]
+                size = size_to_human(int(stats["archive"]["stats"]["deduplicated_size"]))
+                files = stats["archive"]["stats"]["nfiles"]
+                notify(
+                    f"Completed backup archive ({i+1}/{len(args)})",
+                    f"Written to {repo}\nTitled {name}\nTook {duration} seconds\nOccupying {size} disk space\nNow containing {files} files",
+                    "backup", 0, "low", replacement_id)
+        except:
+            notify(
+                f"Failed to create ({i+1}/{len(args)})...",
+                f"Couldn't write to {repo}", "error",
+                replacement_id=replacement_id)
+
+    if send_notifs:
+        notify("Backup complete!", "your data is safe :D", "backup")
+
+# Keep every archive from the last day, 7 of the most recent days,
+# 4 of the most recent weeks, 1 for every month over the last year
+# and 1 for every year
+def backup_prune(args):
+    if not len(args): invalid_args(args);
+
+    # Enable notifications with "notify"
+    send_notifs = False
+    notif_replacement_id = 21348790
+    if "notify" in args:
+        args.remove("notify")
+        send_notifs = True
+
+    # Replace "local" and "remotes" with corresponding lists of repos
+    if "local" in args:
+        args.remove("local")
+        args += LOCAL_BACKUP_REPOS
+    if "remote" in args:
+        args.remove("remote")
+        args += REMOTE_BACKUP_REPOS
+
+    # Prune archives from each repo
+    import random
+    for i, repo in enumerate(args):
+        replacement_id = random.randrange(999999999)
+        if send_notifs:
+            notify(
+                f"Pruning repo ({i+1}/{len(args)})...", f"(⌐■_■)⌐╦╦═─ {repo}",
+                "backup", 0, "low", replacement_id)
+        output = run_script(f"(\
+            export BORG_PASSCOMMAND='termentry Password'; \
+            borg prune --stats --keep-within 1d \
+            -d 7 -w 4 -m -1 -y -1 \
+            {repo} \
+        2>&1)").strip().split("\n")
+        if send_notifs:
+            size = " ".join(output[-6].split()[-2:])
+            notify(
+                f"Pruned repo ({i}/{len(args)})",
+                f"Pruned {repo}\nFreed up {size} disk space",
+                "backup", 0, "low", replacement_id)
+
+    if send_notifs:
+        notify("Pruning complete!", "goodbye old news :O", "backup")
 
 # ===== septs ===== #
 
 def septs_status(args):
-    pass # TODO
+    pass # TODO: ping tjsj.dev, query resource usage?
 
 def septs_ssh(args):
-    execute_script("$TERMINAL -e ssh tjsj.dev")
+    terminal([f"ssh tjsj.dev '{' '.join(args)}'"])
 
 # ===== screenmenu ===== #
 
@@ -170,16 +400,13 @@ def screenmenu(args):
         "auto-detect": "autorandr --force --change",
         "force mobile": "autorandr --load mobile",
         "force docked": "autorandr --load docked",
-        "mirror desktop": "autorandr --load mobile && xrandr --output HDMI-1-0 --auto --same-as eDP1"
+        "mirror desktop": "autorandr --load mobile && xrandr --output HDMI-1-0 --auto --same-as eDP1",
+        "disable output": "sleep 0.1 && xset -display :0.0 dpms force off"
     }
-    monitor = execute_script("i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output'").strip()
-    rofi_command = f"rofi \
-        -monitor '{monitor}' \
+    rofi_args = f"\
         -theme-str 'window {{width:200;}} listview {{scrollbar:false;}} inputbar {{children:[prompt];}}' \
-        -l 4 -dmenu -no-custom -p 'Screen Options'"
-    response = execute_script(rofi_command, "\n".join(options.keys())).strip()
-    if response:
-        subprocess.run([options[response]])
+        -l 5 -dmenu -no-custom -p 'Screen Options'"
+    exec_rofi_option(args, options, rofi_args)
 
 # ===== editmenu ===== #
 
@@ -189,6 +416,7 @@ def editmenu(args):
         "nvim": "$VISUAL $HOME/.config/nvim/init.vim",
         "fish": "$VISUAL $HOME/.config/fish/",
         "i3": "$VISUAL $HOME/.config/i3/config",
+        "mman": "$VISUAL $HOME/.local/bin/mman",
         "xinitrc": "$VISUAL $HOME/.xinitrc",
         "picom": "$VISUAL $HOME/.config/picom/picom.conf",
         "polybar": "$VISUAL $HOME/.config/polybar/config",
@@ -196,52 +424,47 @@ def editmenu(args):
         "rofi": "$VISUAL $HOME/.config/rofi/config.rasi",
         "dunst": "$VISUAL $HOME/.config/dunst/dunstrc",
         "ssh": "$VISUAL $HOME/.ssh/config",
-        "~/.local/bin": "$VISUAL $HOME/.local/bin/",
         "/usr/local/bin": "$VISUAL /usr/local/bin/"
     }
-    monitor = execute_script("i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output'").strip()
-    rofi_command = f"rofi \
-        -monitor '{monitor}' \
-        -l 10 -dmenu -no-custom -p 'Power Control'"
-    response = execute_script(rofi_command, "\n".join(options.keys())).strip()
-    if response:
-        execute_script(options[response])
+    rofi_args = f"\
+        -theme-str 'window {{width:400;}} listview {{scrollbar:false;}}' \
+        -l 13 -dmenu -no-custom -p 'Edit'"
+    exec_rofi_option(args, options, rofi_args)
 
 # ===== powermenu ===== #
 
 def powermenu(args):
     options = {
-        "lock": "slock", "suspend": "systemctl suspend", "restart i3": "i3-msg restart",
-        "logout": "i3-msg exit", "reboot": "systemctl reboot", "shutdown": "systemctl poweroff"
+        "lock": "slock",
+        "suspend": "systemctl suspend",
+        "restart i3": "i3-msg restart",
+        "logout": "mman display stop",
+        "reboot": "mman display stop && systemctl reboot",
+        "shutdown": "mman display stop && systemctl poweroff"
     }
-    monitor = execute_script("i3-msg -t get_workspaces | jq -r '.[] | select(.focused).output'").strip()
-    rofi_command = f"rofi \
-        -monitor '{monitor}' \
+    rofi_args = f"\
         -theme-str 'window {{width:200;}} listview {{scrollbar:false;}} inputbar {{children:[prompt];}}' \
         -l 6 -dmenu -no-custom -u 3,4,5 -p 'Power Control'"
-    response = execute_script(rofi_command, "\n".join(options.keys())).strip()
-    if response:
-        execute_script(options[response])
+    exec_rofi_option(args, options, rofi_args)
 
 # ===== brightness ===== #
 
 def brightness(args):
     if len(args) >= 1:
-        execute_script(f"xbacklight -time 0 {args[0]}")
-    cur_brightness = int(float(execute_script("xbacklight").strip()))
+        run_script(f"xbacklight -time 0 {args[0]}")
+    cur_brightness = int(float(run_script("xbacklight").strip()))
     message = str(cur_brightness) + "% " + progress_bar(cur_brightness)
-    execute_script(f"dunstify -u 'low' -i 'flashlight-on' -r '{NOTIF_ID}' 'Brightness' '{message}'")
+    notify("Brightness", message, "flashlight-on", urgency="low")
 
 # ===== volume ===== #
 
 def volume(args):
     if len(args) >= 1:
-        execute_script(f"pactl set-sink-{'mute' if args[0] == 'toggle' else 'volume'} @DEFAULT_SINK@ {args[0]}")
-    output = execute_script("pulsemixer --get-mute --get-volume").split('\n')
+        run_script(f"pactl set-sink-{'mute' if args[0] == 'toggle' else 'volume'} @DEFAULT_SINK@ {args[0]}")
+    output = run_script("pulsemixer --get-mute --get-volume").split('\n')
     is_mute = output[0]
     volumes = [float(volume) for volume in output[1].split(' ') if volume]
     volume = sum(volumes) / len(volumes) if volumes else 0
-
     icon="audio-volume-muted"
     message = str(int(volume)) + "% " + progress_bar(volume)
     if is_mute == "1":
@@ -253,34 +476,164 @@ def volume(args):
             icon = "audio-volume-medium"
         else:
             icon = "audio-volume-low"
+    notify("Volume", message, icon, urgency="low")
 
-    execute_script(f"dunstify -u 'low' -i '{icon}' -r '{NOTIF_ID}' 'Volume' '{message}'")
+# ===== media ===== #
+
+def media(args):
+    if len(args) != 1: invalid_args(args);
+    run_script(f"playerctl {args[0]}")
 
 # ===== microphone ===== #
 
 def microphone(args):
-    pass # TODO
+    pass # TODO: changing microphone volume and toggle mute
+
+# ===== terminal ===== #
+
+def terminal(args):
+    exec_script(f"$TERMINAL {('-e ' + args[0]) if len(args) else ''}")
+
+# ===== launcher ===== #
+
+def launcher(args):
+    if len(args): invalid_args(args);
+    import i3ipc
+    i3 = i3ipc.Connection()
+    monitor = get_focused_monitor(i3)
+    exec_script(f"rofi -show run -monitor '{monitor}'")
+
+# ===== threads ====== #
+
+# Show and hide polybars on super key press and release,
+# but wait to hide until i3 binding mode is "default"
+def hud_manager():
+    i3_mode = "default"
+
+    def on_key_press(e):
+        if e.Key == "Super_L":
+            run_script("polybar-msg cmd show")
+    def on_key_release(e):
+        if e.Key == "Super_L":
+            while i3_mode != "default":
+                time.sleep(0.01)
+            run_script("polybar-msg cmd hide")
+    from pyxhook import HookManager
+    hm = HookManager()
+    hm.HookKeyboard()
+    hm.KeyDown = on_key_press
+    hm.KeyUp = on_key_release
+    hm.start()
+
+    def on_i3_mode_change(i3, e):
+        nonlocal i3_mode
+        i3_mode = e.change
+    import i3ipc
+    i3 = i3ipc.Connection()
+    i3.on(i3ipc.Event.MODE, on_i3_mode_change)
+    i3.main()
+
+def battery_manager():
+    battery_remaining = 100
+    while True:
+        with open("/sys/class/power_supply/BAT0/capacity") as f:
+            new_battery_remaining = int(f.readline())
+        if (new_battery_remaining <= 5 and battery_remaining > 5):
+            for sec in [3,2,1]:
+                notify("Battery empty!", f"Suspending in {sec}...", "battery-000", 0, critical)
+                time.sleep(1)
+            powermenu(["suspend"])
+        elif (new_battery_remaining <= 10 and battery_remaining > 10):
+            notify("Battery critical!", "need charger or die", "battery-010", 0, critical)
+        elif (new_battery_remaining <= 20 and battery_remaining > 20):
+            notify("Battery low!", "Consider finding a charger?", "battery-020")
+        battery_remaining = new_battery_remaining
+        time.sleep(30)
+
+# TODO: encourage a remote backup after a week
+def backup_manager():
+    while True:
+        backup_local_create(["local"])
+        backup_local_prune(["local"])
+        time.sleep(3600) # Every hour
 
 # ===== misc ======= #
 
+# Helper function for notifying the user using notifications
+def notify(title, message=None, icon=None, timeout=None, urgency=None, replacement_id=NOTIFY_REPLACEMENT_ID):
+    print(title)
+    if message: print(message)
+    script = f"dunstify '{title}'"
+    if message != None: script += " " + repr(message)
+    if urgency != None: script += " -u " + repr(urgency)
+    if icon    != None: script += " -i " + repr(icon)
+    if timeout != None: script += " -t " + repr(timeout)
+    if replacement_id:  script += " -r " + repr(replacement_id)
+    exec_script(script)
+
+# Helper function for outputting an ASCII progress bar
 def progress_bar(progress, max_progress=100, max_chars=25):
     return "▆" * (min(int(progress), max_progress) * max_chars // max_progress)
 
-def size_to_human(bits):
-    for unit in ["b", "kb", "mb", "gb"]:
-        if abs(bits) < 1024.0:
-            return f"{bits:3.1f}{unit}"
-        bits /= 1024.0
-    return f"{bits:.1f}tb"
+# Convert a size to human readable format
+def size_to_human(count, suffix="B"):
+    for unit in ["", "K", "M", "G"]:
+        if abs(count) < 1024.0:
+            return f"{count:3.1f} {unit}{suffix}"
+        count /= 1024.0
+    return f"{count:.1f} T{suffix}"
 
-def execute_script(script, stdin=None):
-    if stdin != None:
-        p = subprocess.Popen(
-            ["bash", "-c", script], text=True,
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        return p.communicate(input=stdin)[0]
+# Return the name of the currently focused output
+def get_focused_monitor(i3):
+    for ws in i3.get_workspaces():
+        if ws.focused:
+            return ws.output
+
+# Return the index of the next empty workspace
+def find_empty_workspace_index(i3):
+    workspaces = [w.num for w in i3.get_workspaces()]
+    for i in range(1, max(workspaces) + 2):
+        if i not in workspaces:
+            return i
+    return 0
+
+# Helper function for when an incorrect number of arguments are provided
+def invalid_args(args):
+    if len(args):
+        args_string = " ".join(args)
+        notify("Invalid arguments!", f"I don't understand the arguments '{args_string}'.", "error");
     else:
-        return subprocess.run(["bash", "-c", script], capture_output=True, text=True).stdout
+        notify("Missing required arguments!", "This command requires arguments.", "error");
+    quit(1)
+
+# Let the user select a bash script option using rofi and start that option as a new process
+def exec_rofi_option(args, options, arguments):
+    if len(args) > 1: invalid_args(args);
+    import i3ipc
+    i3 = i3ipc.Connection()
+    monitor = get_focused_monitor(i3)
+    stdin = "\\\\n".join(options.keys())
+    response = run_script(f"echo -e {stdin} | rofi -monitor '{monitor}' " + arguments).strip() if not len(args) else args[0]
+    if response in options: exec_script(options[response])
+    elif response: notify("Not an option!", "That wasn't an available option to pick!", "error")
+
+# Start some bash script as a new process
+def exec_script(script):
+    subprocess.Popen(["bash", "-c", script])
+
+# Run some bash script and return its stdout
+def run_script(script, stdin=None):
+    return subprocess.run(["bash", "-c", script], text=True, capture_output=True).stdout
+
+# Get the PID of the running display instance, if there is one
+def get_display_pid():
+    try:
+        with open(DISPLAY_PID_FILE, 'r') as f:
+            pid = int(f.readline())
+            os.kill(pid, 0)
+            return pid
+    except:
+        return None
 
 if __name__ == "__main__":
     main()

@@ -10,7 +10,6 @@ for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
 		MONITOR="$m" polybar secondary &
 	fi
 done
-hudmanager &
 
 # update backgrounds
 feh --no-fehbg --bg-fill "$HOME/.config/wallpapers/wallpaper0.png" "$HOME/.config/wallpapers/wallpaper1.png"
