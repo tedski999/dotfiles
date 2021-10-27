@@ -197,19 +197,15 @@ interval = 2
 
 format-connected = %{A1:$TERMINAL -e nmtui &:}<label-connected><ramp-signal>%{A}
 format-connected-padding = 0
-format-connected-margin = 0
 format-disconnected = %{A1:$TERMINAL -e nmtui &:}<label-disconnected>%{A}
-format-disconnected-padding = 0
-format-disconnected-margin = 0
 
 label-connected = %essid%
 label-connected-background = ${config.bg}
 label-connected-padding = ${config.padding}
 
-label-disconnected = 
+label-disconnected = " "
 label-disconnected-foreground = ${config.fg_urgent}
 label-disconnected-background = ${config.bg}
-label-disconnected-padding = ${config.padding}
 
 ramp-signal-background = ${config.bg}
 ramp-signal-padding = ${config.padding}
