@@ -7,6 +7,7 @@ exec_always --no-startup-id alternating_layouts.py
 
 # mouse control
 mouse_warping none
+focus_follows_mouse no
 bindsym --whole-window $mod+Control+button1 floating toggle
 bindsym --whole-window $mod+Control+button3 fullscreen toggle
 bindsym --whole-window $mod+Shift+button2 kill
