@@ -63,6 +63,7 @@ bindsym Mod1+Shift+grave              exec --no-startup-id mman notif control co
 bindsym $mod+Return  exec --no-startup-id mman terminal
 bindsym $mod+s       exec --no-startup-id mman screenshot select
 bindsym $mod+Shift+s exec --no-startup-id mman screenshot display
+bindsym $mod+v       exec --no-startup-id clipmenu
 bindsym $mod+space mode "Launch App"
 mode "Launch App" {
 	bindsym space  exec --no-startup-id mman launcher; mode "default"
