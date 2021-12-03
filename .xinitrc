@@ -10,8 +10,9 @@ export GTK_THEME="Materia:dark"
 export GTK2_RC_FILES="/usr/share/themes/Materia-dark/gtk-2.0/gtkrc"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export PATH=$PATH:$HOME/.local/bin
-GPG_TTY=$(tty)
-export GPG_TTY
+export SSH_AGENT_PID=
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
+export GPG_TTY=$(tty)
 
 # part of the never-ending quest for a clean home directory
 export LESSHISTFILE="-"
