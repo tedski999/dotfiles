@@ -26,6 +26,10 @@ export GRADLE_USER_HOME="$HOME/.local/share/gradle/"
 export CARGO_HOME="$HOME/.local/share/cargo"
 export GOPATH="$HOME/.local/share/go"
 export STACK_ROOT="$HOME/.local/share/stack"
+export npm_config_userconfig="$HOME/.config/npm/npmrc"
+
+# Clipmenu
+export CM_LAUNCHER=rofi
 
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
 	for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
