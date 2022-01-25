@@ -2,7 +2,8 @@
 scrolling:
   history: 10000
   multiplier: 5
-background_opacity: 0.75
+window:
+  opacity: 0.75
 live_config_reload: false
 
 # Font
