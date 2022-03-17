@@ -17,7 +17,34 @@ local function config()
 
 	local cmp = require("cmp")
 
-	cmp.setup{
+	local mapping = {
+		["<up>"] = cmp.mapping.scroll_docs(-4),
+		["<down>"] = cmp.mapping.scroll_docs(4),
+		["<tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			else
+				fallback()
+			end
+		end, {"i","c"}),
+		["<s-tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			else
+				fallback()
+			end
+		end, {"i","c"}),
+		["<space>"] = function(fallback)
+			if cmp.visible() and cmp.get_selected_entry() then
+				cmp.confirm({select = true})
+			else
+				fallback()
+			end
+		end
+	}
+
+	cmp.setup({
+		mapping = mapping,
 
 		snippet = {
 			expand = function(args)
@@ -27,9 +54,7 @@ local function config()
 
 		enabled = function()
 			local context = require("cmp.config.context")
-			return
-			not context.in_treesitter_capture("comment") and
-			not context.in_syntax_group("Comment")
+			return not context.in_syntax_group("Comment")
 		end,
 
 		formatting = {
@@ -52,66 +77,20 @@ local function config()
 			documentation = { border = {"┌", "─", "┐", "│", "┘", "─", "└", "│" } }
 		},
 
-		mapping = {
-			["<up>"] = cmp.mapping.scroll_docs(-4),
-			["<down>"] = cmp.mapping.scroll_docs(4),
-			["<tab>"] = function(fallback)
-				if cmp.visible() then
-					cmp.select_next_item({behavior=cmp.SelectBehavior.Select})
-				else
-					fallback()
-				end
-			end,
-			["<s-tab>"] = function(fallback)
-				if cmp.visible() then
-					cmp.select_prev_item({behavior=cmp.SelectBehavior.Select})
-				else
-					fallback()
-				end
-			end,
-			["<space>"] = function(fallback)
-				if cmp.visible() and cmp.get_selected_entry() then
-					cmp.confirm({select = true})
-				else
-					fallback()
-				end
-			end
-		},
-
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
-			{ name = "nvim_lua" },
-			{ name = "treesitter" },
 			{ name = "luasnip" },
 			{ name = "buffer" },
 			{ name = "path" }
 		}),
 
 		experimental = {
-			ghost_text = true,
+			ghost_text = true
 		}
-	}
+	})
 
-	local cmdmapping = {
-		["<tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			else
-				fallback()
-			end
-		end, {"i","c"}),
-		["<s-tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			else
-				fallback()
-			end
-		end, {"i","c"}),
-	}
-
-	cmp.setup.cmdline(":", { mapping = cmdmapping, sources = { { name = "cmdline" } } })
-	cmp.setup.cmdline("/", { mapping = cmdmapping, sources = { { name = "buffer" } } })
-
+	cmp.setup.cmdline(":", { sources = { { name = "cmdline" } } })
+	cmp.setup.cmdline("/", { sources = { { name = "buffer" } } })
 end
 
 return {

@@ -1,7 +1,7 @@
 local function config()
 	require("lsp_signature").setup{
 		hi_parameter = "Visual",
-		hint_prefix = "■ ",
+		hint_enable = false,
 		handler_opts = {border = "single"}
 	}
 end
