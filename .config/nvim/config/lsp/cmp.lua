@@ -34,14 +34,29 @@ local function config()
 				fallback()
 			end
 		end, {"i","c"}),
-		["<space>"] = function(fallback)
+		["<c-space>"] = function(fallback)
 			if cmp.visible() and cmp.get_selected_entry() then
 				cmp.confirm({select = true})
 			else
 				fallback()
 			end
+		end,
+		["<esc>"] = function(fallback)
+			if cmp.visible() and cmp.get_selected_entry() then
+				cmp.abort()
+			else
+				fallback()
+			end
 		end
 	}
+
+	local get_bufnrs = function()
+		local bufs = {}
+		for _, win in ipairs(vim.api.nvim_list_wins()) do
+			bufs[vim.api.nvim_win_get_buf(win)] = true
+		end
+		return vim.tbl_keys(bufs)
+	end
 
 	cmp.setup({
 		mapping = mapping,
@@ -80,8 +95,8 @@ local function config()
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
 			{ name = "luasnip" },
-			{ name = "buffer" },
-			{ name = "path" }
+			{ name = "buffer", options = { keyword_length = 2, get_bufnrs = get_bufnrs } },
+			{ name = "path", options = { trailing_slash = true } }
 		}),
 
 		experimental = {

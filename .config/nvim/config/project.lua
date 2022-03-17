@@ -1,9 +1,5 @@
 local function config()
-	require("project_nvim").setup({
-		show_hidden = true,
-		silent_chdir = false
-	})
-
+	require("project_nvim").setup({ show_hidden = true })
 	require("telescope").load_extension("projects")
 end
 

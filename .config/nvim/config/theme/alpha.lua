@@ -1,25 +1,48 @@
 local function config()
-	local header = {
-		[[                    .--..     ]],
-		[[                 .-===-----.. ]],
-		[[               .-=====--------]],
-		[[  ..         .========--------]],
-		[[.----.     .========='.-------]],
-		[['-=====-.-========'   .-------]],
-		[[  .-========+==-'     .-------]],
-		[[    -=========:       .-------]],
-		[[  .=+++========-.     .-------]],
-		[[.=+++++=''========-   .-------]],
-		[['=++='     '========-..-------]],
-		[[  ''         '-========-------]],
-		[[               '-======-------]],
-		[[                 '-====-----' ]]
-	}
+	local winheight = vim.api.nvim_win_get_height(0)
+
+	local width = 16
+	local header = {"", "💻"}
+
+	if winheight >= 32 then
+		header = {
+			[[                    .--..     ]],
+			[[                 .-===-----.. ]],
+			[[               .-=====--------]],
+			[[  ..         .========--------]],
+			[[.----.     .========='.-------]],
+			[['-=====-.-========'   .-------]],
+			[[  '-===========-'     .-------]],
+			[[    -=========:       .-------]],
+			[[  .=+++========-.     .-------]],
+			[[.=+++++=''========-   .-------]],
+			[['=++='     '========-..-------]],
+			[[  ''         '-========-------]],
+			[[               '-======-------]],
+			[[                 '-====-----' ]],
+			[[                              ]]
+		}
+		width = header[1]:len()
+	elseif winheight >= 24 then
+		header = {
+			[[             :=:.   ]],
+			[[          .-===-----]],
+			[[ ..     .-=====-----]],
+			[[:===-.:=====-' -----]],
+			[[ '=======:'    -----]],
+			[[ .++=====:.    -----]],
+			[[-+++-':-====-. -----]],
+			[[ ''     '-=====-----]],
+			[[          '-===----']],
+			[[            '-=--'  ]]
+		}
+		width = header[1]:len()
+	end
 
 	local function button(shortcut, txt, keybind)
 		local opts = {
 			position = "center",
-			width = 28,
+			width = width,
 			shortcut = shortcut,
 			align_shortcut = "right",
 			hl_shortcut = "Keyword",
@@ -34,10 +57,11 @@ local function config()
 
 	local buttons = {
 		button("e", "New file",       "<cmd>enew<cr>"),
-		button("s", "Search text",    "<cmd>Telescope live_grep<cr>"),
-		button("f", "Search file",    "<cmd>Telescope find_files<cr>"),
+		button("o", "Open recent",    "<cmd>Telescope oldfiles<cr>"),
 		button("p", "Open project",   "<cmd>Telescope projects<cr>"),
 		button("u", "Update plugins", "<cmd>PackerSync<cr>"),
+		button("f", "Search file",    "<cmd>Telescope find_files<cr>"),
+		button("s", "Search text",    "<cmd>Telescope live_grep<cr>"),
 		button("q", "Quit",           "<cmd>quit<cr>")
 	}
 
@@ -48,9 +72,8 @@ local function config()
 	require("alpha").setup({
 		opts = {},
 		layout = {
-			{type = "padding", val = 1},
 			{type = "text", val = header, opts = {position = "center", hl = "Keyword"}},
-			{type = "padding", val = 2},
+			{type = "padding", val = 1},
 			{type = "group", val = buttons, opts = {spacing = 1}},
 			{type = "padding", val = 1},
 			{type = "text", val = plugin_footer, opts = {position = "center"}},
