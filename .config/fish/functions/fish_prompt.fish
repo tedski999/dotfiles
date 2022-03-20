@@ -1,16 +1,21 @@
 function fish_prompt --description "Write out the left-hand prompt"
+	set last_status $status
+
 	echo ""
 
-	# write name and host
-    set_color $fish_color_user
-    echo -n $USER@(prompt_hostname)" "
+	set_color red
+	echo -n $USER@(prompt_hostname)" "
 
-	# write working directory
-    set_color $fish_color_cwd
-    echo (prompt_pwd)
+	set_color blue
+	echo -n (prompt_pwd --dir-length=0)" "
 
-	# input prompt
-    set_color normal
-    echo -n "> "
+	if test $last_status != 0
+		set_color brred
+		echo -n $last_status" "
+	end
+
+	echo ""
+
+	set_color normal
+	echo -n "> "
 end
-
