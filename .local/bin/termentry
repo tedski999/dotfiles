@@ -1,6 +1,0 @@
-#!/bin/bash
-tmppipe=$(mktemp -u)
-mkfifo -m 600 "$tmppipe"
-$TERMINAL -e bash -c "read -p '$1: '; echo \$REPLY > $tmppipe" &
-cat "$tmppipe"
-rm -f "$tmppipe"
