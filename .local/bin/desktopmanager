@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Keep all monitors focused on the same desktop name
+
+bspc subscribe desktop | while read event; do
+	desktop="$(bspc query --desktops --desktop focused)"
+	index="$(bspc query --desktops --monitor focused | grep --fixed-strings --line-number "$desktop" | cut --delimiter=":" --fields=1)"
+	for monitor in $(bspc query --monitors --names); do
+		bspc desktop --activate "$monitor:^$index"
+	done
+done

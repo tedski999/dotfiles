@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Prompt user to change the monitor display layout
+
+choice="${1-$(choose " Display Ctrl" "" "detect,mobile,docked,mirror")}"
+
+if [[ "$choice" == "detect" ]]; then
+	if [[ "$(cat /sys/class/drm/card1-HDMI-A-3/status)" == "connected" ]]; then
+		choice="docked"
+	else
+		choice="mobile"
+	fi
+fi
+
+desktops=$(bspc query --desktops --monitor eDP1 --names)
+
+# TODO: cleaner orphan adoptions: move nodes from desktop HDMI-1-0:n to desktop eDP1:n
+case "$choice" in
+	"mobile")
+		xrandr --output eDP1 --auto --primary --output HDMI-1-0 --off
+		bspc monitor eDP1 --reset-desktops $desktops
+		bspc monitor HDMI-1-0 --remove
+		bspc wm --adopt-orphans
+		killall polybar hudmanager
+		MONITOR="eDP1" polybar main &
+		MONITOR="eDP1" polybar media &
+		hudmanager &
+		;;
+	"docked")
+		xrandr --output eDP1 --auto --output HDMI-1-0 --auto --right-of eDP1 --primary
+		bspc monitor eDP1 --reset-desktops $desktops
+		bspc monitor HDMI-1-0 --reset-desktops $desktops
+		killall polybar hudmanager
+		MONITOR="eDP1" polybar secondary &
+		MONITOR="HDMI-1-0" polybar main &
+		MONITOR="HDMI-1-0" polybar media &
+		hudmanager &
+		;;
+	"mirror")
+		xrandr --output eDP1 --auto --primary --output HDMI-1-0 --auto --same-as eDP1
+		bspc monitor eDP1 --reset-desktops $desktops
+		bspc monitor HDMI-1-0 --remove
+		bspc wm --adopt-orphans
+		killall polybar hudmanager
+		MONITOR="eDP1" polybar main &
+		MONITOR="eDP1" polybar media &
+		hudmanager &
+		;;
+	*)
+		exit 1
+		;;
+esac
+
+notify-send --icon "computer" --expire-time 2000 "Updated Display Output" "Switched to $choice profile"

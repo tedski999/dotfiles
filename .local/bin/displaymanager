@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Automatically update the monitor display layout when a monitor is connected or disconnected
+
+udevadm monitor --udev --subsystem-match drm | while read event; do
+	displayctrl detect
+	timeout 1 cat # debounce events within one second of each other
+done

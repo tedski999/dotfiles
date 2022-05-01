@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Output a progress bar computed from the 3 input arguments: $1=value, $2=max, $3=length
+
+bar=""
+
+num=$((($1 * $3) / $2))
+for ((i=0; i<$num && i<$3; i++)); do
+	bar+="▉"
+done
+for ((; i<$3; i++)); do
+	bar+="░"
+done
+
+echo "$bar"

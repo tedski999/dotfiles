@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Prompt user to choose from several provided options
+
+prompt="$1"
+urgents="$2" # Comma-separated indexes
+choices="$3" # Comma-separated choices
+
+len=$(($(echo "$choices" | tr -cd , | wc -c) + 1))
+[ "$len" -gt 6 ] && len=6
+
+echo "$choices" | rofi \
+	-theme-str "window {width:400;}" -l "$len" -sep "," \
+	-dmenu -p "$prompt" -u "$urgents" -no-custom \
+	-monitor "$(bspc query --monitors --monitor focused --names)"

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Prompt user with system power control settings
+
+choice="${1-$(choose "⏼ Power Ctrl" "3,4,5" "lock,suspend,hibernate,logout,reboot,shutdown")}"
+case "$choice" in
+	"lock") slock & ;;
+	"suspend") systemctl suspend & ;;
+	"hibernate") systemctl hibernate & ;;
+	"logout") bspc quit & ;;
+	"reboot") systemctl reboot & ;;
+	"shutdown") systemctl poweroff & ;;
+	*) exit 1 ;;
+esac
