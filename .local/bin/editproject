@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Prompt user to open a project directory in their text editor
+
+pushd /media/storage/Projects &>/dev/null
+
+IFS=,
+list=(*)
+choice="${1-$(choose " Edit Project" "" "${list[*]}")}"
+[[ -n "$choice" ]] && cd "$choice" && "$TERMINAL" -e "$EDITOR" . &
+
+popd &>/dev/null
