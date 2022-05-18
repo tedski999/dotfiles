@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Toggle a sticky floating terminal
+
+pid=$(xdotool search --class scratchpad)
+
+if [[ -z "$pid" ]]; then
+	bspc rule --add "*" --one-shot sticky=on state=floating
+	kitty --class scratchpad --override initial_window_width=1600 --override initial_window_height=900 &
+	pid="$!"
+fi
+
+bspc node "$pid" --flag hidden --focus
