@@ -1,0 +1,207 @@
+
+#####################
+# Window Management #
+#####################
+
+
+# Focus/move
+super + {h,j,k,l}
+	{d=west, d=south, d=north, d=east}; \
+	bspc node --focus $d || bspc monitor --focus $d
+super + shift + {h,j,k,l}
+	{d=west x=-20 y=0, d=south x=0 y=20, d=north x=0 y=-20, d=east x=20 y=0}; \
+	bspc node --move $x $y || bspc node --swap $d.local || bspc node --to-monitor $d --follow
+
+# Expand/retract
+super + ctrl + {h,j,k,l}
+	bspc node --resize {left -20 0, bottom 0 20, top 0 -20, right 20 0}
+super + ctrl + shift + {h,j,k,l}
+	bspc node --resize {right -20 0, top 0 20, bottom 0 -20, left 20 0}
+
+# Toggle state
+super + {t,f,m}
+	bspc node --state {tiled,floating,\~fullscreen}
+
+# Close / kill
+super + {_,shift+ctrl+} q
+	bspc node --{close,kill}
+
+
+######################
+# Desktop Management #
+######################
+
+# Focus/move/throw
+super + {0-9}
+	bspc desktop --focus {0-9}.local
+super + ctrl + {0-9}
+	bspc node --to-desktop {0-9}.local
+super + shift + {0-9}
+	 bspc node --to-desktop {0-9}.local --follow
+
+# Focus/move/throw to prev/next
+super + {comma,period}
+	bspc desktop --focus {prev,next}.local
+super + shift + {comma,period}
+	bspc node --to-desktop {prev,next}.local --follow
+super + ctrl + {comma,period}
+	bspc node --to-desktop {prev,next}.local
+
+# Focus/move/throw to empty
+super + z
+	bspc desktop --focus next.!occupied.local
+super + shift + z
+	bspc node --to-desktop next.!occupied.local --follow
+super + ctrl + z
+	bspc node --to-desktop next.!occupied.local
+
+
+################
+# Preselection #
+################
+
+# Direction
+super + alt + {h,j,k,l}
+	bspc node --presel-dir {west,south,north,east}
+
+# Size
+super + alt + {1-9}
+	bspc node --presel-ratio 0.{1-9}
+
+# Cancel
+super + alt + {space,Escape}
+	bspc node --presel-dir cancel
+
+
+####################
+# Program Launcher #
+####################
+
+# Terminal
+super + {_,space;} Return
+	$TERMINAL
+
+# Scratchpad
+super + shift + Return
+	scratchpad
+
+# Program launcher
+super + space ; space
+	rofi -show run
+
+# Text editor
+super + space ; e
+	$TERMINAL -e $EDITOR
+super + space ; p
+	editproject
+super + space ; period
+	editconfig
+
+# File manager
+super + space; f
+	$TERMINAL -e nnn
+
+# Power menu
+super + {_,shift+,ctrl+,ctrl+shift+} Escape
+	powerctrl {_,lock,suspend,hibernate}
+
+# Screen menu
+super + {_,shift+,ctrl+} Tab
+	displayctrl {_,detect,mirror}
+
+# Package manager
+super + space ; u
+	$TERMINAL -e yay
+
+# Web browser
+super + space ; w
+	$BROWSER
+
+# Discord
+super + space ; d
+	discord
+
+# Discord
+super + space ; s
+	steam
+
+# Music TODO: cmus
+super + space ; m
+	youtube-music
+
+# News
+super + space ; r
+	$TERMINAL -e newsboat
+
+# Network
+super + space ; n
+	$TERMINAL -e nmtui
+
+# Top
+super + space ; t
+	$TERMINAL -e btop
+
+# Calculator
+super + space ; c
+	$TERMINAL -e calc
+
+# Bluetooth
+super + space ; b
+	$TERMINAL -e bluetoothctl
+
+
+###################
+# Functional Keys #
+###################
+
+# Volume
+{_,shift+} XF86AudioMute
+	pactl set-sink-mute @DEFAULT_SINK@ {"toggle","on"}; \
+	icon="$([[ "$(pactl get-sink-mute @DEFAULT_SINK@)" == *"no"* ]] && echo "audio-on" || echo "audio-off")"; \
+	volume="$(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | cut -d "/" -f 2 | tr -dc "0-9")"; \
+	notify-send --expire-time 500 --replace-id 8731 --icon "$icon" "Volume - $volume%" "$(progress "$volume" 100 40)"
+{_,shift+} XF86AudioLowerVolume
+	pactl set-sink-volume @DEFAULT_SINK@ {"-2%","-25%"}; \
+	icon="$([[ "$(pactl get-sink-mute @DEFAULT_SINK@)" == *"no"* ]] && echo "audio-on" || echo "audio-off")"; \
+	volume="$(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | cut -d "/" -f 2 | tr -dc "0-9")"; \
+	notify-send --expire-time 500 --replace-id 8731 --icon "$icon" "Volume - $volume%" "$(progress "$volume" 100 40)"
+{_,shift+} XF86AudioRaiseVolume
+	pactl set-sink-volume @DEFAULT_SINK@ {"+2%","+25%"}; \
+	icon="$([[ "$(pactl get-sink-mute @DEFAULT_SINK@)" == *"no"* ]] && echo "audio-on" || echo "audio-off")"; \
+	volume="$(pactl get-sink-volume @DEFAULT_SINK@ | head -1 | cut -d "/" -f 2 | tr -dc "0-9")"; \
+	notify-send --expire-time 500 --replace-id 8731 --icon "$icon" "Volume - $volume%" "$(progress "$volume" 100 40)"
+
+# Brightness
+{_,shift+} XF86MonBrightnessDown
+	xbacklight -time 0 {"-5","-25"}; \
+	brightness="$(xbacklight | cut -f 1 -d ".")"; \
+	notify-send --expire-time 500 --replace-id 8731 --icon "high-brightness" "Brightness - $brightness%" "$(progress $brightness 100 40)"
+{_,shift+} XF86MonBrightnessUp
+	xbacklight -time 0 {"+5","+25"}; \
+	brightness="$(xbacklight | cut -f 1 -d ".")"; \
+	notify-send --expire-time 500 --replace-id 8731 --icon "high-brightness" "Brightness - $brightness%" "$(progress "$brightness" 100 40)"
+
+# Media
+{_,shift+} XF86AudioPlay
+	playerctl {"play-pause","stop"}
+{_,shift+} XF86AudioPrev
+	playerctl {"previous","position -5"}
+{_,shift+} XF86AudioNext
+	playerctl {"next","position +5"}
+
+
+########
+# Misc #
+########
+
+# Notifications
+super + {_,shift+,ctrl+} grave
+	dunstctl {close,history-pop,close-all}
+
+# Screenshots
+super + {_,shift+} s
+	import {"-window root png:-", "png:-"} | xclip -i -selection c -t image/png
+
+# Clipboard
+super + v
+	clipmenu
