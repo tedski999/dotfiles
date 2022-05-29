@@ -19,6 +19,7 @@ hsetroot -center .config/wallpaper.png -contrast 1.2
 picom &
 sxhkd &
 batterymanager &
+clipmenud &
 xautolock \
 	-detectsleep -time 10 -locker "slock" -killtime 20 -killer "systemctl suspend" \
 	-notify 10 -notifier "notify-send -a xautolock -t 7000 -i lock 'Idle Warning' 'Locking screen in 10 seconds...'" \
