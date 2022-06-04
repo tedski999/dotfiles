@@ -1,8 +1,13 @@
 #!/bin/bash
 
-# Automatically update the monitor display layout when a monitor is connected or disconnected
+# Notify user when a display is connected or disconnected
+
+notification_id=$RANDOM
 
 udevadm monitor --udev --subsystem-match drm | while read event; do
-	displayctrl detect
-	timeout 1 cat # debounce events within one second of each other
+	if [[ "$(cat /sys/class/drm/card1-HDMI-A-3/status)" == "connected" ]]; then
+		notify-send --icon "computer" --replace-id "$notification_id" "External HDMI Display Detected" "Ready to connect..."
+	else
+		notify-send --icon "computer-laptop" --replace-id "$notification_id" "No External HDMI Display Detected" "Only using laptop display"
+	fi
 done
