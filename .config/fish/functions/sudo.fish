@@ -5,4 +5,3 @@ function sudo --wraps=sudo --description "sudo wrapper to handle aliases"
 	end
 	command sudo -E $argv
 end
-
