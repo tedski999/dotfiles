@@ -111,7 +111,7 @@ super + {_,shift+,ctrl+} Tab
 
 # Package manager
 super + space ; u
-	$TERMINAL -e yay
+	pkill -USR1 updates.sh
 
 # Web browser
 super + space ; w

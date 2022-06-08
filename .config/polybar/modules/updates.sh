@@ -1,8 +1,13 @@
 #!/bin/bash
 
-trap "do_update" 10
+trap "do_update" 10 # USR1
 function do_update {
 	$TERMINAL -e yay
+}
+
+trap "refresh" 12 # USR2
+function refresh {
+	: # Do nothing
 }
 
 while true; do
