@@ -12,3 +12,14 @@
 	gpgsign = true
 [pull]
 	rebase = false
+[alias]
+	l = log
+	s = status
+	a = add
+	aa = add -A
+	c = commit
+	cm = commit --message
+	d = diff
+	ds = diff --staged
+	r = reset
+	u = reset HEAD~
