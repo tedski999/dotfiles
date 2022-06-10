@@ -2,7 +2,7 @@
 
 # Prompt user to open a project directory in their text editor
 
-pushd /media/storage/Projects &>/dev/null
+pushd $HOME/Projects &>/dev/null
 
 IFS=,
 list=(*)

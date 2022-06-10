@@ -27,7 +27,6 @@ if status is-interactive
 end
 
 if status is-login
-
 	set -gxa PATH "$HOME/.local/bin"
 
 	# Default programs
@@ -44,7 +43,7 @@ if status is-login
 	set -gx LIBVIRT_DEFAULT_URI "qemu:///system"
 	set -gx LESSHISTFILE "-"
 	set -gx NNN_OPTS "aeHiUx"
-	set -gx NNN_BMS "~:~;.:~/.config;s:/media/storage/;d:/media/storage/Downloads;D:/media/storage/Documents;p:/media/storage/Projects;P:/media/storage/Pictures;v:/media/storage/Videos"
+	set -gx NNN_BMS ".:~/.config;d:~/Documents;p:~/Projects;P:~/Pictures;v:~/Videos;g:~/Games"
 	set -gx NNN_PLUG "p:preview-tui"
 
 	# SSH Agent
