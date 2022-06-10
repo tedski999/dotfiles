@@ -19,6 +19,8 @@ hsetroot -center .config/wallpaper.png -contrast 1.2
 picom &
 sxhkd &
 batterymanager &
+backupmanager &
+syncmanager &
 clipmenud &
 xautolock \
 	-detectsleep -time 10 -locker "slock" -killtime 20 -killer "systemctl suspend" \
