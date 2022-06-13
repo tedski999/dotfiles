@@ -22,6 +22,10 @@ super + ctrl + shift + {h,j,k,l}
 super + {t,f,m}
 	bspc node --state {tiled,floating,\~fullscreen}
 
+# Toggle flags
+super + {c,x}
+	bspc node --flag {sticky,marked}
+
 # Close / kill
 super + {_,shift+ctrl+} q
 	bspc node --{close,kill}
@@ -121,13 +125,13 @@ super + space ; w
 super + space ; d
 	discord
 
-# Discord
+# Steam
 super + space ; s
 	steam
 
-# Music TODO: cmus
-super + space ; m
-	youtube-music
+# Music
+super + space ; {m, shift+m}
+	{$TERMINAL -e cmus, musicdl}
 
 # News
 super + space ; r
@@ -147,7 +151,7 @@ super + space ; c
 
 # Backup and sync
 super + space ; {b, shift+b}
-	pkill -USR1 {backupmanager, syncmanager}
+	pkill -USR1 {backupmanager, syncphone}
 
 
 ###################
