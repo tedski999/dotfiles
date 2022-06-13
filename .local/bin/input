@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Prompt user to input text
+
+prompt="$1"
+width="${2-400}"
+initial="$3"
+
+# TODO: remove unused ui elements
+rofi \
+	-theme-str "window {width:$width;}" -l 0 \
+	-filter "$initial" -dmenu -p "$prompt" \
+	-monitor "$(bspc query --monitors --monitor focused --names)"
