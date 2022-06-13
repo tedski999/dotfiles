@@ -3,13 +3,13 @@
 # Automatically backup home directory regularly with Borg
 
 notification_id=$RANDOM
-export BORG_REPO="$HOME/.local/backups"
+export BORG_REPO="$HOME/.local/backups/"
 [[ -d "$BORG_REPO" ]] || borg init --encryption none
 
-trap "export BACKUPMANAGER_MANAUAL=true" 10 # USR1
+trap "export BACKUPMANAGER_MANUAL=true" 10 # USR1
 
 while true; do
-	if [[ -n "$BACKUPMANAGER_MANAUAL" ]]; then
+	if [[ -n "$BACKUPMANAGER_MANUAL" ]]; then
 		notify-send --icon "backup" --replace-id "$notification_id" --expire-time 0 "Creating new backup..." "Saving to $BORG_REPO"
 	fi
 
@@ -17,6 +17,7 @@ while true; do
 		--exclude-caches \
 		--exclude "$HOME/.cache/*" \
 		--exclude "$HOME/Games/*" \
+		--exclude "$HOME/Music/*" \
 		--exclude "$HOME/.config/BraveSoftware/*" \
 		--exclude "$HOME/.config/discord/*" \
 		--exclude "$HOME/.local/share/Steam/*"
@@ -28,10 +29,12 @@ while true; do
 
 	if [[ "$create_rc" == "2" || "$prune_rc" == "2" || "$compact_rc" == "2" ]]; then
 		notify-send --icon "backup" --urgency "critical" --replace-id "$notification_id" --expire-time 0 "Failed to create backup!" "Please check local backup system"
-	elif [[ -n "$BACKUPMANAGER_MANAUAL" ]]; then
-		notify-send --icon "backup" --replace-id "$notification_id" --expire-time 0 "New backup created successfully" "Saved to $BORG_REPO"
+	elif [[ -n "$BACKUPMANAGER_MANUAL" ]]; then
+		notify-send --icon "backup" --replace-id "$notification_id" "New backup created successfully" "Saved to $BORG_REPO"
 	fi
-	export BACKUPMANAGER_MANAUAL=
+	export BACKUPMANAGER_MANUAL=
+
+	# TODO: rsync with remote backup
 
 	sleep 600 &
 	wait

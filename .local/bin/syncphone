@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Sync shared directories with connected Android phone
+
+notification_id=$RANDOM
+mountpoint="$HOME/phone"
+
+function cleanup {
+	fusermount -u "$mountpoint"
+	rm -r "$mountpoint"
+}
+
+function error {
+	notify-send --icon "phone" --replace-id "$notification_id" --urgency "critical" --expire-time 0 "$1" "$2"
+	exit 1
+}
+
+mkdir "$mountpoint" || { error "Unable To Mount Device" "$mountpoint already exists"; }
+aft-mtp-mount "$mountpoint" || { cleanup; error "Unable To Connect To Device" "Is it connected?"; }
+[[ -z "$(ls -A "$mountpoint")" ]] && { cleanup; error "Unable To Access Device" "Is the device unlocked?"; }
+
+notify-send --icon "phone" --replace-id "$notification_id" --expire-time 0 "Syncing With Device..." "please be patient :)"
+unison "$HOME" "${mountpoint}/Internal shared storage" -ui text -batch -path Music || {
+	notify-send --icon "phone" --replace-id "$notification_id" --expire-time 0 "Sync Issues" "Manual merge required"
+	bspc rule --add "*" --one-shot sticky=on state=floating
+	$TERMINAL -e unison "$HOME" "${mountpoint}/Internal shared storage" -ui text -path Music || {
+		cleanup
+		error "Failed To Sync With Device" "Return code was $rc"
+	}
+}
+
+notify-send --icon "phone" --replace-id "$notification_id" "Successfully Synced With Device" "data is synced :)"
+cleanup

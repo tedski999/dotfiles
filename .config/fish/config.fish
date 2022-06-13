@@ -66,6 +66,7 @@ if status is-login
 	set -gx CARGO_HOME "$HOME/.local/share/cargo"
 	set -gx GOPATH "$HOME/.local/share/go"
 	set -gx STACK_ROOT "$HOME/.local/share/stack"
+	set -gx UNISON "$HOME/.local/share/unison"
 	set -gx npm_config_userconfig "$HOME/.config/npm/npmrc"
 	set -gx MONO_REGISTRY_PATH "$HOME/.local/share/mono/registry"
 	set -gx CALCHISTFILE "$HOME/.local/share/calc/history"
