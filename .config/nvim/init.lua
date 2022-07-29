@@ -1,24 +1,31 @@
 pcall(require, "impatient")
 
-local initfile = vim.fn.resolve(vim.fn.stdpath("config") .. "/init.lua")
+-- TODO:
+-- folkes repos are currently unmaintaned. in my case:
+--  trouble.nvim is broken (lsp_definitions manually patched with #162)
+--  todo-comments.nvim is completely borked
+--  which-key.nvim is alright afaik
 
 local packer_bootstrap = false
 local packer_installdir = vim.fn.resolve(vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim")
 if vim.fn.empty(vim.fn.glob(packer_installdir)) > 0 then
+	print " +-------| PLS BE PATIENT |-------+"
+	print " | Plugins will now be installed. |"
+	print " |  Wait until Packer completes,  |"
+	print " |      then restart Neovim.      |"
+	print " +--------------------------------+"
 	packer_bootstrap = vim.fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", packer_installdir})
-	vim.cmd([[packadd packer.nvim]])
+	vim.cmd("packadd packer.nvim")
 end
 
 require("packer").startup({
-
 	function(use)
 
 		-- Plugin management and optimisation --
 
 		use({"wbthomason/packer.nvim", config = function()
-			vim.keymap.set({"n","v"}, "<leader>pp", "<cmd>PackerStatus<cr>")
-			vim.keymap.set({"n","v"}, "<leader>pc", "<cmd>PackerCompile<cr>")
-			vim.keymap.set({"n","v"}, "<leader>ps", "<cmd>PackerSync<cr>")
+			vim.keymap.set({"n","v"}, "<leader>p", "<cmd>PackerStatus<cr>")
+			vim.keymap.set({"n","v"}, "<leader>P", "<cmd>PackerSync<cr>")
 		end})
 
 		use({"lewis6991/impatient.nvim"})
@@ -55,6 +62,13 @@ require("packer").startup({
 				highlight LspReferenceRead gui=bold
 				highlight LspReferenceText gui=bold
 				highlight LspReferenceWrite gui=bold
+				" WhichKey
+				highlight link WhichKey Number
+				highlight link WhichKeyDesc Identifier
+				highlight link WhichKeyGroup Constant
+				highlight link WhichKeyValue String
+				highlight link WhichKeySeparator Comment
+				highlight link WhichKeyFloat Pmenu
 			]])
 		end})
 
@@ -73,7 +87,8 @@ require("packer").startup({
 						command =  {a = {bg = "#62477c", fg = "#d3ebe9", gui = "bold"}, b = {bg = "#0a3749", fg = "#99d1ce"}, c = {bg = "#111a23", fg = "#599cab"}},
 						terminal = {a = {bg = "#111a23", fg = "#d3ebe9", gui = "bold"}, b = {bg = "#0a3749", fg = "#99d1ce"}, c = {bg = "#111a23", fg = "#599cab"}},
 						inactive = {a = {bg = "#111a23", fg = "#d3ebe9", gui = "bold"}, b = {bg = "#0a3749", fg = "#99d1ce"}, c = {bg = "#111a23", fg = "#599cab"}}
-					}
+					},
+					refresh = {statusline = 100, tabline = 100, winbar = 100}
 				},
 				sections = {
 					lualine_a = {{"mode", fmt = function(mode) return mode:sub(1,1) end}},
@@ -94,7 +109,125 @@ require("packer").startup({
 			})
 		end})
 
+		use({"folke/which-key.nvim", config = function()
+			vim.keymap.set("n", "<leader><leader>", "<cmd>WhichKey<cr>")
+			vim.keymap.set("v", "<leader><leader>", "<cmd>WhichKey '' v<cr>")
+			local wk = require("which-key")
+
+			wk.setup({
+				show_help = false,
+				key_labels = {
+					["<leader>"] = "LDR",
+					["<space>"] = "SPC",
+					["<cr>"] = "RET",
+					["<tab>"] = "TAB"
+				},
+				icons = {
+					breadcrumb = ">",
+					separator = "",
+					group = "+"
+				},
+				plugins = {
+					spelling = {
+						enabled = true,
+						suggestions = 8
+					}
+				}
+			})
+
+			wk.register({
+				["!"]          = "which_key_ignore", ["v"]        = "which_key_ignore",
+				["<c-U>"]      = "which_key_ignore", ["<c-D>"]    = "which_key_ignore", ["<c-B>"]    = "which_key_ignore", ["<c-F>"]  = "which_key_ignore",
+				["<pagedown>"] = "which_key_ignore", ["<pageup>"] = "which_key_ignore", ["<s-down>"] = "which_key_ignore", ["<s-up>"] = "which_key_ignore",
+				["-"] = "Accend into directory",
+				["<c-K>"] = "LSP hover",
+				["<c-L>"] = "Clear highlights",
+				["<c-j>"] = "Split line",
+				["<m-o>"] = "Create line below", ["<m-O>"] = "Create line above",
+				["'"] = "To marked line", ["`"] = "To marked character",
+				["]"] = "Next",     ["]c"] = "Next change",     ["]m"] = "Next method",     ["]M"] = "Next method end",     ["]]"] = "Next class",     ["]["] = "Next class end",
+				["["] = "Previous", ["[c"] = "Previous change", ["[m"] = "Previous method", ["[M"] = "Previous method end", ["[["] = "Previous class", ["[]"] = "Previous class end",
+				["gc"] = "Toggle line comment", ["gb"] = "Toggle block comment",
+				["cs"] = "Change surrounding",  ["cS"] = "Change surrounding and brace",
+				["ys"] = "Insert surrounding",  ["yS"] = "Insert surrounding and brace",
+				["ds"] = "Delete surrounding",
+				["z^"] = "View above",          ["z+"] = "View below",
+				["z-"] = "View above cursor",   ["z<cr>"] = "View below cursor",
+				["z."] = "Center cursor",
+				["<leader><leader>"] = "View keymaps",
+				["<leader>w"] = "Write",                    ["<leader>W"] = "Write and quit",
+				["<leader>q"] = "Quit",                     ["<leader>Q"] = "Force quit",
+				["<leader>,"] = "Align left",               ["<leader>."] = "Align right",
+				["<leader>["] = "Swap with left parameter", ["<leader>]"] = "Swap with right parameter",
+				["<leader>e"] = "Show error under cursor",  ["<leader>E"] = "View workspace diagnostics",
+				["<leader>l"] = "View LSP status",          ["<leader>L"] = "View LSP servers",
+				["<leader>p"] = "List plugins",             ["<leader>P"] = "Update plugins",
+				["<leader>r"] = "String substitution",      ["<leader>R"] = "Rename symbol",
+				["<leader>b"] = "Open previous buffer",
+				["<leader>f"] = "Find workspace file",
+				["<leader>c"] = "Open Neovim init.lua",
+				["<leader>k"] = "Execute code action",
+				["<leader>o"] = "Browse oldfiles",
+				["<leader>u"] = "Toggle undotree",
+				["<leader>z"] = "Toggle spellcheck",
+			})
+
+			wk.register({
+				["<c-U>"]      = "which_key_ignore", ["<c-D>"]    = "which_key_ignore", ["<c-B>"]    = "which_key_ignore", ["<c-F>"]  = "which_key_ignore",
+				["<pagedown>"] = "which_key_ignore", ["<pageup>"] = "which_key_ignore", ["<s-down>"] = "which_key_ignore", ["<s-up>"] = "which_key_ignore",
+				["<c-K>"] = "LSP hover",
+				["S"] = "Surround",
+				["gc"] = "Toggle line comment", ["gb"] = "Toggle block comment",
+				["<leader><leader>"] = "View keymaps",
+			}, {mode = "v"})
+		end})
+
+		use({"folke/trouble.nvim", requires = "folke/todo-comments.nvim", config = function()
+			vim.keymap.set({"n","v"}, "<leader>jd", "<cmd>Trouble lsp_definitions<cr>")
+			vim.keymap.set({"n","v"}, "<leader>jD", "<cmd>split | Trouble lsp_definitions<cr>")
+			vim.keymap.set({"n","v"}, "<leader>jt", "<cmd>Trouble lsp_type_definitions<cr>")
+			vim.keymap.set({"n","v"}, "<leader>jr", "<cmd>Trouble lsp_references<cr>")
+			vim.keymap.set({"n","v"}, "<leader>ji", "<cmd>Trouble lsp_implementations<cr>")
+			vim.keymap.set({"n","v"}, "<leader>E", "<cmd>TroubleToggle workspace_diagnostics<cr>")
+
+			require("trouble").setup({
+				icons = false,
+				use_diagnostic_signs = true,
+				action_keys = {
+					close = {"<esc>", "q"},
+					jump_close = {"<cr>", "<c-space>", "<tab>"},
+					open_split = "<c-s>",
+					open_vsplit = "<c-v>",
+					open_tab = "<c-t>",
+					cancel = {},
+					refresh = {},
+					jump = {},
+					toggle_mode = {},
+					toggle_preview = {},
+					hover = {},
+					preview = {}
+				}
+			})
+
+			-- vim.keymap.set({"n","v"}, "<leader>t", "<cmd>TodoTrouble<cr>")
+			-- require("todo-comments").setup({
+			-- 	signs = false,
+			-- 	highlight = {
+			-- 		pattern = [[.*<(KEYWORDS)\s*(\(.*\))?\s*:]],
+			-- 		before = "",
+			-- 		keyword = "",
+			-- 		after = ""
+			-- 	},
+			-- 	search = {
+			-- 		command = "rg",
+			-- 		args = {"--color=never", "--no-heading", "--with-filename", "--line-number", "--column"},
+			-- 		pattern = [[\b(KEYWORDS)\s*(\(.*\))?\s*:]]
+			-- 	}
+			-- })
+		end})
+
 		use({"ncm2/float-preview.nvim", config = function()
+			-- TODO: not great when some completemenu entries are really wide
 			vim.g["float_preview#docked"] = 0
 		end})
 
@@ -104,12 +237,11 @@ require("packer").startup({
 			vim.g.smoothie_speed_exponentiation_factor = 0.9
 		end})
 
-		use({"norcalli/nvim-colorizer.lua", config = function()
+		use({"norcalli/nvim-colorizer.lua", ft = {"css","scss","javascript","html","lua"}, config = function()
 			require("colorizer").setup({"css","scss","javascript","html","lua"})
 		end})
 
 		use({"iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end, ft = "markdown", config = function()
-			vim.keymap.set({"n","v"}, "<leader>m", "<cmd>MarkdownPreviewToggle<cr>")
 			vim.g.mkdp_auto_close = 0
 		end})
 
@@ -122,11 +254,7 @@ require("packer").startup({
 		end})
 
 		-- Languages and syntax --
-
-		use({"sheerun/vim-polyglot", disable = false})
-
-		-- TODO: very iffy
-		use({"nvim-treesitter/nvim-treesitter", disable = false, run = ":TSUpdate", config = function()
+		use({"nvim-treesitter/nvim-treesitter", run = function() vim.cmd("TSUpdate") end, config = function()
 			require("nvim-treesitter.configs").setup({
 				highlight = {enable = true},
 				-- indent = {enable = true},
@@ -138,32 +266,58 @@ require("packer").startup({
 			})
 		end})
 
-		use({"neovim/nvim-lspconfig", requires = {"williamboman/nvim-lsp-installer", "ray-x/lsp_signature.nvim", "folke/trouble.nvim"}, config = function()
+		use({"nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter", config = function()
+			require("nvim-treesitter.configs").setup({
+				textobjects = {
+					select = {
+						enable = true,
+						keymaps = {
+							["af"] = "@function.outer",
+							["if"] = "@function.inner",
+							["ac"] = "@class.outer",
+							["ic"] = "@class.inner"
+						}
+					},
+					swap = {
+						enable = true,
+						swap_next = {
+							["<leader>]"] = "@parameter.inner"
+						},
+						swap_previous = {
+							["<leader>["] = "@parameter.inner"
+						}
+					},
+					move = {
+						enable = true,
+						goto_next_start = {
+							["]m"] = "@function.outer",
+							["]]"] = "@class.outer"
+						},
+						goto_next_end = {
+							["]M"] = "@function.outer",
+							["]["] = "@class.outer"
+						},
+						goto_previous_start = {
+							["[m"] = "@function.outer",
+							["[["] = "@class.outer"
+						},
+						goto_previous_end = {
+							["[M"] = "@function.outer",
+							["[]"] = "@class.outer"
+						}
+					}
+				}
+			})
+		end})
+
+		use({"neovim/nvim-lspconfig", requires = {"williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "ray-x/lsp_signature.nvim"}, config = function()
+			vim.o.omnifunc = "v:lua.vim.lsp.omnifunc"
+			vim.keymap.set("", "<leader>l", "<cmd>LspInfo<cr>")
+			vim.keymap.set("", "<leader>L", "<cmd>Mason<cr>")
 			vim.keymap.set({"n","v"}, "<c-k>", vim.lsp.buf.hover)
 			vim.keymap.set({"n","v"}, "<leader>k", vim.lsp.buf.code_action)
 			vim.keymap.set({"n","v"}, "<leader>e", vim.diagnostic.open_float)
-			vim.keymap.set({"n","v"}, "<leader>E", "<cmd>TroubleToggle<cr>")
-			-- TODO: fix trouble
-			-- vim.keymap.set({"n","v"}, "[e", function() require("trouble").previous() end)
-			-- vim.keymap.set({"n","v"}, "]e", function() require("trouble").next() end)
-			-- vim.keymap.set({"n","v"}, "<leader>jd", "<cmd>Trouble lsp_definitions<cr>")
-			-- vim.keymap.set({"n","v"}, "<leader>jt", "<cmd>Trouble lsp_type_definitions<cr>")
-			-- vim.keymap.set({"n","v"}, "<leader>jr", "<cmd>Trouble lsp_references<cr>")
-			-- vim.keymap.set({"n","v"}, "<leader>ji", "<cmd>Trouble lsp_implementations<cr>")
-			vim.keymap.set({"n","v"}, "<leader>jd", vim.lsp.buf.definition)
-			vim.keymap.set({"n","v"}, "<leader>jt", vim.lsp.buf.type_definition)
-			vim.keymap.set({"n","v"}, "<leader>jr", vim.lsp.buf.references)
-			vim.keymap.set({"n","v"}, "<leader>ji", vim.lsp.buf.implementation)
-			vim.keymap.set({"n","v"}, "<leader>jD", function() vim.cmd("split"); vim.lsp.buf.definition(); end)
-			vim.keymap.set({"n","v"}, "<leader>jT", function() vim.cmd("split"); vim.lsp.buf.type_definition(); end)
-			vim.keymap.set({"n","v"}, "<leader>jR", function() vim.cmd("split"); vim.lsp.buf.references(); end)
-			vim.keymap.set({"n","v"}, "<leader>jI", function() vim.cmd("split"); vim.lsp.buf.implementation(); end)
 			vim.keymap.set({"n","v"}, "<leader>R", vim.lsp.buf.rename)
-
-			vim.o.omnifunc = "v:lua.vim.lsp.omnifunc"
-			vim.api.nvim_create_autocmd("InsertCharPre", {callback = function()
-				if vim.v.char:match("[A-Za-z0-9._>]") then vim.schedule(vim.lsp.omnifunc) end
-			end})
 			vim.keymap.set("i", "<tab>", function() return vim.fn.pumvisible() == 1 and "<c-n>" or "<tab>" end, {expr = true})
 			vim.keymap.set("i", "<s-tab>", function() return vim.fn.pumvisible() == 1 and "<c-p>" or "<s-tab>" end, {expr = true})
 			vim.keymap.set("i", "<bs>", function()
@@ -172,10 +326,12 @@ require("packer").startup({
 				if char:match("[A-Za-z0-9._>]") then vim.schedule(vim.lsp.omnifunc) end
 				return "<bs>"
 			end, {silent = true, expr = true})
+			vim.api.nvim_create_autocmd("InsertCharPre", {callback = function()
+				if vim.v.char:match("[A-Za-z0-9._>]") then vim.schedule(vim.lsp.omnifunc) end
+			end})
 
-			local kinds = vim.lsp.protocol.CompletionItemKind
-			for i, kind in ipairs(kinds) do
-				kinds[i] = ({
+			for i, kind in ipairs(vim.lsp.protocol.CompletionItemKind) do
+				vim.lsp.protocol.CompletionItemKind[i] = ({
 					Class = " ", Color = " ", Constant = " ",
 					Constructor = " ", Enum = " ", EnumMember = " ",
 					Field = " ", File = " ", Folder = " ",
@@ -186,25 +342,12 @@ require("packer").startup({
 				})[kind] or kind
 			end
 
-			local lsp_win = vim.lsp.util.open_floating_preview
+			local open_floating_preview = vim.lsp.util.open_floating_preview
 			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 				opts = opts or {}
-				opts.border = opts.border or {"┌","─","┐","│","┘","─","└","│"}
-				return lsp_win(contents, syntax, opts, ...)
+				opts.border = opts.border or "single"
+				return open_floating_preview(contents, syntax, opts, ...)
 			end
-
-			local lsp_installer = require("nvim-lsp-installer")
-			local lspconfig = require("lspconfig")
-
-			lsp_installer.setup({
-				ui = {border = "single"},
-				ensure_installed = {
-					"angularls", "asm_lsp", "bashls", "clangd", "cmake", "cssls", "dockerls",
-					"gopls", "hls", "html", "jdtls", "jsonls", "lemminx", "marksman",
-					"pylsp", "rust_analyser", "sumneko_lua", "texlab", "tsserver", "vimls", "vuels"
-					-- kotlin_language_server
-				}
-			})
 
 			local lspconfig_win = require("lspconfig.ui.windows")
 			local lspconfig_win_opts = lspconfig_win.default_opts
@@ -213,6 +356,21 @@ require("packer").startup({
 				win_opts.border = "single"
 				return win_opts
 			end
+
+			require("mason").setup({
+				ui = {
+					border = "single",
+					icons = {package_installed = "-", package_pending = "-", package_uninstalled = "-"}
+				}
+			})
+
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"angularls", "asm_lsp", "bashls", "clangd", "cmake", "cssls", "dockerls",
+					"gopls", "hls", "html", "jdtls", "jsonls", "kotlin_language_server", "lemminx", "marksman",
+					"pylsp", "rust_analyser", "sumneko_lua", "texlab", "tsserver", "vimls", "vuels"
+				}
+			})
 
 			local function on_attach(client, bufnr)
 				if client.resolved_capabilities.document_highlight then
@@ -231,54 +389,28 @@ require("packer").startup({
 				end
 			end
 
-			local server_opts = {
-				["sumneko_lua"] = function(opts)
+			vim.lsp.stop_client(vim.lsp.get_active_clients())
+			for _, server in ipairs(require("mason-lspconfig").get_installed_servers()) do
+				local opts = {on_attach = on_attach}
+				if server == "sumneko_lua" then
 					opts.settings = {Lua = {diagnostics = {globals = {"vim"}}}}
-				end,
-				["tsserver"] = function(opts)
+				elseif server == "tsserver" then
 					opts.init_options = {preferences = {disableSuggestions = true}}
-				end,
-				["clangd"] = function()
+				elseif server == "clangd" then
 					vim.keymap.set({"n","v"}, "<leader>a", "<cmd>ClangdSwitchSourceHeader<cr>")
 					vim.keymap.set({"n","v"}, "<leader>A", ":new +set\\ buftype=nofile|set\\ ft=asm | r !gcc # -S -o - -Og ")
 				end
-			}
-
-			for _, server in ipairs(lsp_installer.get_installed_servers()) do
-				local opts = {on_attach = on_attach}
-				if server_opts[server.name] then
-					server_opts[server.name](opts)
-				end
-				lspconfig[server.name].setup(opts)
+				require("lspconfig")[server].setup(opts)
 			end
+		end})
 
+		use({"ray-x/lsp_signature.nvim", after = "nvim-lspconfig", config = function()
 			require("lsp_signature").setup({
 				bind = true,
 				floating_window = false,
 				hint_prefix = "",
 				toggle_key = "<c-s>",
-				handler_opts = {
-					border = "single"
-				}
-			})
-
-			require("trouble").setup({
-				icons = false,
-				use_diagnostic_signs = true,
-				action_keys = {
-					close = {"<esc>", "q"},
-					jump_close = {"<cr>", "<c-space>", "<tab>"},
-					open_split = "<c-s>",
-					open_vsplit = "<c-v>",
-					open_tab = "<c-t>",
-					cancel = {},
-					refresh = {},
-					jump = {},
-					toggle_mode = {},
-					toggle_preview = {},
-					hover = {},
-					preview = {},
-				},
+				handler_opts = {border = "single"}
 			})
 		end})
 
@@ -286,17 +418,19 @@ require("packer").startup({
 
 		use({"tpope/vim-sensible"})
 
-		use({"tpope/vim-surround"})
-
 		use({"tpope/vim-repeat"})
+
+		use({"kylechui/nvim-surround", config = function()
+			require("nvim-surround").setup({})
+		end})
 
 		use({"numToStr/Comment.nvim", config = function()
 			require("Comment").setup()
 		end})
 
 		use({"tommcdo/vim-lion", config = function()
-			vim.g.lion_map_left = "<leader>l"
-			vim.g.lion_map_right = "<leader>L"
+			vim.g.lion_map_left = "<leader>,"
+			vim.g.lion_map_right = "<leader>."
 			vim.g.lion_squeeze_spaces = 1
 		end})
 
@@ -353,16 +487,21 @@ require("packer").startup({
 	}
 })
 
-vim.api.nvim_create_autocmd("TextYankPost", {callback = function() vim.highlight.on_yank({higroup="Visual", timeout=150}) end})
-vim.api.nvim_create_autocmd("BufEnter",     {command = "set formatoptions-=c formatoptions-=o"})
-vim.api.nvim_create_autocmd("FileType",     {pattern = "lua,vim", callback = function() vim.g.keywordprg = "" end})
-vim.api.nvim_create_autocmd("BufWritePost", {pattern = initfile, command = "source <afile> | PackerCompile"}) -- TODO: duplicate lsp servers are spawned
-vim.api.nvim_create_autocmd("BufWritePre",  {callback = function()
-	local v = vim.fn.winsaveview()
-	vim.cmd([[keeppatterns %s/\s\+$//e]])
-	vim.fn.winrestview(v)
-end})
-vim.api.nvim_create_autocmd("BufReadPost",  {command = [[
+local g = vim.api.nvim_create_augroup("vimrc", {})
+vim.api.nvim_create_autocmd("TextYankPost", {group = g, callback = function() vim.highlight.on_yank({higroup="Visual", timeout=150}) end})
+vim.api.nvim_create_autocmd("BufEnter",     {group = g, command = "set formatoptions-=c formatoptions-=o"})
+vim.api.nvim_create_autocmd("FileType",     {group = g, pattern = "lua,vim", callback = function() vim.g.keywordprg = "" end})
+vim.api.nvim_create_autocmd("BufWritePost", {group = g, pattern = vim.env.MYVIMRC, command = [[
+	source <afile> |
+	exe 'silent! PackerCompile' |
+	redraw | echohl String | echo 'Saved and reloaded Neovim configuration' | echohl None"
+]]})
+vim.api.nvim_create_autocmd("BufWritePre",  {group = g, command = [[
+	let b:v = winsaveview() |
+	keeppatterns %s/\s\+$//e |
+	call winrestview(b:v)
+]]})
+vim.api.nvim_create_autocmd("BufReadPost",  {group = g, command = [[
 	if expand('%:p') !~# '\m/\.git/' && line("'\"") > 0 && line("'\"") <= line("$") |
 		exe "normal! g`\"" |
 	endif
@@ -371,12 +510,12 @@ vim.api.nvim_create_autocmd("BufReadPost",  {command = [[
 vim.o.title = true
 vim.o.shell = "sh"
 vim.o.updatetime = 100
-vim.o.timeoutlen = 2000
+vim.o.timeoutlen = 1000
 vim.o.clipboard = "unnamedplus"
 vim.o.mouse = "a"
 vim.o.modeline = false
 vim.o.ignorecase = true
-vim.o.smartcase= true
+vim.o.smartcase = true
 vim.o.undofile = true
 vim.o.swapfile = true
 vim.o.lazyredraw = true
@@ -402,34 +541,17 @@ vim.o.foldenable = false
 vim.o.wrap = false
 
 vim.g.mapleader = " "
-vim.keymap.set({"n","v"}, "<leader>", "")
+vim.keymap.set("", "Q", "", {nowait = true})
 vim.keymap.set({"n","v"}, "<leader>w", "<cmd>w<cr>")
 vim.keymap.set({"n","v"}, "<leader>W", "<cmd>wq<cr>")
 vim.keymap.set({"n","v"}, "<leader>q", "<cmd>q<cr>")
 vim.keymap.set({"n","v"}, "<leader>Q", "<cmd>q!<cr>")
-vim.keymap.set({"n","v"}, "<leader>n", "<cmd>enew<cr>")
-vim.keymap.set({"n","v"}, "<leader>c", "<cmd>split " .. initfile .. "<cr>")
-vim.keymap.set({"n","v"}, "<leader>s", "<cmd>set spell!<cr>")
-vim.keymap.set({"n","v"}, "<leader>o", "<cmd>ls<cr>:b ")
-vim.keymap.set({"n","v"}, "<leader>f", ":find ")
-vim.keymap.set({"n","v"}, "<leader>O", "<cmd>browse oldfiles<cr>")
-vim.keymap.set({"n","v"}, "[q", "<cmd>cprevious<cr>")
-vim.keymap.set({"n","v"}, "]q", "<cmd>cnext<cr>")
-vim.keymap.set({"n","v"}, "[Q", "<cmd>cfirst<cr>")
-vim.keymap.set({"n","v"}, "]Q", "<cmd>clast<cr>")
-vim.keymap.set({"n","v"}, "<c-j>", "i<cr><esc>l")
-vim.keymap.set({"n","v"}, "<a-o>", ":set paste<cr>m`o<esc>``:set nopaste<cr>")
-vim.keymap.set({"n","v"}, "<a-O>", ":set paste<cr>m`O<esc>``:set nopaste<cr>")
-vim.keymap.set({"n","v"}, "Q", "", {nowait = true})
-vim.keymap.set("", "j", "gj")
-vim.keymap.set("", "k", "gk")
-vim.keymap.set("", "<down>", "gj")
-vim.keymap.set("", "<up>", "gk")
-vim.keymap.set("i", "<down>", "<c-o>gj")
-vim.keymap.set("i", "<up>", "<c-o>gk")
-vim.keymap.set("n", "<leader>rr", "*:%s///gcI<left><left><left><left>")
-vim.keymap.set("n", "<leader>r'", "<cmd>%s/'/\"/gc<cr>")
-vim.keymap.set("n", "<leader>r\"", "<cmd>%s/\"/'/gc<cr>")
-vim.keymap.set("n", "<leader>r<tab>", "<cmd>%s/\t/ /gc<cr>")
-vim.keymap.set("n", "<leader>r<space>", "<cmd>%s/ /\t/gc<cr>")
-vim.keymap.set("v", "<leader>r", "!tac<cr>")
+vim.keymap.set({"n","v"}, "<leader>c", "<cmd>split " .. vim.env.MYVIMRC .. "<cr>")
+vim.keymap.set({"n","v"}, "<leader>z", "<cmd>set spell!<cr>")
+vim.keymap.set("n", "<leader>r", "*:%s///gcI<left.<left><left><left>")
+vim.keymap.set("n", "<leader>b", "<cmd>ls<cr>:b ")
+vim.keymap.set("n", "<leader>f", ":find ")
+vim.keymap.set("n", "<leader>o", "<cmd>browse oldfiles<cr>")
+vim.keymap.set("n", "<c-j>", "m`i<cr><esc>``")
+vim.keymap.set("n", "<a-o>", ":set paste<cr>m`o<esc>``:set nopaste<cr>")
+vim.keymap.set("n", "<a-O>", ":set paste<cr>m`O<esc>``:set nopaste<cr>")
