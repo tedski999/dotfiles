@@ -254,6 +254,8 @@ require("packer").startup({
 		end})
 
 		-- Languages and syntax --
+
+		-- TODO: TS is wacky
 		use({"nvim-treesitter/nvim-treesitter", run = function() vim.cmd("TSUpdate") end, config = function()
 			require("nvim-treesitter.configs").setup({
 				highlight = {enable = true},
@@ -397,8 +399,11 @@ require("packer").startup({
 				elseif server == "tsserver" then
 					opts.init_options = {preferences = {disableSuggestions = true}}
 				elseif server == "clangd" then
-					vim.keymap.set({"n","v"}, "<leader>a", "<cmd>ClangdSwitchSourceHeader<cr>")
-					vim.keymap.set({"n","v"}, "<leader>A", ":new +set\\ buftype=nofile|set\\ ft=asm | r !gcc # -S -o - -Og ")
+					opts.on_attach = function(client, bufnr)
+						on_attach(client, bufnr)
+						vim.keymap.set({"n","v"}, "<leader>a", "<cmd>ClangdSwitchSourceHeader<cr>")
+						vim.keymap.set({"n","v"}, "<leader>A", ":new +set\\ buftype=nofile|set\\ ft=asm | r !gcc # -S -o - -Og ")
+					end
 				end
 				require("lspconfig")[server].setup(opts)
 			end
