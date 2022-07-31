@@ -48,7 +48,7 @@ require("packer").startup({
 				highlight link FloatBorder Pmenu
 				" Status line
 				highlight StatusLine guibg=#111a23
-				highlight link StatusLine StatusLineNC
+				highlight link StatusLineNC StatusLine
 				" Code errors and warnings
 				highlight DiagnosticLineNrError guibg=#51202a guifg=#ff0000 gui=bold
 				highlight DiagnosticLineNrWarn guibg=#51412a guifg=#ffa500 gui=bold
@@ -60,8 +60,8 @@ require("packer").startup({
 				sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=DiagnosticLineNrHint
 				" Highlight references
 				highlight LspReferenceRead gui=bold
-				highlight LspReferenceText gui=bold
-				highlight LspReferenceWrite gui=bold
+				highlight link LspReferenceText LspReferenceRead
+				highlight link LspReferenceWrite LspReferenceRead
 				" WhichKey
 				highlight link WhichKey Number
 				highlight link WhichKeyDesc Identifier
@@ -256,20 +256,16 @@ require("packer").startup({
 		-- Languages and syntax --
 
 		-- TODO: TS is wacky
-		use({"nvim-treesitter/nvim-treesitter", run = function() vim.cmd("TSUpdate") end, config = function()
+		use({"nvim-treesitter/nvim-treesitter", requires = {"nvim-treesitter/nvim-treesitter-textobjects", "p00f/nvim-ts-rainbow"}, run = ":TSUpdate", config = function()
 			require("nvim-treesitter.configs").setup({
-				highlight = {enable = true},
-				-- indent = {enable = true},
 				ensure_installed = {
 					"bash", "c", "cmake", "comment", "cpp", "css", "dockerfile", "fish", "glsl",
 					"go", "help", "html", "java", "javascript", "jsdoc", "json", "latex", "lua",
 					"make", "python", "rust", "scss", "toml", "typescript", "vim", "vue", "yaml"
-				}
-			})
-		end})
-
-		use({"nvim-treesitter/nvim-treesitter-textobjects", after = "nvim-treesitter", config = function()
-			require("nvim-treesitter.configs").setup({
+				},
+				highlight = {enable = true},
+				-- indent = {enable = true},
+				rainbow = {enable = true, colors = {"#c23127", "#d26937"}},
 				textobjects = {
 					select = {
 						enable = true,
@@ -312,7 +308,7 @@ require("packer").startup({
 			})
 		end})
 
-		use({"neovim/nvim-lspconfig", requires = {"williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "ray-x/lsp_signature.nvim"}, config = function()
+		use({"neovim/nvim-lspconfig", requires = {"williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim"}, config = function()
 			vim.o.omnifunc = "v:lua.vim.lsp.omnifunc"
 			vim.keymap.set("", "<leader>l", "<cmd>LspInfo<cr>")
 			vim.keymap.set("", "<leader>L", "<cmd>Mason<cr>")
@@ -449,10 +445,6 @@ require("packer").startup({
 			vim.g.undotree_TreeReturnShape = "⠢"
 			vim.g.undotree_DiffAutoOpen = 0
 			vim.g.undotree_HelpLine = 0
-		end})
-
-		use({ "windwp/nvim-autopairs", disable = true, config = function()
-			require("nvim-autopairs").setup()
 		end})
 
 		-- VCS --
