@@ -41,10 +41,6 @@ if status is-login
 	set -gx SXHKD_SHELL "/bin/bash"
 	set -gx _JAVA_AWT_WM_NONREPARENTING 1
 	set -gx LIBVIRT_DEFAULT_URI "qemu:///system"
-	set -gx LESSHISTFILE "-"
-	set -gx NNN_OPTS "aeHiUx"
-	set -gx NNN_BMS ".:~/.config;d:~/Documents;p:~/Projects;P:~/Pictures;v:~/Videos;g:~/Games"
-	set -gx NNN_PLUG "p:preview-tui"
 
 	# SSH Agent
 	set -gx SSH_AGENT_PID
@@ -54,24 +50,26 @@ if status is-login
 	set -gx GTK_THEME "Materia:dark"
 	set -gx GTK2_RC_FILES "/usr/share/themes/Materia-dark/gtk-2.0/gtkrc"
 
-	# XDG_CONFIG_HOME
-	set -gx HISTFILE "$HOME/.local/share/bash/history"
-	set -gx TEXMFVAR "$HOME/.cache/texlive/"
-	set -gx TEXMFCONFIG "$HOME/.config/texlive/"
-	set -gx WINEPREFIX "$HOME/.local/share/wine/"
-	set -gx R_ENVIRON_USER "$HOME/.config/R/Renviron"
-	set -gx NODE_REPL_HISTORY "$HOME/.local/share/node/repl_history"
-	set -gx PYTHONSTARTUP "$HOME/.config/python/startup"
-	set -gx GRADLE_USER_HOME "$HOME/.local/share/gradle/"
-	set -gx CARGO_HOME "$HOME/.local/share/cargo"
+	# XDG Spec
+	set -gx XDG_DATA_HOME "$HOME/.local/share"
+	set -gx XDG_CONFIG_HOME "$HOME/.config"
+	set -gx XDG_STATE_HOME "$HOME/.local/state"
+	set -gx XDG_CACHE_HOME "$HOME/.cache"
+	set -gx ANDROID_HOME "$XDG_DATA_HOME/android"
+	set -gx HISTFILE "$XDG_STATE_HOME/bash/history"
+	set -gx CALCHISTFILE "$XDG_CACHE_HOME/calc_history"
+	set -gx CARGO_HOME "$XDG_DATA_HOME/cargo"
+	set -gx CGDB_DIR "$XDG_CONFIG_HOME/cgdb"
+	set -gx CUDA_CACHE_PATH "$XDG_CACHE_HOME/nv"
+	set -gx DOCKER_CONFIG "$XDG_CONFIG_HOME/docker"
 	set -gx GOPATH "$HOME/.local/share/go"
-	set -gx STACK_ROOT "$HOME/.local/share/stack"
-	set -gx UNISON "$HOME/.local/share/unison"
+	set -gx NODE_REPL_HISTORY "$XDG_DATA_HOME/node_repl_history"
 	set -gx npm_config_userconfig "$HOME/.config/npm/npmrc"
-	set -gx MONO_REGISTRY_PATH "$HOME/.local/share/mono/registry"
-	set -gx CALCHISTFILE "$HOME/.local/share/calc/history"
-	set -gx CALCPATH ".:./cal:~/.local/share/calc:/usr/share/calc:/usr/share/calc/custom"
-	set -gx CALCRC "./.calcinit:~/.config/calc/startup:/usr/share/calc/startup"
+	set -gx _JAVA_OPTIONS -Djava.util.prefs.userRoot="$XDG_CONFIG_HOME/java"
+	set -gx PYTHONSTARTUP "$XDG_CONFIG_HOME/python/pythonrc"
+	set -gx STACK_ROOT "$XDG_DATA_HOME/stack"
+	set -gx WGETRC "$XDG_CONFIG_HOME/wget/wgetrc"
+	set -gx XAUTHORITY "$XDG_RUNTIME_DIR/Xauthority"
 
 	# Start X server when logging in on tty1
 	if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
