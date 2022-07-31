@@ -3,7 +3,7 @@
 # Automatically backup home directory regularly with Borg
 
 notification_id=$RANDOM
-export BORG_REPO="$HOME/.local/backups/"
+export BORG_REPO="$HOME/Extern/Backups/"
 [[ -d "$BORG_REPO" ]] || borg init --encryption none
 
 trap "export BACKUPMANAGER_MANUAL=true" 10 # USR1
@@ -16,11 +16,17 @@ while true; do
 	borg create ::"{hostname}-{user}-{now}" "$HOME" \
 		--exclude-caches \
 		--exclude "$HOME/.cache/*" \
-		--exclude "$HOME/Games/*" \
-		--exclude "$HOME/Music/*" \
 		--exclude "$HOME/.config/BraveSoftware/*" \
 		--exclude "$HOME/.config/discord/*" \
-		--exclude "$HOME/.local/share/Steam/*"
+		--exclude "$HOME/.config/unity3d/*" \
+		--exclude "$HOME/.local/lib/*" \
+		--exclude "$HOME/.local/state/*" \
+		--exclude "$HOME/.local/share/Steam/*" \
+		--exclude "$HOME/.local/share/nvim/mason/*" \
+		--exclude "$HOME/.local/share/go/pkg/*" \
+		--exclude "$HOME/.steam/*" \
+		--exclude "$HOME/Extern/*" \
+		--exclude "$HOME/Music/*"
 	create_rc="$?"
 	borg prune --keep-within 1d --keep-daily 7 --keep-weekly 4 --keep-monthly 1 --keep-yearly 1
 	prune_rc="$?"

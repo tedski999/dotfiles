@@ -1,4 +1,4 @@
-UUID=d7bcf0ba-6350-4b9a-a5e4-99974008e23d  /               ext4 rw,relatime                                                                                           0 1
-UUID=E9DB-E3AA                             /boot           vfat rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro 0 0
-UUID=69da1754-4437-4d78-8007-c33692be8348  /home/ski/Games ext4 rw,relatime                                                                                           0 0
-UUID=a5d29cae-26d2-488f-8f27-4e035d7b2a56  none            swap defaults                                                                                              0 0
+UUID=d7bcf0ba-6350-4b9a-a5e4-99974008e23d  /                ext4 rw,relatime                                                                                           0 1
+UUID=E9DB-E3AA                             /boot            vfat rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro 0 0
+UUID=69da1754-4437-4d78-8007-c33692be8348  /home/ski/Extern ext4 rw,relatime                                                                                           0 0
+UUID=a5d29cae-26d2-488f-8f27-4e035d7b2a56  none             swap defaults                                                                                              0 0
