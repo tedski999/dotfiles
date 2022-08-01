@@ -81,17 +81,29 @@ super + alt + {space,Escape}
 # Program Launcher #
 ####################
 
-# Terminal
-super + {_,space;} Return
-	$TERMINAL
-
 # Scratchpad
-super + shift + Return
+super + Return
 	scratchpad
+
+# Power menu
+super + {_,shift+,ctrl+,ctrl+shift+} Escape
+	powerctrl {_,lock,suspend,hibernate}
+
+# Window menu
+super + Tab
+	rofi -show window -show-icons
+
+# Screen menu
+super + shift + Tab
+	displayctrl
 
 # Program launcher
 super + space ; space
 	rofi -show run
+
+# Terminal
+super + space; Return
+	$TERMINAL
 
 # Text editor
 super + space ; e
@@ -102,16 +114,8 @@ super + space ; period
 	editconfig
 
 # File manager
-super + space; f
+super + space ; f
 	$TERMINAL -e nnn
-
-# Power menu
-super + {_,shift+,ctrl+,ctrl+shift+} Escape
-	powerctrl {_,lock,suspend,hibernate}
-
-# Screen menu
-super + {_,shift+,ctrl+} Tab
-	displayctrl {_,detect,mirror}
 
 # Package manager
 super + space ; u
@@ -204,7 +208,7 @@ super + {_,shift+,ctrl+} grave
 
 # Screenshots
 super + {_,shift+} s
-	import {"-window root png:-", "png:-"} | xclip -i -selection c -t image/png
+	sleep 0.5 && import {"-window root png:-", "png:-"} | xclip -i -selection c -t image/png
 
 # Clipboard
 super + v
