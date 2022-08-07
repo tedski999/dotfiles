@@ -102,7 +102,7 @@ super + space ; space
 	rofi -show run
 
 # Terminal
-super + space; Return
+super + {space;,shift+} Return
 	$TERMINAL
 
 # Text editor
