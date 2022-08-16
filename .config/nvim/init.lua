@@ -256,16 +256,20 @@ require("packer").startup({
 		-- Languages and syntax --
 
 		-- TODO: TS is wacky
-		use({"nvim-treesitter/nvim-treesitter", requires = {"nvim-treesitter/nvim-treesitter-textobjects", "p00f/nvim-ts-rainbow"}, run = ":TSUpdate", config = function()
+		use({"nvim-treesitter/nvim-treesitter", requires = {"nvim-treesitter/nvim-treesitter-textobjects"}, run = ":TSUpdate", config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
 					"bash", "c", "cmake", "comment", "cpp", "css", "dockerfile", "fish", "glsl",
 					"go", "help", "html", "java", "javascript", "jsdoc", "json", "latex", "lua",
 					"make", "python", "rust", "scss", "toml", "typescript", "vim", "vue", "yaml"
 				},
-				highlight = {enable = true},
+				highlight = {
+					enable = true,
+					disable = function(_, bufnr)
+						return vim.api.nvim_buf_get_offset(bufnr, vim.api.nvim_buf_line_count(bufnr)) > 1024 * 100
+					end,
+				},
 				-- indent = {enable = true},
-				rainbow = {enable = true, colors = {"#c23127", "#d26937"}},
 				textobjects = {
 					select = {
 						enable = true,
@@ -321,11 +325,11 @@ require("packer").startup({
 			vim.keymap.set("i", "<bs>", function()
 				local col = vim.api.nvim_win_get_cursor(0)[2]
 				local char = vim.api.nvim_get_current_line():sub(col-1,col-1)
-				if char:match("[A-Za-z0-9._>]") then vim.schedule(vim.lsp.omnifunc) end
+				if char:match("[A-Za-z0-9._>/]") then vim.schedule(vim.lsp.omnifunc) end
 				return "<bs>"
 			end, {silent = true, expr = true})
 			vim.api.nvim_create_autocmd("InsertCharPre", {callback = function()
-				if vim.v.char:match("[A-Za-z0-9._>]") then vim.schedule(vim.lsp.omnifunc) end
+				if vim.v.char:match("[A-Za-z0-9._>/]") then vim.schedule(vim.lsp.omnifunc) end
 			end})
 
 			for i, kind in ipairs(vim.lsp.protocol.CompletionItemKind) do
@@ -545,7 +549,7 @@ vim.keymap.set({"n","v"}, "<leader>q", "<cmd>q<cr>")
 vim.keymap.set({"n","v"}, "<leader>Q", "<cmd>q!<cr>")
 vim.keymap.set({"n","v"}, "<leader>c", "<cmd>split " .. vim.env.MYVIMRC .. "<cr>")
 vim.keymap.set({"n","v"}, "<leader>z", "<cmd>set spell!<cr>")
-vim.keymap.set("n", "<leader>r", "*:%s///gcI<left.<left><left><left>")
+vim.keymap.set("n", "<leader>r", "*:%s///gcI<left><left><left><left>")
 vim.keymap.set("n", "<leader>b", "<cmd>ls<cr>:b ")
 vim.keymap.set("n", "<leader>f", ":find ")
 vim.keymap.set("n", "<leader>o", "<cmd>browse oldfiles<cr>")
