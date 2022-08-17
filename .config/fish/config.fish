@@ -1,11 +1,6 @@
 
 set -gx GPG_TTY (tty)
 
-function __fish_command_not_found_handler --on-event fish_command_not_found
-	functions --erase __fish_command_not_found_setup
-	echo "fish: Unknown command '$argv'"
-end
-
 if status is-interactive
 	set -g __fish_git_prompt_show_informative_status 1
 	set -g __fish_git_prompt_hide_untrackedfiles 1
@@ -41,6 +36,7 @@ if status is-login
 	set -gx SXHKD_SHELL "/bin/bash"
 	set -gx _JAVA_AWT_WM_NONREPARENTING 1
 	set -gx LIBVIRT_DEFAULT_URI "qemu:///system"
+	set -gx DEBUGINFOD_URLS "https://debuginfod.archlinux.org"
 
 	# SSH Agent
 	set -gx SSH_AGENT_PID
