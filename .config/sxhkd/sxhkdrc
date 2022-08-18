@@ -155,7 +155,7 @@ super + space ; c
 
 # Backup and sync
 super + space ; {b, shift+b}
-	pkill -USR1 {backupmanager, syncphone}
+	pkill -USR1 {backupd, syncphone}
 
 
 ###################

@@ -1,0 +1,29 @@
+#!/usr/bin/fish
+
+# Protect user from an empty battery by sending notifications and entering hibernation
+# Dependencies:
+
+not set --query argv[1]; and echo "Missing argument: battery"; and return 1
+set battery $argv[1]
+
+set id (random)
+set cap 100
+
+while true
+	set newcap (cat $battery/capacity)
+	if test $newcap -lt $cap
+		set cap $newcap
+		if test $cap -le 2
+			for i in (seq 5)
+				notify-send -i "battery-000" -u "critical" -r $id -t 0 "Battery empty!" "Hibernating in $i..."
+				sleep 1
+			end
+			systemctl hibernate
+		else if test $cap -le 10
+			notify-send -i "battery-010" -u "critical" -r $id -t 0 "Battery critical!" "Emergency hibernation imminent!"
+		else if test $cap -le 20
+			notify-send -i "battery-020" -u "normal" -r $id "Battery low!" "Consider finding a charger?"
+		end
+	end
+	sleep 1
+end

@@ -18,11 +18,22 @@ hsetroot -center .config/wallpaper.png -contrast 1.2
 # Start some programs
 picom &
 sxhkd &
-batterymanager &
-backupmanager &
 clipmenud &
+batteryd /sys/class/power_supply/BAT0 &
+backupd "$HOME/Extern/Backups" "$HOME" "re:^${HOME#/}/\
+(\.cache\
+|\.config/BraveSoftware\
+|\.config/discord\
+|\.local/state\
+|\.local/lib\
+|\.local/share/Steam\
+|\.local/share/nvim/mason\
+|\.local/share/go/pkg\
+|Extern\
+|Music)" &
 xautolock \
 	-detectsleep -time 10 -locker "slock" -killtime 20 -killer "systemctl suspend" \
 	-notify 10 -notifier "notify-send -a xautolock -t 7000 -i lock 'Idle Warning' 'Locking screen in 10 seconds...'" \
 	-corners "----" -cornersize 5 &
+
 exec bspwm
