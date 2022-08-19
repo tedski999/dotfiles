@@ -1,6 +1,9 @@
 pcall(require, "impatient")
 
 -- TODO:
+-- rename the current file
+-- create a new file relative to current
+-- better ways to jump between previous files (merge buffer and oldfiles, maybe send oldfiles to buffers and then :b on keybind?)
 -- folkes repos are currently unmaintaned. in my case:
 --  trouble.nvim is broken (lsp_definitions manually patched with #162)
 --  todo-comments.nvim is completely borked
@@ -109,6 +112,18 @@ require("packer").startup({
 			})
 		end})
 
+		use({"lukas-reineke/indent-blankline.nvim", config = function()
+			require("indent_blankline").setup({
+				char = "▏",
+				strict_tabs = true,
+				show_current_context = true,
+				viewport_buffer = 100,
+				use_treesitter = true,
+				show_trailing_blankline_indent = false,
+				indent_blankline_use_treesitter_scope = true,
+			})
+		end})
+
 		use({"folke/which-key.nvim", config = function()
 			vim.keymap.set("n", "<leader><leader>", "<cmd>WhichKey<cr>")
 			vim.keymap.set("v", "<leader><leader>", "<cmd>WhichKey '' v<cr>")
@@ -183,8 +198,8 @@ require("packer").startup({
 		end})
 
 		use({"folke/trouble.nvim", requires = "folke/todo-comments.nvim", config = function()
-			vim.keymap.set({"n","v"}, "<leader>jd", "<cmd>Trouble lsp_definitions<cr>")
-			vim.keymap.set({"n","v"}, "<leader>jD", "<cmd>split | Trouble lsp_definitions<cr>")
+			vim.keymap.set({"n","v"}, "<leader>jd", vim.lsp.buf.definition)
+			-- vim.keymap.set({"n","v"}, "<leader>jd", "<cmd>Trouble lsp_definitions<cr>")
 			vim.keymap.set({"n","v"}, "<leader>jt", "<cmd>Trouble lsp_type_definitions<cr>")
 			vim.keymap.set({"n","v"}, "<leader>jr", "<cmd>Trouble lsp_references<cr>")
 			vim.keymap.set({"n","v"}, "<leader>ji", "<cmd>Trouble lsp_implementations<cr>")
@@ -259,7 +274,7 @@ require("packer").startup({
 		use({"nvim-treesitter/nvim-treesitter", requires = {"nvim-treesitter/nvim-treesitter-textobjects"}, run = ":TSUpdate", config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
-					"bash", "c", "cmake", "comment", "cpp", "css", "dockerfile", "fish", "glsl",
+					"bash", "c", "cmake", --[["comment",]] "cpp", "css", "dockerfile", "fish", "glsl",
 					"go", "help", "html", "java", "javascript", "jsdoc", "json", "latex", "lua",
 					"make", "python", "rust", "scss", "toml", "typescript", "vim", "vue", "yaml"
 				},
