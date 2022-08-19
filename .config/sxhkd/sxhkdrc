@@ -3,7 +3,6 @@
 # Window Management #
 #####################
 
-
 # Focus/move
 super + {h,j,k,l}
 	{d=west, d=south, d=north, d=east}; \
@@ -20,7 +19,7 @@ super + ctrl + shift + {h,j,k,l}
 
 # Toggle state
 super + {t,f,m}
-	bspc node --state {tiled,floating,\~fullscreen}
+	bspc node --state \~{tiled,floating,fullscreen}
 
 # Toggle flags
 super + {c,x}
@@ -115,7 +114,7 @@ super + space ; period
 
 # File manager
 super + space ; f
-	$TERMINAL -e nnn
+	$TERMINAL -e lf
 
 # Package manager
 super + space ; u
