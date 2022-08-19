@@ -153,9 +153,13 @@ super + space ; t
 super + space ; c
 	$TERMINAL -e calc
 
-# Backup and sync
-super + space ; {b, shift+b}
-	pkill -USR1 {backupd, syncphone}
+# Battery
+super + space ; b
+	pkill -USR1 batteryd
+
+# Backup
+super + space ; shift+b
+	pkill -USR1 backupd
 
 
 ###################

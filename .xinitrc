@@ -19,7 +19,7 @@ hsetroot -center .config/wallpaper.png -contrast 1.2
 picom &
 sxhkd &
 clipmenud &
-batteryd /sys/class/power_supply/BAT0 &
+batteryd &
 backupd "$HOME/Extern/Backups" "$HOME" "re:^${HOME#/}/\
 (\.cache\
 |\.config/BraveSoftware\
