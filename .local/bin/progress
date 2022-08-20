@@ -1,15 +1,15 @@
-#!/bin/bash
+#!/usr/bin/fish
 
 # Output a progress bar computed from the 3 input arguments: $1=value, $2=max, $3=length
 
-bar=""
+set val $argv[1]
+set max $argv[2]
+set len $argv[3]
 
-num=$((($1 * $3) / $2))
-for ((i=0; i<$num && i<$3; i++)); do
-	bar+="▉"
-done
-for ((; i<$3; i++)); do
-	bar+="░"
-done
+set head (math "floor(max(0, min($len, $val * $len / $max)))")
+set tail (math "$len - $head")
 
-echo "$bar"
+set head (string repeat --count $head --no-newline "▉")
+set tail (string repeat --count $tail --no-newline "░")
+
+echo "$head$tail"

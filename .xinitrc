@@ -13,15 +13,11 @@ setxkbmap ie -option caps:escape
 xsetroot -cursor_name left_ptr
 xinput --set-prop "DELL086F:00 06CB:7E92 Touchpad" "libinput Natural Scrolling Enabled" 1
 xinput --set-prop "DELL086F:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
-hsetroot -center .config/wallpaper.png -contrast 1.2
 
 # Start some programs
 picom &
 sxhkd &
 clipmenud &
-polybar main &
-polybar media &
-hudmanager &
 batteryd &
 backupd "$HOME/Extern/Backups" "$HOME" "re:^${HOME#/}/\
 (\.cache\

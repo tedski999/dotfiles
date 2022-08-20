@@ -30,4 +30,4 @@ bspc rule --add "discord" desktop=3
 bspc rule --add "Steam" desktop=4
 bspc rule --add "PolyMC" desktop=4
 
-displayctrl detect
+displayctrl mobile

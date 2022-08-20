@@ -9,7 +9,7 @@ super + {h,j,k,l}
 	bspc node --focus $d || bspc monitor --focus $d
 super + shift + {h,j,k,l}
 	{d=west x=-20 y=0, d=south x=0 y=20, d=north x=0 y=-20, d=east x=20 y=0}; \
-	bspc node --move $x $y || bspc node --swap $d.local || bspc node --to-monitor $d --follow
+	bspc node --move $x $y || bspc node --swap $d || bspc node --to-monitor $d --follow
 
 # Expand/retract
 super + ctrl + {h,j,k,l}
@@ -36,27 +36,27 @@ super + {_,shift+ctrl+} q
 
 # Focus/move/throw
 super + {0-9}
-	bspc desktop --focus {0-9}.local
+	bspc desktop --focus {0-9}
 super + ctrl + {0-9}
-	bspc node --to-desktop {0-9}.local
+	bspc node --to-desktop {0-9}
 super + shift + {0-9}
-	 bspc node --to-desktop {0-9}.local --follow
+	 bspc node --to-desktop {0-9} --follow
 
 # Focus/move/throw to prev/next
 super + {comma,period}
-	bspc desktop --focus {prev,next}.local
+	bspc desktop --focus {prev,next}
 super + shift + {comma,period}
-	bspc node --to-desktop {prev,next}.local --follow
+	bspc node --to-desktop {prev,next} --follow
 super + ctrl + {comma,period}
-	bspc node --to-desktop {prev,next}.local
+	bspc node --to-desktop {prev,next}
 
 # Focus/move/throw to empty
 super + z
-	bspc desktop --focus next.!occupied.local
+	bspc desktop --focus next.!occupied
 super + shift + z
-	bspc node --to-desktop next.!occupied.local --follow
+	bspc node --to-desktop next.!occupied --follow
 super + ctrl + z
-	bspc node --to-desktop next.!occupied.local
+	bspc node --to-desktop next.!occupied
 
 
 ################
@@ -76,49 +76,70 @@ super + alt + {space,Escape}
 	bspc node --presel-dir cancel
 
 
-####################
-# Program Launcher #
-####################
+############
+# Controls #
+############
 
-# Scratchpad
-super + Return
-	scratchpad
-
-# Power menu
+# Power
 super + {_,shift+,ctrl+,ctrl+shift+} Escape
 	powerctrl {_,lock,suspend,hibernate}
 
-# Window menu
+# Windows
 super + Tab
 	rofi -show window -show-icons
 
-# Screen menu
+# Displays
 super + shift + Tab
 	displayctrl
+
+# Screenshots
+super + {_,shift+,ctrl+,shift+ctrl+} s
+	screenshot {_,selection,window,monitor}
+
+# Clipboard
+super + v
+	clipmenu -p "Copy"
+
+# Notifications
+super + {_,shift+,ctrl+} grave
+	dunstctl {close,history-pop,close-all}
+
+# Spelling
+super + {slash,shift+slash}
+	spell {_,$(xclip -out -selection c)} | xclip -in -selection c
+
+
+####################
+# Program Launcher #
+####################
 
 # Program launcher
 super + space ; space
 	rofi -show run
 
 # Terminal
-super + {space;,shift+} Return
+super + Return
 	$TERMINAL
+super + {shift+,ctrl+} Return
+	scratchpad {toggle,snap} fish
 
 # Text editor
 super + space ; e
 	$TERMINAL -e $EDITOR
-super + space ; p
-	editproject
+super + space ; comma
+	edit $HOME/.local/bin " Open Script"
 super + space ; period
-	editconfig
+	edit $HOME/.config " Open Config"
+super + space ; slash
+	edit $HOME/Work " Open Project"
 
 # File manager
 super + space ; f
 	$TERMINAL -e lf
 
 # Package manager
-super + space ; u
-	pkill -USR1 updates.sh
+super + space ; {u,shift+u}
+	pkill {-USR1,-USR2} updates.sh
 
 # Web browser
 super + space ; w
@@ -133,7 +154,7 @@ super + space ; s
 	steam
 
 # Music
-super + space ; {m, shift+m}
+super + space ; {m,shift+m}
 	{$TERMINAL -e cmus, musicdl}
 
 # News
@@ -199,20 +220,3 @@ super + space ; shift+b
 	playerctl {"previous","position -5"}
 {_,shift+} XF86AudioNext
 	playerctl {"next","position +5"}
-
-
-########
-# Misc #
-########
-
-# Notifications
-super + {_,shift+,ctrl+} grave
-	dunstctl {close,history-pop,close-all}
-
-# Screenshots
-super + {_,shift+} s
-	sleep 0.5 && import {"-window root png:-", "png:-"} | xclip -i -selection c -t image/png
-
-# Clipboard
-super + v
-	clipmenu

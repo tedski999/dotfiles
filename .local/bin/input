@@ -8,7 +8,6 @@ not set --query _flag_p; and set _flag_p "Input"
 not set --query _flag_w; and set _flag_w "400"
 not set --query _flag_f; and set _flag_f ""
 
-# TODO: remove unused ui elements
 rofi -filter $_flag_f -theme-str "window {width:$_flag_w;}" \
 	-monitor "$(bspc query --monitors --monitor focused --names)" \
 	-dmenu -l 0 -p $_flag_p | tr -d \n

@@ -3,19 +3,15 @@
 # Prompt user to choose from several provided options
 # Dependencies: rofi
 
-argparse --name (status basename) "c=+" "p=" "u=" "l=" "w=" "f=" -- $argv; or return 1
-not set --query _flag_c; and set _flag_c ""
+argparse --name (status basename) "p=" "u=" "l=" "w=" "f=" -- $argv; or return 1
 not set --query _flag_p; and set _flag_p "Choose"
 not set --query _flag_u; and set _flag_u ""
 not set --query _flag_l; and set _flag_l "8"
 not set --query _flag_w; and set _flag_w "400"
 not set --query _flag_f; and set _flag_f ""
 
-set len (echo $_flag_c | wc -l)
-if test $len -lt $_flag_l
-	set _flag_l $len
-end
+set len (math "min($_flag_l, $(count $argv))")
 
-echo $_flag_c | rofi -filter $_flag_f -theme-str "window {width:$_flag_w;}" \
+printf "%s\n" $argv | rofi -filter $_flag_f -theme-str "window {width:$_flag_w;}" \
 	-monitor (bspc query --monitors --monitor focused --names) \
-	-dmenu -l $_flag_l -p $_flag_p -u $_flag_u -no-custom | tr -d \n
+	-dmenu -l $len -p $_flag_p -u $_flag_u -no-custom | tr -d \n

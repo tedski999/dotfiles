@@ -1,13 +1,29 @@
-#!/bin/bash
+#!/usr/bin/fish
 
-# Toggle a sticky floating terminal
+# Sticky floating terminals
+# Dependencies: xdotool bspc kitty
 
-pid=$(xdotool search --class scratchpad)
+not set --query argv[1]; and set argv[1] "toggle"
+not set --query argv[2]; and set argv[2] "fish"
+set action $argv[1]
+set command $argv[2]
 
-if [[ -z "$pid" ]]; then
-	bspc rule --add "*" --one-shot sticky=on state=floating
-	kitty --class scratchpad --override initial_window_width=1600 --override initial_window_height=900 &
-	pid="$!"
-fi
+set class "scratchpad $command"
+set id (xdotool search --class $class)
 
-bspc node "$pid" --flag hidden --focus
+if test $id
+	test $action = "toggle"
+	and bspc node $id --flag hidden --focus
+	test $action = "snap"
+	and bspc node $id --flag hidden=off --flag sticky=off --state tiled --focus
+	and xdotool set_window --class "kitty" $id
+else
+	test $action = "snap"
+	or bspc rule --add "*" --one-shot sticky=on state=floating monitor=primary
+	kitty --class $class \
+		--override initial_window_width=1600 \
+		--override initial_window_height=900 \
+		--execute $command &
+end
+
+return 0

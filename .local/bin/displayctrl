@@ -4,37 +4,49 @@
 # Dependencies: xrandr bspc hsetroot
 
 # TODO: generalise monitor names
+# TODO: replace hsetroot with my super cool procedural fractal wallpaper program
 
 test (cat /sys/class/drm/card1-HDMI-A-3/status) != "connected"
-and set choices "mobile"
-or set choices "docked
-mirror
-attach
-mobile"
+and set choices mobile
+or set choices docked mirror attach mobile
 
 test $argv[1]
 and set choice $argv[1]
-or set choice (choose -c $choices -p " Display Ctrl")
+or set choice (choose -p " Display Ctrl" $choices)
+
+test $choice
+or return 1
+
+test $choice = "auto"
+and set choice $choices[1]
+
+hsetroot -solid "#000000"
+
+killall polybar superhudd
 
 switch $choice
 	case "mobile"
-		xrandr --output eDP-1 --auto --primary --output HDMI-1-0 --off
-		hsetroot -center .config/wallpaper.png -contrast 1.2
-		bspc monitor eDP-1 --reset-desktops 1 2 3 4 5 6 7 8 9 0
+		xrandr --output eDP1 --auto --primary --output HDMI-1-0 --off
+		bspc monitor eDP1 --reset-desktops 1 2 3 4 5 6 7 8 9 0
+		bspc monitor HDMI-1-0 --remove
 	case "docked"
-		xrandr --output eDP-1 --auto --primary --output HDMI-1-0 --auto --rotate right --left-of eDP-1
-		hsetroot -center .config/wallpaper.png -contrast 1.2
-		bspc monitor eDP-1 --reset-desktops 1 2 3 4 5 6 7 8 9
+		xrandr --output eDP1 --auto --primary --output HDMI-1-0 --auto --rotate right --left-of eDP1
+		bspc monitor eDP1 --reset-desktops 1 2 3 4 5 6 7 8 9
 		bspc monitor HDMI-1-0 --reset-desktops 0
 	case "mirror"
-		xrandr --output eDP-1 --auto --primary --output HDMI-1-0 --auto --same-as eDP-1
-		hsetroot -center .config/wallpaper.png -contrast 1.2
-		bspc monitor eDP-1 --reset-desktops 1 2 3 4 5 6 7 8 9 0
+		xrandr --output eDP1 --auto --primary --output HDMI-1-0 --auto --same-as eDP1
+		bspc monitor eDP1 --reset-desktops 1 2 3 4 5 6 7 8 9 0
+		bspc monitor HDMI-1-0 --remove
 	case "attach"
-		xrandr --output eDP-1 --auto --primary  --output HDMI-1-0 --auto --rotate normal --left-of eDP-1
-		hsetroot -center .config/wallpaper.png -contrast 1.2
-		bspc monitor eDP-1 --reset-desktops 1 2 3 4 5
+		xrandr --output eDP1 --auto --primary  --output HDMI-1-0 --auto --rotate normal --left-of eDP1
+		bspc monitor eDP1 --reset-desktops 1 2 3 4 5
 		bspc monitor HDMI-1-0 --reset-desktops 6 7 8 9 0
-	case "*"
-		return 1
+		MONITOR="HDMI-1-0" polybar secondary &
 end
+
+bspc wm --adopt-orphans
+MONITOR="eDP1" polybar main &
+MONITOR="eDP1" polybar media &
+superhudd &
+
+hsetroot -solid "#0e0e0e"

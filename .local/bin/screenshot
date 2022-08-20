@@ -3,15 +3,12 @@
 # Capture PNG screenshots to system clipboard
 # Dependencies: imagemagick xclip
 
-set choices "selection
-window
-monitor
-everything"
+set choices selection window monitor everything
 
 test $argv[1]
 and sleep 0.25
 and set choice $argv[1]
-or set choice (choose -c $choices -p " Take Screenshot")
+or set choice (choose -p " Take Screenshot" $choices)
 
 set img (mktemp --tmpdir ss.XXXXXXXX.png)
 
