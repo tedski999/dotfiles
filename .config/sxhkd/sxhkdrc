@@ -17,13 +17,17 @@ super + ctrl + {h,j,k,l}
 super + ctrl + shift + {h,j,k,l}
 	bspc node --resize {right -20 0, top 0 20, bottom 0 -20, left 20 0}
 
+# Rotate
+super + {_,shift+} r
+	bspc node {first_ancestor,any} --rotate 90
+
 # Toggle state
 super + {t,f,m}
 	bspc node --state \~{tiled,floating,fullscreen}
 
-# Toggle flags
-super + {c,x}
-	bspc node --flag {sticky,marked}
+# Toggle sticky
+super + c
+	bspc node --flag sticky
 
 # Close / kill
 super + {_,shift+ctrl+} q
