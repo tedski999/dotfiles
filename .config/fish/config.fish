@@ -66,6 +66,7 @@ if status is-login
 	set -gx STACK_ROOT "$XDG_DATA_HOME/stack"
 	set -gx WGETRC "$XDG_CONFIG_HOME/wget/wgetrc"
 	set -gx XAUTHORITY "$XDG_RUNTIME_DIR/Xauthority"
+	alias wget "wget --hsts-file=$XDG_DATA_HOME/wget-hsts --output-file=/dev/null"
 
 	# Start X server when logging in on tty1
 	if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
