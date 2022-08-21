@@ -1,0 +1,23 @@
+#!/usr/bin/fish
+
+# Allow user to connect to Wifi networks
+# Dependencies: NetworkManager
+
+set id (random)
+
+set list (nmcli --fields bars,ssid,bssid,in-use --mode tabular device wifi list --rescan no | sed -n 1!p)
+set choice (choose -p " Wifi" -w 500 $list)
+test $choice
+or return 1
+
+set ssid (string match --regex "(?<=  ).*?(?=  )" $choice)
+set bssid (string match --regex "..:..:..:..:..:.." $choice)
+
+set pass (input -p " Password")
+test $pass
+and set pass "password $pass"
+
+notify-send -i network-wireless-acquiring -r $id -t 0 "Connecting to $ssid..." "Please be patient :)"
+nmcli device wifi connect $bssid $pass
+and notify-send -r $id -t 1 "Done"
+or notify-send -i network-wireless-disconnected -r $id "Unable to connect to $ssid" "Maybe wrong password?"

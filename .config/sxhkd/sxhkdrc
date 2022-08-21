@@ -112,6 +112,15 @@ super + {_,shift+,ctrl+} grave
 super + {slash,shift+slash}
 	spell {_,$(xclip -out -selection c)} | xclip -in -selection c
 
+# Network
+super + n
+	wifi
+
+# Battery
+super + b
+	IFS="," read s c t <<< $(acpi -b); \
+	notify-send -i battery-100 "$s -$c" "About$t"
+
 
 ####################
 # Program Launcher #
@@ -165,10 +174,6 @@ super + space ; {m,shift+m}
 super + space ; r
 	$TERMINAL -e newsboat
 
-# Network
-super + space ; n
-	$TERMINAL -e nmtui
-
 # Top
 super + space ; t
 	$TERMINAL -e btop
@@ -176,14 +181,6 @@ super + space ; t
 # Calculator
 super + space ; c
 	$TERMINAL -e calc
-
-# Battery
-super + space ; b
-	pkill -USR1 batteryd
-
-# Backup
-super + space ; shift+b
-	pkill -USR1 backupd
 
 
 ###################
@@ -219,8 +216,8 @@ super + space ; shift+b
 
 # Media
 {_,shift+} XF86AudioPlay
-	playerctl {"play-pause","stop"}
+	music {"play-pause","stop"}
 {_,shift+} XF86AudioPrev
-	playerctl {"previous","position -5"}
+	music {"previous","position -5"}
 {_,shift+} XF86AudioNext
-	playerctl {"next","position +5"}
+	music {"next","position +5"}
