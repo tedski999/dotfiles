@@ -1,13 +1,11 @@
 pcall(require, "impatient")
 
 -- TODO:
--- rename the current file
 -- create a new file relative to current
 -- better ways to jump between previous files (merge buffer and oldfiles, maybe send oldfiles to buffers and then :b on keybind?)
 -- folkes repos are currently unmaintaned. in my case:
 --  trouble.nvim is broken (lsp_definitions manually patched with #162)
 --  todo-comments.nvim is completely borked
---  which-key.nvim is alright afaik
 
 local packer_bootstrap = false
 local packer_installdir = vim.fn.resolve(vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim")
@@ -65,13 +63,9 @@ require("packer").startup({
 				highlight LspReferenceRead gui=bold
 				highlight link LspReferenceText LspReferenceRead
 				highlight link LspReferenceWrite LspReferenceRead
-				" WhichKey
-				highlight link WhichKey Number
-				highlight link WhichKeyDesc Identifier
-				highlight link WhichKeyGroup Constant
-				highlight link WhichKeyValue String
-				highlight link WhichKeySeparator Comment
-				highlight link WhichKeyFloat Pmenu
+				" Indent-Blankline
+				highlight IndentBlanklineChar guifg=#0a3749 gui=nocombine
+				highlight IndentBlanklineContextChar guifg=#195466 gui=nocombine
 			]])
 		end})
 
@@ -122,79 +116,6 @@ require("packer").startup({
 				show_trailing_blankline_indent = false,
 				indent_blankline_use_treesitter_scope = true,
 			})
-		end})
-
-		use({"folke/which-key.nvim", config = function()
-			vim.keymap.set("n", "<leader><leader>", "<cmd>WhichKey<cr>")
-			vim.keymap.set("v", "<leader><leader>", "<cmd>WhichKey '' v<cr>")
-			local wk = require("which-key")
-
-			wk.setup({
-				show_help = false,
-				key_labels = {
-					["<leader>"] = "LDR",
-					["<space>"] = "SPC",
-					["<cr>"] = "RET",
-					["<tab>"] = "TAB"
-				},
-				icons = {
-					breadcrumb = ">",
-					separator = "",
-					group = "+"
-				},
-				plugins = {
-					spelling = {
-						enabled = true,
-						suggestions = 8
-					}
-				}
-			})
-
-			wk.register({
-				["!"]          = "which_key_ignore", ["v"]        = "which_key_ignore",
-				["<c-U>"]      = "which_key_ignore", ["<c-D>"]    = "which_key_ignore", ["<c-B>"]    = "which_key_ignore", ["<c-F>"]  = "which_key_ignore",
-				["<pagedown>"] = "which_key_ignore", ["<pageup>"] = "which_key_ignore", ["<s-down>"] = "which_key_ignore", ["<s-up>"] = "which_key_ignore",
-				["-"] = "Accend into directory",
-				["<c-K>"] = "LSP hover",
-				["<c-L>"] = "Clear highlights",
-				["<c-j>"] = "Split line",
-				["<m-o>"] = "Create line below", ["<m-O>"] = "Create line above",
-				["'"] = "To marked line", ["`"] = "To marked character",
-				["]"] = "Next",     ["]c"] = "Next change",     ["]m"] = "Next method",     ["]M"] = "Next method end",     ["]]"] = "Next class",     ["]["] = "Next class end",
-				["["] = "Previous", ["[c"] = "Previous change", ["[m"] = "Previous method", ["[M"] = "Previous method end", ["[["] = "Previous class", ["[]"] = "Previous class end",
-				["gc"] = "Toggle line comment", ["gb"] = "Toggle block comment",
-				["cs"] = "Change surrounding",  ["cS"] = "Change surrounding and brace",
-				["ys"] = "Insert surrounding",  ["yS"] = "Insert surrounding and brace",
-				["ds"] = "Delete surrounding",
-				["z^"] = "View above",          ["z+"] = "View below",
-				["z-"] = "View above cursor",   ["z<cr>"] = "View below cursor",
-				["z."] = "Center cursor",
-				["<leader><leader>"] = "View keymaps",
-				["<leader>w"] = "Write",                    ["<leader>W"] = "Write and quit",
-				["<leader>q"] = "Quit",                     ["<leader>Q"] = "Force quit",
-				["<leader>,"] = "Align left",               ["<leader>."] = "Align right",
-				["<leader>["] = "Swap with left parameter", ["<leader>]"] = "Swap with right parameter",
-				["<leader>e"] = "Show error under cursor",  ["<leader>E"] = "View workspace diagnostics",
-				["<leader>l"] = "View LSP status",          ["<leader>L"] = "View LSP servers",
-				["<leader>p"] = "List plugins",             ["<leader>P"] = "Update plugins",
-				["<leader>r"] = "String substitution",      ["<leader>R"] = "Rename symbol",
-				["<leader>b"] = "Open previous buffer",
-				["<leader>f"] = "Find workspace file",
-				["<leader>c"] = "Open Neovim init.lua",
-				["<leader>k"] = "Execute code action",
-				["<leader>o"] = "Browse oldfiles",
-				["<leader>u"] = "Toggle undotree",
-				["<leader>z"] = "Toggle spellcheck",
-			})
-
-			wk.register({
-				["<c-U>"]      = "which_key_ignore", ["<c-D>"]    = "which_key_ignore", ["<c-B>"]    = "which_key_ignore", ["<c-F>"]  = "which_key_ignore",
-				["<pagedown>"] = "which_key_ignore", ["<pageup>"] = "which_key_ignore", ["<s-down>"] = "which_key_ignore", ["<s-up>"] = "which_key_ignore",
-				["<c-K>"] = "LSP hover",
-				["S"] = "Surround",
-				["gc"] = "Toggle line comment", ["gb"] = "Toggle block comment",
-				["<leader><leader>"] = "View keymaps",
-			}, {mode = "v"})
 		end})
 
 		use({"folke/trouble.nvim", requires = "folke/todo-comments.nvim", config = function()
@@ -526,7 +447,7 @@ vim.api.nvim_create_autocmd("BufReadPost",  {group = g, command = [[
 vim.o.title = true
 vim.o.shell = "sh"
 vim.o.updatetime = 100
-vim.o.timeoutlen = 1000
+vim.o.timeoutlen = 10000
 vim.o.clipboard = "unnamedplus"
 vim.o.mouse = "a"
 vim.o.modeline = false
