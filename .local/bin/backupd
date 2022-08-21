@@ -22,13 +22,6 @@ function create_backup
 	borg compact
 end
 
-function trigger_manual_backup --on-signal USR1
-	notify-send -i "backup" -r $id -t 0 "Creating new backup..." "Saving to $BORG_REPO"
-	if create_backup
-		notify-send -i "backup" -r $id "New backup created successfully" "Saved to $BORG_REPO"
-	end
-end
-
 if not test -e $BORG_REPO
 	mkdir -p $BORG_REPO
 	if not borg init --encryption none

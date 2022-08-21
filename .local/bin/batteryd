@@ -4,49 +4,18 @@
 # Dependencies: acpi
 
 set id (random)
-set old_state ""
 set old_charge 100
 
-function parse_apci
-	acpi | sed "s/.*: //" | read --global --delimiter ", " state charge time
-
-	set state (string lower $state)
-	test $state = "discharging"
-	and set state "unplugged"
-
-	set charge (string trim -rc % $charge)
-
-	echo $time | read --delimiter ":" hour minute _
-	if string match -qr '^[0-9]+$' $hour
-		test $state = "unplugged"
-		and set time "Empty in about"
-		or set time "Charged in about"
-
-		test $hour -gt 0
-		and set time "$time $(string trim -lc 0 $hour) hour"
-		test $hour -gt 1
-		and set time $time"s"
-
-		test $minute -gt 0
-		and set time "$time $(string trim -lc 0 $minute) minute"
-		test $minute -gt 1
-		and set time $time"s"
-	else
-		set time "Unknown time remaining"
-	end
-end
-
-function display_state --on-signal USR1
-	set icon (math "max(20, round($charge / 10) * 10)")
-	test $icon -lt 100
-	and set icon "0$icon"
-	notify-send -i "battery-$icon" -r $id "[$charge%] Battery $state" "$time"
-end
-
 while true
-	parse_apci
+	acpi | sed "s/.*: //" | read --delimiter ", " state charge time
 
-	if test $state = "unplugged"
+	if test $state = "Discharging"
+		set state (string lower $state)
+		test $state = "discharging"
+		and set state "unplugged"
+		set charge (string trim -rc % $charge)
+		set time "About $time"
+
 		if test $old_charge -gt 2 -a $charge -le 2
 			for i in (seq 5 -1 1)
 				notify-send -i "battery-020" -u "critical" -r $id -t 0 "Battery empty!" "Hibernating in $i..."
@@ -58,8 +27,9 @@ while true
 		else if test $old_charge -gt 20 -a $charge -le 20
 			notify-send -i "battery-020" -u "normal" -r $id "Battery low!" "$time"
 		end
+
+		set old_charge $charge
 	end
 
-	set old_charge $charge
 	sleep 1
 end

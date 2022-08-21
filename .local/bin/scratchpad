@@ -20,10 +20,7 @@ if test $id
 else
 	test $action = "snap"
 	or bspc rule --add "*" --one-shot sticky=on state=floating monitor=primary
-	kitty --class $class \
-		--override initial_window_width=1600 \
-		--override initial_window_height=900 \
-		--execute $command &
+	kitty --class $class --execute $command &
 end
 
 return 0
