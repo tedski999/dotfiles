@@ -14,4 +14,4 @@ set len (math "min($_flag_l, $(count $argv))")
 
 printf "%s\n" $argv | rofi -filter $_flag_f -theme-str "window {width:$_flag_w;}" \
 	-monitor (bspc query --monitors --monitor focused --names) \
-	-dmenu -l $len -p $_flag_p -u $_flag_u -no-custom | tr -d \n
+	-dmenu -l $len -p $_flag_p -u $_flag_u -i -no-custom | tr -d \n

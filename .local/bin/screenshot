@@ -1,7 +1,7 @@
 #!/usr/bin/fish
 
 # Capture PNG screenshots to system clipboard
-# Dependencies: imagemagick xclip
+# Dependencies: imagemagick xclip jq
 
 set choices selection window monitor everything
 
@@ -19,7 +19,7 @@ switch $choice
 		set window (bspc query --nodes --node focused)
 		import -window $window png:- | tee $img | xclip -i -selection c -t image/png
 	case "monitor"
-		set geometry (bspc query --tree --monitor | jq -r ".rectangle | \"\(.width)x\(.height)+\(.x)+\(.y)\"")
+		set geometry (bspc query --tree --monitor | jq -r '.rectangle | "\(.width)x\(.height)+\(.x)+\(.y)"')
 		import -window root -crop $geometry png:- | tee $img | xclip -i -selection c -t image/png
 	case "everything"
 		import -window root png:- | tee $img | xclip -i -selection c -t image/png

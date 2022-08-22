@@ -2,14 +2,24 @@
 
 # Output a progress bar computed from the 3 input arguments: $1=value, $2=max, $3=length
 
+argparse --name (status basename) "h/head=" "n/neck=" "t/tail=" -- $argv; or return 1
+not set --query _flag_h; and set _flag_h "▉"
+not set --query _flag_t; and set _flag_t "░"
+
+set _flag_n "$_flag_t$_flag_n"
+
 set val $argv[1]
 set max $argv[2]
 set len $argv[3]
 
+set step (math "$max / $len")
+
 set head (math "floor(max(0, min($len, $val * $len / $max)))")
-set tail (math "$len - $head")
+set neck (math "floor(($val % $step) / $step * $(string length $_flag_n) + 1)")
+set tail (math "$len - $head - 1")
 
-set head (string repeat --count $head --no-newline "▉")
-set tail (string repeat --count $tail --no-newline "░")
+set head (string repeat --count $head --no-newline $_flag_h)
+set neck (string sub --start $neck --end $neck $_flag_n)
+set tail (string repeat --count $tail --no-newline $_flag_t)
 
-echo "$head$tail"
+echo "$head$neck$tail"
