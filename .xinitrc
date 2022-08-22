@@ -14,6 +14,15 @@ xsetroot -cursor_name left_ptr
 xinput --set-prop "DELL086F:00 06CB:7E92 Touchpad" "libinput Natural Scrolling Enabled" 1
 xinput --set-prop "DELL086F:00 06CB:7E92 Touchpad" "libinput Tapping Enabled" 1
 
+# Check for updates in background
+(
+	sleep 60
+	updates="$(checkupdates | wc -l)"
+	if [[ "$updates" -ne 0 ]]; then
+		notify-send -i state-download "$updates package updates are available" "Hit sup+spc;u to install now"
+	fi
+) &
+
 # Start some programs
 picom &
 sxhkd &
