@@ -1,0 +1,19 @@
+#!/usr/bin/fish
+
+set mpv /tmp/mpvsoc
+
+if test "$(echo '{ "command": ["get_property", "idle-active"] }' | socat - $mpv | jq '.data')" = "false"
+	set metadata (echo '{ "command": ["get_property", "metadata"] }' | socat - /tmp/mpvsoc | jq -r '.data | "\(.title) - \(.album) - \(.artist)"')
+
+	set timepos (echo '{ "command": ["get_property", "time-pos"] }' | socat - /tmp/mpvsoc | jq .data)
+	set tsec (string pad --char 0 --width 2 (math --scale 0 "$timepos % 60"))
+	set tmin (math --scale 0 "$timepos / 60")
+	set duration (echo '{ "command": ["get_property", "duration"] }' | socat - /tmp/mpvsoc | jq .data)
+	set dsec (string pad --char 0 --width 2 (math --scale 0 "$duration % 60"))
+	set dmin (math --scale 0 "$duration / 60")
+
+	set time "$tmin:$tsec/$dmin:$dsec"
+	echo "  $metadata [$time] "
+else
+	echo ""
+end

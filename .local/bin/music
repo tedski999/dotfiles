@@ -1,0 +1,169 @@
+#!/usr/bin/fish
+
+# Music controller
+# Dependencies: mpv socat jq
+
+set root "$HOME/Music"
+
+set view 1
+set views "Artists" "Albums" "Tracks" "Playlists"
+set --global shuffle 1
+set shuffles "No" "Albums" "Full"
+
+set mpv /tmp/mpvsoc
+echo '{ "command": ["get_property", "idle-active"] }' | socat - $mpv
+or mpv --idle --no-terminal --no-video --input-ipc-server=$mpv &
+
+function playbackcontrol
+	while true
+		set choice (choose -p Music -u 3 "Play/Pause" "Next Track" "Previous Track" "Stop Music")
+		test $choice; or break
+		switch $choice
+			case "Play/Pause"
+				echo playpause
+				# TODO
+				# echo '{ "command": ["playlist-next"] }' | socat - $mpv
+			case "Next Track"
+				echo '{ "command": ["playlist-next", "force"] }' | socat - $mpv
+			case "Previous Track"
+				echo '{ "command": ["playlist-prev", "force"] }' | socat - $mpv
+			case "Stop Music"
+				echo '{ "command": ["stop"] }' | socat - $mpv
+		end
+	end
+end
+
+function editqueue
+	echo editqueue
+	# TODO
+	# echo '{ "command": ["get_property", "playlist"] }' | socat - $mpv | jq .data
+end
+
+function queue
+	echo queue
+	printf "%s\n" $argv
+	# TODO
+	# for file in (resolvedirectory $directory)
+	# 	echo '{ "command": ["loadfile", "'$file'", "append"] }' | socat - $mpv
+	# end
+end
+
+function playnext
+	echo playnext
+	printf "%s\n" $argv
+	# TODO
+	# for file in (resolvedirectory $directory)
+	# end
+end
+
+function playnow
+	echo playnow
+	printf "%s\n" $argv
+	# TODO
+	# echo '{ "command": ["stop"] }' | socat - $mpv
+	# for file in (resolvedirectory $directory)
+	# 	echo '{ "command": ["loadfile", "'$file'", "append"] }' | socat - $mpv
+	# end
+end
+
+function resolve
+	find -O3 $argv -type f -iname "*.mp3" | sort --unique
+end
+
+function shuffle
+	switch $shuffles[$shuffle]
+		case "No"; printf "%s\n" $argv
+		case "Albums"; for path in (dirname $argv | uniq | shuf); resolve $path; end
+		case "Full"; shuf --echo $argv
+	end
+end
+
+function handleselection
+	set files (resolve $argv)
+	while test (count $files) -ne 0
+		set shuffled (shuffle $files)
+		set trimmed (string sub --start (math "$(string length $root) + 2") $shuffled)
+		test (count $files) -eq 1
+		and set choice (choose -p Music -w 250 "> Queue" "> Play Next" "> Play Now")
+		or set choice (choose -p Music -w 800 -l 16 "> Queue All" "> Play All Next" "> Play All Now" "> $shuffles[$shuffle] Shuffle" $trimmed)
+		switch $choice
+			case ""; break
+			case "> Queue*"; queue $shuffled; break
+			case "> Play *Next"; playnext $shuffled; break
+			case "> Play *Now"; playnow $shuffled; break
+			case "> * Shuffle"; set shuffle (math "$shuffle % $(count $shuffles) + 1")
+		end
+	end
+end
+
+function handlechoice --argument-names choice
+	test -d $choice
+	and browse $choice
+	or handleselection $choice
+end
+
+function generateview --argument-names root view
+	switch $views[$view]
+		case "Artists"; find -O3 $root -mindepth 1 -maxdepth 1 -type d
+		case "Albums"; find -O3 $root -mindepth 2 -type d
+		case "Tracks"; find -O3 $root -mindepth 1 -type f -iname "*.mp3"
+		case "Playlists"; find -O3 $root -mindepth 1 -type f -iname "*.m3u"
+		case "*"; find -O3 $root -mindepth 1 -maxdepth 1 \( -type d \) -o \( -type f \( -iname "*.mp3" -o -iname "*.m3u" \) \)
+	end | string sub --start (math "$(string length $root) + 2") | sort
+end
+
+function select --argument-names root view
+	set choices (generateview $root $view)
+	while true
+		set choice (choose -p Music -w 800 -l 16 "> All" $choices)
+		switch $choice
+			case ""; break
+			case "> All"; printf "$root/%s\n" $choices; break
+			case "*"
+				echo $root/$choice
+				# TODO: better way?
+				for i in (seq (count $choices))
+					test $choices[$i] = $choice
+					and set --erase choices[$i]
+					and break
+				end
+		end
+	end
+end
+
+function browse --argument-names root
+	while true
+		set choice (choose -p Music -w 800 -l 16 "> Select" (generateview $root))
+		switch $choice
+			case ""; break
+			case "> Select"; handleselection (select $root)
+			case "*"; handlechoice $root/$choice
+		end
+	end
+end
+
+function musiclibrary
+	while true
+		set choice (choose -p Music -w 800 -l 16 "> $views[$view] View" "> Select" (generateview $root $view))
+		switch $choice
+			case ""; break
+			case "> * View"; set view (math "$view % $(count $views) + 1")
+			case "> Select"; handleselection (select $root $view)
+			case "*"; handlechoice $root/$choice
+		end
+	end
+end
+
+function main
+	while true
+		set choice (choose -p Music -w 250 "> Music Library" "> Playback Control" "> Queue")
+		switch $choice
+			case ""; break
+			case "> Music Library"; musiclibrary
+			case "> Playback Control"; playbackcontrol
+			case "> Queue"; editqueue
+		end
+	end
+end
+
+main
