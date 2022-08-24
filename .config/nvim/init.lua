@@ -185,7 +185,7 @@ require("packer").startup({
 
 		use({"tpope/vim-vinegar"})
 
-		use({"lambdalisue/suda.vim", disable = true, config = function()
+		use({"lambdalisue/suda.vim", config = function()
 			vim.api.nvim_create_user_command("S", "SudaWrite", {})
 		end})
 
@@ -409,6 +409,10 @@ require("packer").startup({
 				signcolumn = false,
 				current_line_blame_opts = {delay = 0},
 			})
+		end})
+
+		use({"tpope/vim-fugitive", config = function()
+			-- TODO
 		end})
 
 		if packer_bootstrap then
