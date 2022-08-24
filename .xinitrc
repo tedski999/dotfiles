@@ -28,7 +28,6 @@ picom &
 sxhkd &
 clipmenud &
 batteryd &
-networkd &
 backupd "$HOME/Extern/Backups" "$HOME" "re:^${HOME#/}/\
 (\.cache\
 |\.config/BraveSoftware\

@@ -113,8 +113,8 @@ super + {slash,shift+slash}
 	spell {_,$(xclip -out -selection c)} | xclip -in -selection c
 
 # Network
-super + n
-	wifi
+super + {_,shift+} n
+	{wifi,$TERMINAL -e nmtui}
 
 # Battery
 super + b
