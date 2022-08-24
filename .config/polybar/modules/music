@@ -2,7 +2,7 @@
 
 set mpv /tmp/mpvsoc
 
-if test "$(echo '{ "command": ["get_property", "idle-active"] }' | socat - $mpv | jq '.data')" = "false"
+if test "$(echo '{ "command": ["get_property", "pause"] }' | socat - $mpv | jq '.data')" = "false"
 	set metadata (echo '{ "command": ["get_property", "metadata"] }' | socat - /tmp/mpvsoc | jq -r '.data | "\(.title) - \(.album) - \(.artist)"')
 
 	set timepos (echo '{ "command": ["get_property", "time-pos"] }' | socat - /tmp/mpvsoc | jq .data)

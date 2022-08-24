@@ -3,6 +3,10 @@
 # Music controller
 # Dependencies: mpv socat jq
 
+# TODO: policy on when to trim is all over the place - only trim what youre going to show the user!
+# TODO: generalise select state so it simply accepts and returns a list
+# TODO: add select to queue
+
 set mpvsoc /tmp/mpvsoc
 set root "$HOME/Music"
 set rootlen (math "$(string length $root) + 2")
@@ -51,34 +55,30 @@ function stop
 end
 
 function enqueue
-	set count (mpvipc get_property playlist-count | jq -r '.data')
-	for file in $argv
-		mpvipc loadfile $file append
-	end
+	set end (mpvipc get_property playlist-count | jq -r '.data')
+	loadfiles $argv
 	test (mpvipc get_property idle-active | jq -r '.data') = "true"
-	and mpvipc playlist-play-index $count
+	and mpvipc playlist-play-index $end
 end
 
 function playnext
 	set pos (mpvipc get_property playlist-pos | jq -r '.data')
-	if test $pos -ne -1
-		set end (mpvipc get_property playlist-count | jq -r '.data')
+	set end (mpvipc get_property playlist-count | jq -r '.data')
+	loadfiles $argv
+	if test $pos -eq -1
+		mpvipc playlist-play-index $end
+	else
 		for file in $argv
 			set pos (math "$pos + 1")
-			mpvipc loadfile $file append
 			mpvipc playlist-move $end $pos
 			set end (math "$end + 1")
 		end
-	else
-		enqueue $argv
 	end
 end
 
 function playnow
 	mpvipc stop
-	for file in $argv
-		mpvipc loadfile $file append
-	end
+	loadfiles $argv
 	mpvipc playlist-play-index 0
 end
 
@@ -107,10 +107,13 @@ end
 function editqueue
 	set queue (mpvipc get_property playlist | jq -r '.data[] | "\(.current) \(.filename)"')
 	while true
-		set choice (choose -p "Queue" -w 800 $queue)
+		set choice (choose -p "Queue" -w 800 -l 16 $queue)
 		switch $choice
 			case ""; break
-			case "*"; # do thing
+			case "*"
+				set prompt $choice
+				set choice (choose -p $prompt -w 800 -l 16 "Jump To" "Move To" "Remove")
+
 		end
 	end
 end
@@ -119,14 +122,16 @@ end
 # Utilities #
 #===========#
 
-function resolve
-	find -O3 $argv -type f -iname "*.mp3" | sort --unique
+function loadfiles
+	set list (mktemp --tmpdir mpv.XXXXXXXX.m3u)
+	printf "%s\n" $argv > $list
+	mpvipc loadlist $list append
 end
 
 function shuffle
 	switch $shuffles[$shuffle]
 		case "No"; printf "%s\n" $argv
-		case "Albums"; for path in (dirname $argv | uniq | shuf); resolve $path; end
+		case "Albums"; dirname $argv | uniq | shuf
 		case "Full"; shuf --echo $argv
 	end
 end
@@ -149,7 +154,7 @@ end
 function handleselection
 	test (count $argv) -eq 0
 	and return 0
-	set files (resolve $argv)
+	set files (find -O3 $argv -type f -iname "*.mp3" | sort --unique)
 	while true
 		set shuffled (shuffle $files)
 		set trimmed (string sub --start $rootlen $shuffled)
@@ -255,7 +260,8 @@ function cli --argument-names arg
 	end
 end
 
-mpvipc get_property idle-active > /dev/null
+test -S $mpvsoc
+and mpvipc get_property idle-active
 or mpv --idle --no-terminal --no-video --input-ipc-server=$mpvsoc &
 
 switch (count $argv)
