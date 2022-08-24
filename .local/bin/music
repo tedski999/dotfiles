@@ -51,6 +51,8 @@ function seek --argument-names amount
 end
 
 function stop
+	mpvipc playlist-play-index 0
+	mpvipc cycle pause
 	mpvipc stop
 end
 
@@ -256,6 +258,7 @@ function cli --argument-names arg
 		case "forwards"; seek 5
 		case "backwards"; seek -5
 		case "stop"; stop
+		case "queue"; editqueue
 		case "*"; return 1
 	end
 end

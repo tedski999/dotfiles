@@ -122,8 +122,8 @@ super + b
 	notify-send -i battery-100 "$s -$c" "$t"
 
 # Music
-super + m
-	music
+super + {_,shift+} m
+	music {_,queue}
 
 
 ####################
