@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Output a progress bar computed from the 3 input arguments: $1=value, $2=max, $3=length
 

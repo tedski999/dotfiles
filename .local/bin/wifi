@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Allow user to connect to Wifi networks
 # Dependencies: NetworkManager

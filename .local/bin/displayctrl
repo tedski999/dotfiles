@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Prompt user to change the monitor display layout
 # Dependencies: xrandr bspc hsetroot

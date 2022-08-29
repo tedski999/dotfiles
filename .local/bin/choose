@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Prompt user to choose from several provided options
 # Dependencies: rofi

@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Backup directory regularly to repository excluding exclude
 # Dependencies: borg

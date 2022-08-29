@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Capture PNG screenshots to system clipboard
 # Dependencies: imagemagick xclip jq

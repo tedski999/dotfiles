@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Only show Polybar instances while the Super key is held down
 # Dependencies: xinput

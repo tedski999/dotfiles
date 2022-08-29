@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Protect user from an empty battery by sending notifications and entering hibernation
 # Dependencies: acpi

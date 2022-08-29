@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Prompt user with system power control settings
 # Dependencies: slock bspc
