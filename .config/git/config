@@ -1,7 +1,7 @@
 [user]
-	email = tedjohnsonjs@gmail.com
+	email = ski@h8c.de
 	name = tedski999
-	signingkey = tedjohnsonjs@gmail.com
+	signingkey = ski@h8c.de
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [diff-so-fancy]

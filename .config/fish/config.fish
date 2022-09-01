@@ -1,7 +1,6 @@
 
-set -gx GPG_TTY (tty)
-
 if status is-interactive
+	# Git prompt
 	set -g __fish_git_prompt_show_informative_status 1
 	set -g __fish_git_prompt_hide_untrackedfiles 1
 	set -g __fish_git_prompt_color_branch magenta
@@ -19,33 +18,30 @@ if status is-interactive
 	set -g __fish_git_prompt_color_invalidstate brred
 	set -g __fish_git_prompt_color_untrackedfiles brred
 	set -g __fish_git_prompt_color_cleanstate brgreen
+	# GPG agent
+	gpg-connect-agent updatestartuptty /bye >/dev/null
 end
 
 if status is-login
 	set -gxa PATH "$HOME/.local/bin"
-
 	# Default programs
 	set -gx TERMINAL "kitty"
 	set -gx EDITOR "nvim"
 	set -gx VISUAL "nvim"
 	set -gx BROWSER "brave"
 	set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
-
 	# Program settings
 	set -gx CM_LAUNCHER "rofi"
 	set -gx SXHKD_SHELL "/bin/bash"
 	set -gx _JAVA_AWT_WM_NONREPARENTING 1
 	set -gx LIBVIRT_DEFAULT_URI "qemu:///system"
 	set -gx DEBUGINFOD_URLS "https://debuginfod.archlinux.org"
-
-	# SSH Agent
-	set -gx SSH_AGENT_PID
+	# GPG agent
 	set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-
+	gpgconf --launch gpg-agent
 	# GTK Theming
 	set -gx GTK_THEME "Materia:dark"
 	set -gx GTK2_RC_FILES "/usr/share/themes/Materia-dark/gtk-2.0/gtkrc"
-
 	# XDG Spec
 	set -gx XDG_DATA_HOME "$HOME/.local/share"
 	set -gx XDG_CONFIG_HOME "$HOME/.config"
@@ -67,7 +63,6 @@ if status is-login
 	set -gx WGETRC "$XDG_CONFIG_HOME/wget/wgetrc"
 	set -gx XAUTHORITY "$XDG_RUNTIME_DIR/Xauthority"
 	alias wget "wget --hsts-file=$XDG_DATA_HOME/wget-hsts --output-file=/dev/null"
-
 	# Start X server when logging in on tty1
 	if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
 		exec startx -- -keeptty >/dev/null 2>&1
