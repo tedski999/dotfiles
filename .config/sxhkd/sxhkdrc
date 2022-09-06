@@ -205,14 +205,10 @@ super + space ; c
 	notify-send --expire-time 500 --replace-id 8731 --icon "$icon" "Volume - $volume%" "$(progress "$volume" 100 40)"
 
 # Brightness
-{_,shift+} XF86MonBrightnessDown
-	xbacklight -time 0 {-5,-25}; \
-	brightness="$(xbacklight | cut -f 1 -d ".")"; \
+{_,shift+} {XF86MonBrightnessDown,XF86MonBrightnessUp}
+	light {5,25} {-U,-A}; \
+	brightness="$(light | cut -f 1 -d ".")"; \
 	notify-send --expire-time 500 --replace-id 8731 --icon "high-brightness" "Brightness - $brightness%" "$(progress $brightness 100 40)"
-{_,shift+} XF86MonBrightnessUp
-	xbacklight -time 0 {+5,+25}; \
-	brightness="$(xbacklight | cut -f 1 -d ".")"; \
-	notify-send --expire-time 500 --replace-id 8731 --icon "high-brightness" "Brightness - $brightness%" "$(progress "$brightness" 100 40)"
 
 # Media
 {_,shift+} XF86AudioPlay

@@ -3,7 +3,7 @@
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=0
 GRUB_DISTRIBUTOR="Arch"
-GRUB_CMDLINE_LINUX_DEFAULT="resume=UUID=a5d29cae-26d2-488f-8f27-4e035d7b2a56 loglevel=3 audit=0"
+GRUB_CMDLINE_LINUX_DEFAULT="resume=UUID=a5d29cae-26d2-488f-8f27-4e035d7b2a56 nvidia-drm.modeset=1 loglevel=3 audit=0"
 GRUB_CMDLINE_LINUX=""
 
 # Preload both GPT and MBR modules so that they are not missed

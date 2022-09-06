@@ -3,12 +3,12 @@
 # Prompt user to change the monitor display layout
 # Dependencies: xrandr bspc hsetroot
 
-# TODO: generalise monitor names
-# TODO: replace hsetroot with my super cool procedural fractal wallpaper program
+set MON0 "eDP-1-1"
+set MON1 "HDMI-0"
 
-test (cat /sys/class/drm/card1-HDMI-A-3/status) != "connected"
-and set choices mobile
-or set choices docked mirror attach mobile
+test (xrandr | grep -c " connected ") -le 1
+and set choices "mobile"
+or set choices "mobile" "docked" "mirror" "attach left" "attach right"
 
 test $argv[1]
 and set choice $argv[1]
@@ -17,36 +17,34 @@ or set choice (choose -p " Display Ctrl" $choices)
 test $choice
 or return 1
 
-test $choice = "auto"
-and set choice $choices[1]
-
 hsetroot -solid "#000000"
 
-killall polybar superhudd
+killall polybar
 
 switch $choice
 	case "mobile"
-		xrandr --output eDP1 --auto --primary --output HDMI-1-0 --off
-		bspc monitor eDP1 --reset-desktops 1 2 3 4 5 6 7 8 9 0
-		bspc monitor HDMI-1-0 --remove
+		xrandr --output "$MON0" --auto --primary --output "$MON1" --off
+		bspc monitor "$MON0" --reset-desktops 1 2 3 4 5 6 7 8 9 0
+		bspc monitor "$MON1" --remove
 	case "docked"
-		xrandr --output eDP1 --auto --primary --output HDMI-1-0 --auto --rotate right --left-of eDP1
-		bspc monitor eDP1 --reset-desktops 1 2 3 4 5 6 7 8 9
-		bspc monitor HDMI-1-0 --reset-desktops 0
+		xrandr --output "$MON0" --auto --primary --output "$MON1" --auto --rotate right --left-of "$MON0"
+		bspc monitor "$MON0" --reset-desktops 1 2 3 4 5 6 7 8 9
+		bspc monitor "$MON1" --reset-desktops 0
 	case "mirror"
-		xrandr --output eDP1 --auto --primary --output HDMI-1-0 --auto --same-as eDP1
-		bspc monitor eDP1 --reset-desktops 1 2 3 4 5 6 7 8 9 0
-		bspc monitor HDMI-1-0 --remove
-	case "attach"
-		xrandr --output eDP1 --auto --primary  --output HDMI-1-0 --auto --rotate normal --left-of eDP1
-		bspc monitor eDP1 --reset-desktops 1 2 3 4 5
-		bspc monitor HDMI-1-0 --reset-desktops 6 7 8 9 0
-		MONITOR="HDMI-1-0" polybar secondary &
+		xrandr --output "$MON0" --auto --primary --output "$MON1" --auto --rotate normal --same-as "$MON0"
+		bspc monitor "$MON0" --reset-desktops 1 2 3 4 5 6 7 8 9 0
+		bspc monitor "$MON1" --remove
+	case "attach *"
+		set dir "--$(echo "left")-of"
+		xrandr --output "$MON0" --auto --primary --output "$MON1" --auto --rotate normal "$dir" "$MON0"
+		bspc monitor "$MON0" --reset-desktops 1 2 3 4 5
+		bspc monitor "$MON1" --reset-desktops 6 7 8 9 0
+		MONITOR=""$MON1"" polybar secondary &
 end
 
 bspc wm --adopt-orphans
-MONITOR="eDP1" polybar main &
-MONITOR="eDP1" polybar media &
-superhudd &
+MONITOR="$MON0" polybar main &
+MONITOR="$MON0" polybar media &
 
+# TODO: replace hsetroot with my super cool procedural fractal wallpaper program
 hsetroot -solid "#0e0e0e"
