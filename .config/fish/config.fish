@@ -29,7 +29,7 @@ if status is-login
 	set -gx EDITOR "nvim"
 	set -gx VISUAL "nvim"
 	set -gx BROWSER "brave"
-	set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
+	hash bat; and set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
 	# Program settings
 	set -gx CM_LAUNCHER "rofi"
 	set -gx SXHKD_SHELL "/bin/bash"

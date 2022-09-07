@@ -12,7 +12,7 @@ while [ -z "$filter" ]; do
 	read input
 	case "$input" in
 		all) filter=".config .gnupg .local .xinitrc" ;;
-		min) filter=".config/fish .config/git .config/nvim .config/user-dirs.dirs .config/user-dirs.locale .gnupg" ;;
+		min) filter=".config/fish .config/git .config/nvim .config/user-dirs.dirs .config/user-dirs.locale .config/wget .gnupg" ;;
 	esac
 done
 
@@ -26,7 +26,7 @@ dots update-index --assume-unchanged $(dots diff --name-only)
 
 # TODO: should this script handle installing required packages?
 #WORKSTATION_PACKAGES="acpi bat betterdiscord-installer borg brave-bin bspwm
-#btop calc clipmenu didyoumean-bin diff-so-fancy discord dunst efibootmgr exa
+#btop calc clipmenu didyoumean-bin discord dunst efibootmgr exa
 #fish hsetroot jq kitty lf light mpv neofetch neovim networkmanager
 #noto-fonts noto-fonts-cjk noto-fonts-emoji nvidia nvtop otf-latin-modern
 #pacman-contrib picom pipewire pipewire-alsa pipewire-jack pipewire-pulse
