@@ -37,6 +37,7 @@ if status is-login
 	set -gx LIBVIRT_DEFAULT_URI "qemu:///system"
 	set -gx DEBUGINFOD_URLS "https://debuginfod.archlinux.org"
 	# GPG agent
+	set -gx GPG_TTY (tty)
 	set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
 	gpgconf --launch gpg-agent
 	# GTK Theming
